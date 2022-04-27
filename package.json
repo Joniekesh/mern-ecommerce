@@ -1,0 +1,35 @@
+{
+	"type": "module",
+	"name": "shop",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"concurrently": "^6.3.0",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.1",
+		"express-async-handler": "^1.1.4",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^6.0.10",
+		"nodemailer": "^6.7.0",
+		"nodemon": "^2.0.15",
+		"passport": "^0.5.1",
+		"passport-facebook": "^3.0.0",
+		"passport-google-oauth20": "^2.0.0"
+	},
+	"devDependencies": {
+		"concurrently": "^5.3.0"
+	},
+	"scripts": {
+		"start": "node backend/server",
+		"server": "nodemon backend/server",
+		"client": "npm start --prefix frontend",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"data:import": "node backend/seeder",
+		"data:destroy": "node backend/seeder -d"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}
