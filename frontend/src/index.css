@@ -6,18 +6,14 @@
 body,
 html {
 	background-color: #f4f4f4;
+	color: #333;
 }
-img {
-	object-fit: contain;
+
+ul {
+	list-style: none;
 }
+
 a {
-	color: #fff;
+	color: inherit;
 	text-decoration: none;
-}
-.container {
-	max-width: 1200px;
-	overflow: hidden;
-	margin-top: 10rem;
-	padding: 2rem;
-	margin: auto;
 }
