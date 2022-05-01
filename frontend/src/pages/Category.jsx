@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
 import NewsLetter from "../components/NewsLetter";
 import ProductList from "../components/ProductList";
 
@@ -57,7 +56,6 @@ const Right = styled.div`
 const Category = () => {
 	return (
 		<div>
-			<Navbar />
 			<Container>
 				<CatTitle>Dresses</CatTitle>
 				<FilterDiv>

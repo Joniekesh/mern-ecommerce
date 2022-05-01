@@ -7,10 +7,14 @@ import Category from "./pages/Category";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
+import Navbar from "./components/Navbar";
 
 const App = () => {
+	const user = true;
+
 	return (
 		<Router>
+			<Navbar user={user} />
 			<Switch>
 				<Route exact path="/">
 					<Home />

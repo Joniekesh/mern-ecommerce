@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import CartListItem from "../components/CartListItem";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
 import NewsLetter from "../components/NewsLetter";
 import { Link } from "react-router-dom";
 
@@ -121,7 +120,6 @@ const SummaryCheckoutButton = styled.button`
 const Cart = () => {
 	return (
 		<div>
-			<Navbar />
 			<Container>
 				<CartContainer>
 					<Title>YOUR BAG</Title>

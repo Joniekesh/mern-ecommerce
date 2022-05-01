@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -68,7 +67,7 @@ const Button = styled.button`
 	cursor: pointer;
 	background-color: #05055f;
 	color: white;
-	transition: all 0.6 ease;
+	transition: all 0.5s ease;
 	margin-right: 8px;
 	&:hover {
 		transform: scale(1.07);
@@ -78,7 +77,6 @@ const Button = styled.button`
 const Register = () => {
 	return (
 		<>
-			<Navbar />
 			<Container>
 				<RegisterContainer>
 					<Top>

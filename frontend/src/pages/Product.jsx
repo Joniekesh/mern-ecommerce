@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
 import NewsLetter from "../components/NewsLetter";
 import { Link } from "react-router-dom";
 
@@ -191,7 +190,6 @@ const Product = () => {
 
 	return (
 		<>
-			<Navbar />
 			<Container>
 				<ProductContainer>
 					<Image src="/assets/image8.jpg" />

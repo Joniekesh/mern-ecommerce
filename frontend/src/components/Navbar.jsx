@@ -68,7 +68,7 @@ const Register = styled.span`
 `;
 
 const Login = styled.span`
-	margin: 10px;
+	margin: 0px 16px;
 	cursor: pointer;
 `;
 
@@ -117,7 +117,7 @@ const CartCount = styled.span`
 	text-align: center;
 `;
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
 	return (
 		<>
 			<Announcement />
@@ -142,12 +142,15 @@ const Navbar = () => {
 						<Link to="/login">
 							<Login>LOGIN</Login>
 						</Link>
-						<ProfileContainer>
-							<Link to="/profile">
-								<Image src="/assets/image6.jpg" alt="" />
-								<OnlineLogo></OnlineLogo>
-							</Link>
-						</ProfileContainer>
+						{user && (
+							<ProfileContainer>
+								<Link to="/profile">
+									<Image src="/assets/image6.jpg" alt="" />
+									<OnlineLogo></OnlineLogo>
+								</Link>
+							</ProfileContainer>
+						)}
+
 						<CartContainer>
 							<Link to="/cart">
 								<CartLogo>
