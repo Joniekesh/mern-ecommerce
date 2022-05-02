@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Announcement from "./Announcement";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/apiCalls/userApiCalls";
 
 const NavContainer = styled.div`
 	display: flex;
@@ -72,6 +74,11 @@ const Login = styled.span`
 	cursor: pointer;
 `;
 
+const Logout = styled.span`
+	margin-right: 12px;
+	cursor: pointer;
+`;
+
 const ProfileContainer = styled.div`
 	position: relative;
 	margin-right: 16px;
@@ -118,6 +125,15 @@ const CartCount = styled.span`
 `;
 
 const Navbar = ({ user }) => {
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	const handleLogout = () => {
+		dispatch(logout());
+
+		history.push("/login");
+	};
+
 	return (
 		<>
 			<Announcement />
@@ -136,19 +152,26 @@ const Navbar = ({ user }) => {
 						<NavCenter>SHOPARENA</NavCenter>
 					</Link>
 					<NavRight>
-						<Link to="/register">
-							<Register>REGISTER</Register>
-						</Link>
-						<Link to="/login">
-							<Login>LOGIN</Login>
-						</Link>
-						{user && (
-							<ProfileContainer>
-								<Link to="/profile">
-									<Image src="/assets/image6.jpg" alt="" />
-									<OnlineLogo></OnlineLogo>
+						{!user && (
+							<>
+								<Link to="/register">
+									<Register>REGISTER</Register>
 								</Link>
-							</ProfileContainer>
+								<Link to="/login">
+									<Login>LOGIN</Login>
+								</Link>
+							</>
+						)}
+						{user && (
+							<>
+								<Logout onClick={handleLogout}>LOGOUT</Logout>
+								<ProfileContainer>
+									<Link to="/profile">
+										<Image src="/assets/image6.jpg" alt="" />
+										<OnlineLogo></OnlineLogo>
+									</Link>
+								</ProfileContainer>
+							</>
 						)}
 
 						<CartContainer>

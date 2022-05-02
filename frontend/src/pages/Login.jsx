@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/apiCalls/userApiCalls";
+import { useState } from "react";
 
 const Container = styled.div`
 	height: 100vh;
@@ -75,6 +78,17 @@ const Button = styled.button`
 `;
 
 const Login = () => {
+	const dispatch = useDispatch();
+
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+
+		dispatch(loginUser({ email, password }));
+	};
+
 	return (
 		<>
 			<Container>
@@ -84,14 +98,24 @@ const Login = () => {
 						<Desc>Please login to have unlimited access to the site</Desc>
 					</Top>
 					<Bottom>
-						<Form>
+						<Form onSubmit={submitHandler}>
 							<FormGroup>
 								<Label>Email</Label>
-								<Input type="text" placeholder="Email" />
+								<Input
+									type="text"
+									placeholder="Email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+								/>
 							</FormGroup>
 							<FormGroup>
 								<Label>Password</Label>
-								<Input type="password" placeholder="Password" />
+								<Input
+									type="password"
+									placeholder="Password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+								/>
 							</FormGroup>
 							<Button>LOGIN</Button>
 							Don't have an account? <Link to="/register">Register</Link>

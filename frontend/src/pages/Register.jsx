@@ -1,5 +1,8 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../redux/apiCalls/userApiCalls";
 
 const Container = styled.div`
 	height: 100vh;
@@ -75,6 +78,25 @@ const Button = styled.button`
 `;
 
 const Register = () => {
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (password !== confirmPassword) {
+			alert("Passwords do not match");
+		}
+
+		dispatch(registerUser({ name, email, password }));
+
+		history.push("/");
+	};
 	return (
 		<>
 			<Container>
@@ -84,24 +106,44 @@ const Register = () => {
 						<Desc>Please register to have unlimited access to the site</Desc>
 					</Top>
 					<Bottom>
-						<Form>
+						<Form onSubmit={handleSubmit}>
 							<FormGroup>
 								<Label>Name</Label>
-								<Input type="text" placeholder="Name" />
+								<Input
+									type="text"
+									placeholder="Name"
+									value={name}
+									onChange={(e) => setName(e.target.value)}
+								/>
 							</FormGroup>
 							<FormGroup>
 								<Label>Email</Label>
-								<Input type="text" placeholder="Email" />
+								<Input
+									type="text"
+									placeholder="Email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+								/>
 							</FormGroup>
 							<FormGroup>
 								<Label>Password</Label>
-								<Input type="password" placeholder="Password" />
+								<Input
+									type="password"
+									placeholder="Password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+								/>
 							</FormGroup>
 							<FormGroup>
 								<Label>Confirm Password</Label>
-								<Input type="password" placeholder="Confirm Password" />
+								<Input
+									type="password"
+									placeholder="Confirm Password"
+									value={confirmPassword}
+									onChange={(e) => setConfirmPassword(e.target.value)}
+								/>
 							</FormGroup>
-							<Button>REGISTER</Button>
+							<Button type="submit">REGISTER</Button>
 							Already have an account? <Link to="/login">Login</Link>
 						</Form>
 					</Bottom>

@@ -1,5 +1,12 @@
 import "./index.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useEffect } from "react";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -8,9 +15,18 @@ import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
+import { getCurrentUser } from "./redux/apiCalls/userApiCalls";
 
 const App = () => {
-	const user = true;
+	const dispatch = useDispatch();
+
+	const user = useSelector((state) => state.user.currentUser);
+
+	const TOKEN = user?.token;
+
+	useEffect(() => {
+		TOKEN && dispatch(getCurrentUser());
+	}, [dispatch, TOKEN]);
 
 	return (
 		<Router>
@@ -20,11 +36,9 @@ const App = () => {
 					<Home />
 				</Route>
 				<Route path="/register">
-					<Register />
+					{user ? <Redirect to="/" /> : <Register />}
 				</Route>
-				<Route path="/login">
-					<Login />
-				</Route>
+				<Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
 				<Route path="/cart">
 					<Cart />
 				</Route>

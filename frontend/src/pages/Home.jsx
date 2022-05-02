@@ -3,7 +3,7 @@ import CategoryList from "../components/CategoryList";
 import Footer from "../components/Footer";
 import NewsLetter from "../components/NewsLetter";
 import ProductList from "../components/ProductList";
-import TopRatedProducts from "../components/TopRatedProducts";
+// import TopRatedProducts from "../components/TopRatedProducts";
 
 const Container = styled.div`
 	max-width: 1200px;
@@ -17,7 +17,7 @@ const Home = () => {
 	return (
 		<div>
 			<Container>
-				<TopRatedProducts />
+				{/* <TopRatedProducts /> */}
 				<CategoryList />
 				<ProductList home />
 				<NewsLetter />
