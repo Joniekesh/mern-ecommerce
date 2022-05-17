@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 const Container = styled.div`
 	width: 100%;
-	background-color: gray;
+	background-color: #cfcccc;
 	height: 50vh;
 	display: flex;
 	justify-content: space-between;
-	padding: 20px;
+	padding: 20px 20px 0px 20px;
 	color: black;
 `;
 
@@ -17,7 +17,9 @@ const Left = styled.div`
 	padding: 20px;
 `;
 
-const Logo = styled.h1``;
+const Logo = styled.h1`
+	color: teal;
+`;
 
 const Desc = styled.p`
 	margin: 20px 0px;
@@ -48,6 +50,7 @@ const Center = styled.div`
 
 const Title = styled.h3`
 	margin-bottom: 30px;
+	color: teal;
 `;
 
 const List = styled.ul`
@@ -113,8 +116,6 @@ const Footer = () => {
 			<Center>
 				<Title>USEFUL LINKS</Title>
 				<List>
-					<ListItem>Home</ListItem>
-					<ListItem>Cart</ListItem>
 					<ListItem>Man Fashion</ListItem>
 					<ListItem>Woman Fashion</ListItem>
 					<ListItem>Accessories</ListItem>
@@ -128,22 +129,31 @@ const Footer = () => {
 			<Right>
 				<Title>Contact</Title>
 				<ContactItem>
-					<i className="fa-solid fa-house" style={{ marginRight: "10px" }}></i>{" "}
+					<i
+						className="fa-solid fa-house"
+						style={{ marginRight: "10px", color: "#08173b" }}
+					></i>{" "}
 					622 Dixie Path , South Tobinchester 98336
 				</ContactItem>
 				<ContactItem>
-					<i className="fa-solid fa-phone" style={{ marginRight: "10px" }}></i>{" "}
+					<i
+						className="fa-solid fa-phone"
+						style={{ marginRight: "10px", color: "#08173b" }}
+					></i>{" "}
 					+1 234 56 78
 				</ContactItem>
 				<ContactItem>
 					<i
 						className="fa-solid fa-envelope"
-						style={{ marginRight: "10px" }}
+						style={{ marginRight: "10px", color: "#08173b" }}
 					></i>{" "}
 					contact@lama.dev
 				</ContactItem>
 				<PaymentMethod>
-					<i className="fa-solid fa-money-check" />
+					<i
+						className="fa-solid fa-money-check"
+						style={{ marginRight: "10px", color: "#08173b" }}
+					/>
 					<Image src="https://i.ibb.co/Qfvn4z6/payment.png" />
 				</PaymentMethod>
 			</Right>

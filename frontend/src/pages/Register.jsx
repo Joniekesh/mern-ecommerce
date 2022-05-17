@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../redux/apiCalls/userApiCalls";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
 	height: 100vh;
@@ -68,7 +69,7 @@ const Button = styled.button`
 	border: none;
 	padding: 10px;
 	cursor: pointer;
-	background-color: #05055f;
+	background-color: #08173b;
 	color: white;
 	transition: all 0.5s ease;
 	margin-right: 8px;
@@ -90,12 +91,14 @@ const Register = () => {
 		e.preventDefault();
 
 		if (password !== confirmPassword) {
-			alert("Passwords do not match");
+			toast.error("Passwords do not match!", { theme: "colored" });
+		} else if (!name || !email || !password || !confirmPassword) {
+			toast.error("All input fields has to be filled", { theme: "colored" });
+		} else {
+			dispatch(registerUser({ name, email, password }));
+			toast.success("User register success", { theme: "colored" });
+			history.push("/");
 		}
-
-		dispatch(registerUser({ name, email, password }));
-
-		history.push("/");
 	};
 	return (
 		<>

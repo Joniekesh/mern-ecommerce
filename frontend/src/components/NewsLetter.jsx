@@ -40,8 +40,8 @@ const Input = styled.input`
 const Button = styled.button`
 	flex: 1;
 	border: none;
-	padding: 12px;
-	background-color: teal;
+	padding: 11px;
+	background-color: #08173b;
 	color: white;
 	height: fit-content;
 	cursor: pointer;

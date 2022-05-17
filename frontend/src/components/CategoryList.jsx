@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CategoryListItem from "./CategoryListItem";
+import Loader from "./Loader";
 
 const Container = styled.div`
 	margin: 20px 0px;
@@ -35,25 +36,27 @@ const CatList = styled.ul`
 	gap: 16px;
 `;
 
-const CategoryList = () => {
+const CategoryList = ({ categories, isLoading }) => {
 	return (
 		<Container>
-			<Top>
-				<Text>POPULAR CATEGORIES</Text>
-				<Right>SEE ALL</Right>
-			</Top>
-			<Bottom>
-				<CatList>
-					<CategoryListItem />
-					<CategoryListItem />
-					<CategoryListItem />
-					<CategoryListItem />
-					<CategoryListItem />
-					<CategoryListItem />
-					<CategoryListItem />
-					<CategoryListItem />
-				</CatList>
-			</Bottom>
+			{isLoading ? (
+				<Loader />
+			) : (
+				<>
+					<Top>
+						<Text>POPULAR CATEGORIES</Text>
+						<Right>SEE ALL</Right>
+					</Top>
+					<Bottom>
+						<CatList>
+							{categories?.length > 0 &&
+								categories.map((category) => (
+									<CategoryListItem category={category} key={category._id} />
+								))}
+						</CatList>
+					</Bottom>
+				</>
+			)}
 		</Container>
 	);
 };

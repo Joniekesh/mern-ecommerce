@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import {
 	getCurrentUserRequest,
 	getCurrentUserSuccess,
@@ -15,7 +16,9 @@ import {
 export const getCurrentUser = () => async (dispatch, getState) => {
 	dispatch(getCurrentUserRequest());
 
-	const { user: currentUser } = getState();
+	const {
+		user: { currentUser },
+	} = getState();
 
 	const config = {
 		headers: {
@@ -63,8 +66,10 @@ export const loginUser = (user) => async (dispatch) => {
 		const res = await axios.post("/users/login", user, config);
 		dispatch(userloginSuccess(res.data));
 		dispatch(getCurrentUser());
+		toast.success("User login Success", { theme: "colored" });
 	} catch (err) {
 		dispatch(userloginFail());
+		toast.error(err.response.data, { theme: "colored" });
 	}
 };
 

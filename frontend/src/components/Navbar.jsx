@@ -1,8 +1,14 @@
 import styled from "styled-components";
 import Announcement from "./Announcement";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/apiCalls/userApiCalls";
+import { nestHubResponsive, miniPhoneResponsive, mobile } from "../responsive";
+import { resetOrder } from "../redux/reducers/orderRedux";
+import { clearCart } from "../redux/reducers/cartRedux";
+import { userprofileReset } from "../redux/reducers/profileRedux";
+import { myOrderReset } from "../redux/reducers/myOrderRedux";
+import { resetShippingAddress } from "../redux/reducers/shippingAddressRedux";
 
 const NavContainer = styled.div`
 	display: flex;
@@ -12,10 +18,13 @@ const NavContainer = styled.div`
 	width: 100%;
 	height: 50px;
 	padding: 10px 20px;
-	background-color: #05055f;
+	background-color: #08173b;
 	position: fixed;
 	top: 30px;
 	z-index: 3;
+	${nestHubResponsive({
+		padding: "10px",
+	})}
 `;
 
 const NavWrapper = styled.div`
@@ -33,6 +42,9 @@ const NavLeft = styled.div`
 
 const Lang = styled.p`
 	margin-right: 8px;
+	${mobile({
+		fontSize: "15px",
+	})}
 `;
 
 const SearchContainer = styled.div`
@@ -41,6 +53,9 @@ const SearchContainer = styled.div`
 	background-color: white;
 	padding: 10px;
 	border-radius: 5px;
+	${mobile({
+		padding: "5px",
+	})}
 `;
 
 const SearchIcon = styled.span`
@@ -52,31 +67,59 @@ const SearchInput = styled.input`
 	border: none;
 	font-size: 16px;
 	width: 250px;
+	${mobile({
+		fontSize: "15px",
+		width: "150px",
+	})}
 `;
 
 const NavCenter = styled.div`
 	font-size: 20px;
 	cursor: pointer;
+	${miniPhoneResponsive({
+		fontSize: "16x",
+	})}
+	${mobile({
+		fontSize: "16px",
+	})}
 `;
 
 const NavRight = styled.div`
 	display: flex;
 	align-items: center;
 	font-weight: 300;
+	${nestHubResponsive({
+		marginRight: "24px",
+	})}
+	${mobile({
+		marginRight: "60px",
+	})}
 `;
 
 const Register = styled.span`
 	cursor: pointer;
+	${mobile({
+		fontSize: "15px",
+	})}
 `;
 
 const Login = styled.span`
 	margin: 0px 16px;
 	cursor: pointer;
+	${nestHubResponsive({
+		margin: "10px",
+	})}
+	${mobile({
+		fontSize: "15px",
+	})}
 `;
 
 const Logout = styled.span`
 	margin-right: 12px;
 	cursor: pointer;
+	${mobile({
+		fontSize: "15px",
+	})}
 `;
 
 const ProfileContainer = styled.div`
@@ -114,7 +157,8 @@ const CartCount = styled.span`
 	top: -10px;
 	right: -10px;
 	font-size: 12px;
-	background-color: red;
+	font-weight: 500;
+	background-color: orange;
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
@@ -128,7 +172,15 @@ const Navbar = ({ user }) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
+	const cart = useSelector((state) => state.cart);
+	const { quantity } = cart;
+
 	const handleLogout = () => {
+		dispatch(resetOrder());
+		dispatch(clearCart());
+		dispatch(userprofileReset());
+		dispatch(myOrderReset());
+		dispatch(resetShippingAddress());
 		dispatch(logout());
 
 		history.push("/login");
@@ -179,7 +231,7 @@ const Navbar = ({ user }) => {
 								<CartLogo>
 									<i className="fa-solid fa-cart-shopping"></i>
 								</CartLogo>
-								<CartCount>5</CartCount>
+								{quantity > 0 && <CartCount>{quantity}</CartCount>}
 							</Link>
 						</CartContainer>
 					</NavRight>

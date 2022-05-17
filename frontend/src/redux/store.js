@@ -1,5 +1,16 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userRedux";
+import categoryReducer from "./reducers/categoryRedux";
+import productReducer from "./reducers/productRedux";
+import cartReducer from "./reducers/cartRedux";
+import shippingAddressReducer from "./reducers/shippingAddressRedux";
+import paymentReducer from "./reducers/paymentRedux";
+import orderReducer from "./reducers/orderRedux";
+import orderPayReducer from "./reducers/orderPayRedux";
+import orderDeliverReducer from "./reducers/orderDeliverRedux";
+import profileReducer from "./reducers/profileRedux";
+import myOrderReducer from "./reducers/myOrderRedux";
+import adminOrderReducer from "./adminRedux/adminOrderRedux";
 
 import {
 	persistStore,
@@ -21,6 +32,17 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
 	user: userReducer,
+	category: categoryReducer,
+	product: productReducer,
+	cart: cartReducer,
+	shipping: shippingAddressReducer,
+	payment: paymentReducer,
+	order: orderReducer,
+	orderPay: orderPayReducer,
+	orderDeliver: orderDeliverReducer,
+	profile: profileReducer,
+	myOrder: myOrderReducer,
+	adminOrder: adminOrderReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

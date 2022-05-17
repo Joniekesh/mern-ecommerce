@@ -68,7 +68,7 @@ const Button = styled.button`
 	border: none;
 	padding: 10px;
 	cursor: pointer;
-	background-color: #05055f;
+	background-color: #08173b;
 	color: white;
 	transition: all 0.5s ease;
 	margin-right: 8px;
@@ -78,10 +78,10 @@ const Button = styled.button`
 `;
 
 const Login = () => {
-	const dispatch = useDispatch();
-
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const dispatch = useDispatch();
 
 	const submitHandler = (e) => {
 		e.preventDefault();

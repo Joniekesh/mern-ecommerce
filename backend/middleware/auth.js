@@ -19,9 +19,9 @@ const protect = asyncHandler(async (req, res, next) => {
 			console.error(error);
 			res.status(401).json({ msg: "No token. Authorization denied" });
 		}
-		if (!token) {
-			res.status(400).json({ msg: "Not authorized. No token." });
-		}
+	}
+	if (!token) {
+		res.status(400).json({ msg: "Not authorized. No token." });
 	}
 });
 
@@ -30,7 +30,7 @@ const admin = (req, res, next) => {
 		next();
 	} else {
 		res
-			.status(404)
+			.status(401)
 			.json({ msg: "You are not authorized to access this route" });
 	}
 };

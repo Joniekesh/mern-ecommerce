@@ -2,8 +2,11 @@ import styled from "styled-components";
 import CartListItem from "../components/CartListItem";
 import Footer from "../components/Footer";
 import NewsLetter from "../components/NewsLetter";
-import { Link } from "react-router-dom";
-
+import { Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteCart } from "../redux/apiCalls/cartApiCalls";
+import { ipadMiniResponsive, mobile } from "../responsive";
+import { resetOrder } from "../redux/reducers/orderRedux";
 const Container = styled.div`
 	max-width: 1200px;
 	background-color: white;
@@ -19,6 +22,9 @@ const CartContainer = styled.div``;
 const Title = styled.h1`
 	text-align: center;
 	font-weight: 400;
+	${ipadMiniResponsive({
+		fontSize: "24px",
+	})}
 `;
 
 const Top = styled.div`
@@ -28,6 +34,9 @@ const Top = styled.div`
 	font-weight: 500;
 	margin: 20px 0px;
 	border-bottom: 1px solid #ddd;
+	${mobile({
+		margin: "10px 0px",
+	})}
 `;
 
 const TopButton = styled.button`
@@ -38,10 +47,17 @@ const TopButton = styled.button`
 		props.type === "filled" ? "black" : "transparent"};
 	color: ${(props) => props.type === "filled" && "white"};
 	cursor: pointer;
+	${mobile({
+		padding: "8px",
+		fontWeight: "500",
+	})}
 `;
 
 const TopTexts = styled.div`
 	display: flex;
+	${mobile({
+		display: "none",
+	})}
 `;
 
 const TopText = styled.span`
@@ -53,6 +69,9 @@ const TopText = styled.span`
 const Bottom = styled.div`
 	display: flex;
 	justify-content: space-between;
+	${ipadMiniResponsive({
+		flexDirection: "column",
+	})}
 `;
 
 const ProductDetails = styled.div`
@@ -61,6 +80,12 @@ const ProductDetails = styled.div`
 	padding: 10px;
 	display: flex;
 	flex-direction: column;
+	${ipadMiniResponsive({
+		width: "100%",
+	})}
+	${mobile({
+		width: "100%",
+	})}
 `;
 
 const CartSummary = styled.div`
@@ -71,6 +96,13 @@ const CartSummary = styled.div`
 	border: 1px solid #ddd;
 	padding: 12px;
 	border-radius: 5px;
+	${ipadMiniResponsive({
+		width: "50%",
+		margin: "auto",
+	})}
+	${mobile({
+		width: "90%",
+	})}
 `;
 
 const SummaryContainer = styled.div`
@@ -82,6 +114,9 @@ const SummaryTitle = styled.span`
 	font-size: 24px;
 	font-weight: 500;
 	text-align: center;
+	${ipadMiniResponsive({
+		fontSize: "18px",
+	})}
 `;
 
 const SummaryDetails = styled.div`
@@ -105,19 +140,65 @@ const Hr = styled.hr`
 `;
 
 const SummaryCheckoutButton = styled.button`
-	background-color: #05055f;
+	background-color: #08173b;
 	color: white;
 	padding: 10px;
 	border: none;
 	cursor: pointer;
 	font-weight: 500;
 	transition: all 0.4s ease;
+	border-radius: 5px;
+	&:hover {
+		transform: scale(1.07);
+	}
+`;
+
+const Button = styled.button`
+	border: none;
+	padding: 8px;
+	background-color: crimson;
+	color: white;
+	cursor: pointer;
+	margin-top: 20px;
+	transition: all 0.4s ease;
+
 	&:hover {
 		transform: scale(1.07);
 	}
 `;
 
 const Cart = () => {
+	const cart = useSelector((state) => state.cart);
+	const { quantity, products } = cart;
+
+	const user = useSelector((state) => state.user);
+	const { currentUser } = user;
+	console.log(currentUser);
+
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	const checkOutHandler = () => {
+		if (currentUser) {
+			history.push("/shipping");
+		} else {
+			history.push("/login");
+		}
+	};
+
+	const handleClick = () => {
+		dispatch(deleteCart());
+		dispatch(resetOrder());
+	};
+
+	const addDecimals = (num) => {
+		return (Math.round(num * 100) / 100).toFixed(2);
+	};
+
+	const shippingPrice = addDecimals(cart.total > 100 ? 0 : 100);
+	const taxPrice = addDecimals(Number(0.01 * cart.total));
+	const totalSum =
+		Number(cart.total) + Number(shippingPrice) + Number(taxPrice);
 	return (
 		<div>
 			<Container>
@@ -128,44 +209,46 @@ const Cart = () => {
 							<TopButton>CONTINUE SHOPPING</TopButton>
 						</Link>
 						<TopTexts>
-							<TopText>Shopping Bag (2)</TopText>
+							<TopText>Shopping Bag ({quantity})</TopText>
 							<TopText>Your Wishlist (0)</TopText>
 						</TopTexts>
 						<TopButton type="filled">CHECKOUT NOW</TopButton>
 					</Top>
 					<Bottom>
 						<ProductDetails>
-							<CartListItem />
-							<CartListItem />
-							<CartListItem />
-							<CartListItem />
-							<CartListItem />
-							<CartListItem />
+							{products.map((product) => (
+								<CartListItem product={product} key={product._id} />
+							))}
 						</ProductDetails>
-						<CartSummary>
-							<SummaryTitle>SUMMARY</SummaryTitle>
-							<Hr />
-							<SummaryContainer>
-								<SummaryDetails>
-									<SummaryDetail>Subtotal</SummaryDetail>
-									<SummaryPrice>$ 80.00</SummaryPrice>
-								</SummaryDetails>
-								<SummaryDetails>
-									<SummaryDetail>Estimated Shipping</SummaryDetail>
-									<SummaryPrice>$ 5.99</SummaryPrice>
-								</SummaryDetails>
-								<SummaryDetails>
-									<SummaryDetail>Shipping Discount</SummaryDetail>
-									<SummaryPrice>$ -5.99</SummaryPrice>
-								</SummaryDetails>
+						{products.length > 0 && (
+							<CartSummary>
+								<SummaryTitle>SUMMARY</SummaryTitle>
 								<Hr />
-								<SummaryDetails>
-									<SummaryDetail>Total</SummaryDetail>
-									<SummaryPrice>$ 80.00</SummaryPrice>
-								</SummaryDetails>
-								<SummaryCheckoutButton>CHECKOUT NOW</SummaryCheckoutButton>
-							</SummaryContainer>
-						</CartSummary>
+								<SummaryContainer>
+									<SummaryDetails>
+										<SummaryDetail>Subtotal</SummaryDetail>
+										<SummaryPrice>$ {addDecimals(cart.total)}</SummaryPrice>
+									</SummaryDetails>
+									<SummaryDetails>
+										<SummaryDetail>Shipping Price</SummaryDetail>
+										<SummaryPrice>$ {shippingPrice}</SummaryPrice>
+									</SummaryDetails>
+									<SummaryDetails>
+										<SummaryDetail>Tax price</SummaryDetail>
+										<SummaryPrice>$ {taxPrice}</SummaryPrice>
+									</SummaryDetails>
+									<Hr />
+									<SummaryDetails>
+										<SummaryDetail>Total</SummaryDetail>
+										<SummaryPrice>$ {addDecimals(totalSum)}</SummaryPrice>
+									</SummaryDetails>
+									<SummaryCheckoutButton onClick={checkOutHandler}>
+										CHECKOUT NOW
+									</SummaryCheckoutButton>
+									<Button onClick={handleClick}>CLEAR CART</Button>
+								</SummaryContainer>
+							</CartSummary>
+						)}
 					</Bottom>
 				</CartContainer>
 			</Container>
