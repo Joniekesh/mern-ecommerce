@@ -11,6 +11,9 @@ import orderDeliverReducer from "./reducers/orderDeliverRedux";
 import profileReducer from "./reducers/profileRedux";
 import myOrderReducer from "./reducers/myOrderRedux";
 import adminOrderReducer from "./adminRedux/adminOrderRedux";
+import adminUserReducer from "./adminRedux/adminUserRedux";
+import adminProductReducer from "./adminRedux/adminProductRedux";
+import adminUserStatsReducer from "./adminRedux/adminUserStatsRedux";
 
 import {
 	persistStore,
@@ -43,6 +46,9 @@ const rootReducer = combineReducers({
 	profile: profileReducer,
 	myOrder: myOrderReducer,
 	adminOrder: adminOrderReducer,
+	adminUser: adminUserReducer,
+	adminProduct: adminProductReducer,
+	adminUserStat: adminUserStatsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

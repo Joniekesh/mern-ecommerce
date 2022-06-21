@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import CategoryListItem from "./CategoryListItem";
 import Loader from "./Loader";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
 	margin: 20px 0px;
 	background-color: white;
 	padding: 10px;
 	border-radius: 5px;
+	${mobile({
+		width: "100%",
+	})}
 `;
 
 const Top = styled.div`
@@ -33,7 +37,7 @@ const Bottom = styled.div`
 const CatList = styled.ul`
 	display: flex;
 	flex-wrap: wrap;
-	gap: 16px;
+	gap: 10px;
 `;
 
 const CategoryList = ({ categories, isLoading }) => {

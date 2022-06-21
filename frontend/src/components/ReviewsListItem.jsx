@@ -49,7 +49,17 @@ const ReviewsListItem = ({ review }) => {
 			<RatingContainer>
 				<Rating rating={review.rating} />
 
-				<RatingTextEquivalent>Exellent</RatingTextEquivalent>
+				<RatingTextEquivalent>
+					{review.rating === 1
+						? "Poor"
+						: review.rating === 2
+						? "Fair"
+						: review.rating === 3
+						? "Good"
+						: review.rating === 4
+						? "Very Good"
+						: "Excellent"}
+				</RatingTextEquivalent>
 			</RatingContainer>
 			<ReviewDesc>{review.comment}</ReviewDesc>
 		</Container>

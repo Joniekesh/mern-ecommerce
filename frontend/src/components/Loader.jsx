@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-	border: 8px solid #f3f3f3;
+	border: 3px solid #f3f3f3;
 	border-radius: 50%;
-	border-top: 8px solid #08173b;
-	border-bottom: 8px solid #08173b;
-	width: 30px;
-	height: 30px;
+	border-top: 3px solid #08173b;
+	border-bottom: 3px solid #08173b;
+	width: 36px;
+	height: 36px;
 	margin: auto;
 	-webkit-animation: spin 2s linear infinite;
 	animation: spin 2s linear infinite;

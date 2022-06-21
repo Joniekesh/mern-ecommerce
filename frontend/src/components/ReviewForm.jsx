@@ -3,10 +3,15 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addReview } from "../redux/apiCalls/productApiCalls";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
 	margin: 24px 0px;
 	width: 70%;
+	${mobile({
+		width: "100%",
+	})}
 `;
 
 const Form = styled.form`
@@ -49,24 +54,34 @@ const ReviewForm = ({ product }) => {
 	const [comment, setComment] = useState("");
 
 	const dispatch = useDispatch();
+	const history = useHistory();
 
-	const user = useSelector((state) => state.user);
-	const { currentUser } = user;
+	const user = useSelector((state) => state.user.currentUser?.user);
+
+	const alreadyReviewed = product?.reviews.find(
+		(review) => review.user === user?._id
+	);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
 
 		const newReview = {
-			user: currentUser.user._id,
-			name: currentUser.user.name,
+			user: user?._id,
+			name: user?.name,
 			rating,
 			comment,
 		};
 
-		if (product.reviews.includes(currentUser.user)) {
+		if (!user) {
+			toast.error("Please login to add a review", { theme: "colored" });
+			history.push("/login");
+		} else if (!rating || !comment) {
+			toast.error("All fields MUST be filled", { theme: "colored" });
+		} else if (alreadyReviewed) {
 			toast.error("Product already reviewed", { theme: "colored" });
 		} else {
 			dispatch(addReview(product._id, newReview));
+			window.location.reload();
 			toast.success("Review added", { theme: "colored" });
 		}
 	};

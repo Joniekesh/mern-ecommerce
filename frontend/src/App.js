@@ -1,12 +1,11 @@
 import "./index.css";
-import { useEffect } from "react";
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
 	Redirect,
 } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -15,7 +14,6 @@ import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
-import { getCurrentUser } from "./redux/apiCalls/userApiCalls";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Shipping from "./pages/Shipping";
@@ -23,17 +21,16 @@ import Payment from "./pages/Payment";
 import PlaceOrder from "./pages/PlaceOrder";
 import Order from "./pages/Order";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import Users from "./pages/admin/Users";
+import Products from "./pages/admin/Products";
+import Orders from "./pages/admin/Orders";
+import CreateUser from "./pages/admin/CreateUser";
+import CreateProduct from "./pages/admin/CreateProduct";
+import SingleUser from "./pages/admin/SingleUser";
+import SingleProduct from "./pages/admin/SingleProduct";
 
 const App = () => {
-	const dispatch = useDispatch();
-
 	const user = useSelector((state) => state.user.currentUser);
-
-	// const TOKEN = user?.token;
-
-	// useEffect(() => {
-	// 	TOKEN && dispatch(getCurrentUser());
-	// }, [dispatch, TOKEN]);
 
 	return (
 		<Router>
@@ -73,6 +70,27 @@ const App = () => {
 				</Route>
 				<Route path="/admin/dashboard">
 					<AdminDashboard />
+				</Route>
+				<Route path="/admin/users/:id">
+					<SingleUser />
+				</Route>
+				<Route path="/admin/users">
+					<Users />
+				</Route>
+				<Route path="/admin/createUser">
+					<CreateUser />
+				</Route>
+				<Route path="/admin/products/:id">
+					<SingleProduct />
+				</Route>
+				<Route path="/admin/products">
+					<Products />
+				</Route>
+				<Route path="/admin/createProduct">
+					<CreateProduct />
+				</Route>
+				<Route path="/admin/orders">
+					<Orders />
 				</Route>
 			</Switch>
 		</Router>

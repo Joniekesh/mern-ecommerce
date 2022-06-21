@@ -86,22 +86,18 @@ const updateProfile = asyncHandler(async (req, res) => {
 	}
 });
 
-// @desc   Delete User
-// @route  DELETE /api/users
-// @access Private
-const deleteUser = asyncHandler(async (req, res) => {
-	const user = await User.findById(req.user._id);
+// ADMIN ROUTES PERMISSION
+// @desc   Create a user (Admin Only)
+// @route  POST /api/users/admin/create
+// @access Private/Admin
+const adminCreateUser = asyncHandler(async (req, res) => {
+	const newUser = new User(req.body);
 
-	if (user) {
-		await user.remove();
+	const createdUser = await newUser.save();
 
-		res.json("User removed");
-	} else {
-		res.status(404).json("User not found");
-	}
+	res.status(201).json(createdUser);
 });
 
-// ADMIN ROUTES PERMISSION
 // @desc   Get all users (Admin Only)
 // @route  GET /api/users
 // @access Private/Admin
@@ -119,7 +115,7 @@ const getUsers = asyncHandler(async (req, res) => {
 // @route  GET /api/users/:id
 // @access Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
-	const user = await User.findById(req.user.id).select("-password");
+	const user = await User.findById(req.params.id).select("-password");
 
 	if (user) {
 		res.status(200).json(user);
@@ -167,14 +163,34 @@ const deleteUserById = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc   Get users statistics(Admin only)
+// @route  GET /api/users/stats
+// @access Private/Admin
+const getUserStats = asyncHandler(async (req, res) => {
+	const date = new Date();
+	const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
+	try {
+		const data = await User.aggregate([
+			{ $match: { createdAt: { $gte: lastYear } } },
+			{ $project: { month: { $month: "$createdAt" } } },
+			{ $group: { _id: "$month", total: { $sum: 1 } } },
+		]);
+		res.status(200).json(data);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
 export {
 	registerUser,
 	loginUser,
 	getUserProfile,
 	updateProfile,
-	deleteUser,
+	adminCreateUser,
 	getUsers,
 	getUserById,
 	UpdateUser,
 	deleteUserById,
+	getUserStats,
 };

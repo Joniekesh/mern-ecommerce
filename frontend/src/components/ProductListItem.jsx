@@ -11,7 +11,6 @@ import {
 	miniPhoneResponsive715,
 	miniPhoneResponsive685,
 	mobile,
-	mobile480,
 } from "../responsive";
 
 const ListItem = styled.div`
@@ -36,11 +35,9 @@ const ListItem = styled.div`
 	})}
 	${responsive948({
 		width: "180px",
-		height: "250px",
 	})}
 	${responsive908({
 		width: "170px",
-		height: "250px",
 	})}
 	${ipadAirResponsive({
 		width: "210px",
@@ -64,17 +61,14 @@ const ListItem = styled.div`
 		height: "300px",
 	})}
 		${mobile({
-		width: "270px",
-		height: "250px",
-	})}
-	${mobile480({
-		width: "380px",
+		width: "100%",
+		height: "350px",
 	})}
 `;
 
 const ListItemImg = styled.img`
 	width: 90%;
-	height: 100px;
+	height: 200px;
 	object-fit: cover;
 	border-radius: 5px;
 	overflow: hidden;

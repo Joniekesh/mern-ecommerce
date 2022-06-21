@@ -59,6 +59,13 @@ export const ipadAirResponsive = (props) => {
 		}
 	`;
 };
+export const ipadAirResponsive800 = (props) => {
+	return css`
+		@media only screen and (max-width: 800px) {
+			${props}
+		}
+	`;
+};
 export const ipadMiniResponsive = (props) => {
 	return css`
 		@media only screen and (max-width: 768px) {

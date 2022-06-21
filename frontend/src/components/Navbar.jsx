@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 import Announcement from "./Announcement";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +39,7 @@ const NavWrapper = styled.div`
 const NavLeft = styled.div`
 	display: flex;
 	align-items: center;
+	position: relative;
 `;
 
 const Lang = styled.p`
@@ -67,10 +69,35 @@ const SearchInput = styled.input`
 	border: none;
 	font-size: 16px;
 	width: 250px;
+	padding-left: 50px;
 	${mobile({
 		fontSize: "15px",
 		width: "150px",
 	})}
+`;
+
+const Search = styled.div`
+	-webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+	box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+	background-color: #e4e2e2;
+	color: black;
+	padding: 10px;
+	position: absolute;
+	z-index: 999;
+	top: 54px;
+	width: 100%;
+	text-align: center;
+`;
+
+const SearchList = styled.ul`
+	display: flex;
+	flex-direction: column;
+`;
+
+const SearchListItem = styled.li`
+	padding: 8px;
+	font-weight: 500;
+	color: teal;
 `;
 
 const NavCenter = styled.div`
@@ -169,8 +196,13 @@ const CartCount = styled.span`
 `;
 
 const Navbar = ({ user }) => {
+	const [search, setSearch] = useState("");
+
 	const dispatch = useDispatch();
 	const history = useHistory();
+
+	const product = useSelector((state) => state.product);
+	const { products } = product;
 
 	const cart = useSelector((state) => state.cart);
 	const { quantity } = cart;
@@ -197,8 +229,30 @@ const Navbar = ({ user }) => {
 							<SearchIcon>
 								<i className="fa-solid fa-magnifying-glass"></i>
 							</SearchIcon>
-							<SearchInput placeholder="Search for products and categories" />
+							<SearchInput
+								placeholder="Search for products and categories"
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+							/>
 						</SearchContainer>
+						{search.length > 0 && (
+							<Search>
+								<SearchList>
+									{products
+										.filter((product) =>
+											product.name.toLowerCase().includes(search)
+										)
+										.map((product) => (
+											<SearchListItem key={product._id}>
+												<Link to={`/products/${product._id}`}>
+													{product.name}
+												</Link>
+												<hr />
+											</SearchListItem>
+										))}
+								</SearchList>
+							</Search>
+						)}
 					</NavLeft>
 					<Link to="/">
 						<NavCenter>SHOPARENA</NavCenter>

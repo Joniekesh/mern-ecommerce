@@ -5,15 +5,12 @@ import {
 	responsive988,
 	responsive948,
 	responsive908,
-	responsive868,
-	responsive852,
 	ipadAirResponsive,
 	ipadMiniResponsive,
 	miniPhoneResponsive,
 	miniPhoneResponsive715,
 	miniPhoneResponsive685,
 	mobile,
-	mobile480,
 } from "../responsive";
 
 const CatListItem = styled.div`
@@ -39,21 +36,10 @@ const CatListItem = styled.div`
 	})}
 	${responsive948({
 		width: "180px",
-		height: "250px",
 	})}
 	${responsive908({
 		width: "170px",
-		height: "250px",
 	})}
-	${responsive868({
-		width: "230px",
-		height: "250px",
-	})}
-	${responsive852({
-		width: "220px",
-		height: "250px",
-	})}
-	
 	${ipadAirResponsive({
 		width: "210px",
 	})}
@@ -66,18 +52,16 @@ const CatListItem = styled.div`
 	})}
 	${miniPhoneResponsive715({
 		width: "180px",
-		height: "250px",
+		height: "230px",
 	})}
+	
 	${miniPhoneResponsive685({
 		width: "260px",
 		height: "300px",
 	})}
-	${mobile({
-		width: "270px",
-		height: "250px",
-	})}
-	${mobile480({
-		width: "380px",
+		${mobile({
+		width: "100%",
+		height: "350px",
 	})}
 `;
 
@@ -88,9 +72,13 @@ const ItemText = styled.h3`
 
 const ItemImage = styled.img`
 	width: 90%;
-	height: 90%;
+	height: 200px;
 	object-fit: cover;
-	border-radius: 8px;
+	border-radius: 5px;
+	overflow: hidden;
+	${mobile({
+		width: "100%",
+	})}
 `;
 
 const Button = styled.button`

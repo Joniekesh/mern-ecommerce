@@ -42,6 +42,9 @@ const productSlice = createSlice({
 			state.error = action.payload;
 			state.isLoading = false;
 		},
+		resetProduct: (state) => {
+			state.product = null;
+		},
 	},
 });
 
@@ -55,5 +58,6 @@ export const {
 	addReviewRequest,
 	addReviewSuccess,
 	addReviewFail,
+	resetProduct,
 } = productSlice.actions;
 export default productSlice.reducer;

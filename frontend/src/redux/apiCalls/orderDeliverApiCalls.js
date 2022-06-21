@@ -6,7 +6,7 @@ import {
 	orderDeliverFail,
 } from "../reducers/orderDeliverRedux";
 
-export const deliverOrder = (order) => async (dispatch, getState) => {
+export const deliverOrder = (id, order) => async (dispatch, getState) => {
 	const {
 		user: { currentUser },
 	} = getState();
@@ -21,7 +21,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 	dispatch(orderDeliverRequest());
 
 	try {
-		const res = await axios.put(`/orders/${order}`, config);
+		const res = await axios.put(`/orders/${id}/deliver`, order, config);
 		dispatch(orderDeliverSuccess(res.data));
 	} catch (err) {
 		dispatch(orderDeliverFail());

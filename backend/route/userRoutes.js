@@ -6,23 +6,23 @@ import {
 	loginUser,
 	getUserProfile,
 	updateProfile,
-	deleteUser,
 	getUserById,
+	adminCreateUser,
 	getUsers,
 	UpdateUser,
 	deleteUserById,
+	getUserStats,
 } from "../controllers/userController.js";
 
-router
-	.route("/")
-	.post(registerUser)
-	.delete(protect, deleteUser)
-	.get(protect, admin, getUsers);
+router.post("/admin/create", protect, admin, adminCreateUser);
+router.route("/").post(registerUser).get(protect, admin, getUsers);
 router.post("/login", loginUser);
 router
 	.route("/profile")
 	.get(protect, getUserProfile)
 	.put(protect, updateProfile);
+
+router.route("/stats").get(protect, admin, getUserStats);
 router
 	.route("/:id")
 	.get(protect, admin, getUserById)

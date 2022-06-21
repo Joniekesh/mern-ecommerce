@@ -173,7 +173,6 @@ const Cart = () => {
 
 	const user = useSelector((state) => state.user);
 	const { currentUser } = user;
-	console.log(currentUser);
 
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -238,9 +237,16 @@ const Cart = () => {
 										<SummaryPrice>$ {taxPrice}</SummaryPrice>
 									</SummaryDetails>
 									<Hr />
-									<SummaryDetails>
+									<SummaryDetails
+										style={{
+											fontWeight: "500",
+											fontSize: "20px",
+										}}
+									>
 										<SummaryDetail>Total</SummaryDetail>
-										<SummaryPrice>$ {addDecimals(totalSum)}</SummaryPrice>
+										<SummaryPrice style={{ color: "teal" }}>
+											$ {addDecimals(totalSum)}
+										</SummaryPrice>
 									</SummaryDetails>
 									<SummaryCheckoutButton onClick={checkOutHandler}>
 										CHECKOUT NOW

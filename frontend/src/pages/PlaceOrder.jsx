@@ -5,8 +5,8 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import Footer from "../components/Footer";
 import NewsLetter from "../components/NewsLetter";
 import { createOrder } from "../redux/apiCalls/orderApiCalls";
-import { resetOrder } from "../redux/reducers/orderRedux";
 import { toast } from "react-toastify";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
 	max-width: 1200px;
@@ -20,6 +20,9 @@ const Container = styled.div`
 
 const PlaceOrderContainer = styled.div`
 	display: flex;
+	${mobile({
+		flexDirection: "column",
+	})}
 `;
 
 const Left = styled.div`
@@ -127,6 +130,7 @@ const SummaryContainer = styled.div`
 const SummaryTitle = styled.span`
 	font-size: 24px;
 	font-weight: 500;
+	color: teal;
 	text-align: center;
 `;
 
@@ -148,10 +152,6 @@ const Hr = styled.hr`
 	font-size: 1px;
 	color: #ddd;
 	margin-bottom: 5px;
-`;
-
-const Error = styled.p`
-	color: crimson;
 `;
 
 const SummaryCheckoutButton = styled.button`
@@ -189,7 +189,7 @@ const PlaceOrder = () => {
 	const payment = useSelector((state) => state.payment);
 	const { paymentMethod } = payment;
 
-	if (!shippingAddress.address) {
+	if (!shippingAddress) {
 		history.push("/shipping");
 	} else if (!paymentMethod) {
 		history.push("/payment");
@@ -235,8 +235,6 @@ const PlaceOrder = () => {
 	return (
 		<>
 			<Container>
-				<button onClick={() => dispatch(resetOrder())}>CLICK</button>
-
 				<CheckoutSteps step1 step2 step3 step4 />
 				<PlaceOrderContainer>
 					<Left>
@@ -330,9 +328,16 @@ const PlaceOrder = () => {
 								<SummaryPrice>$ {taxPrice}</SummaryPrice>
 							</SummaryDetails>
 							<Hr />
-							<SummaryDetails>
+							<SummaryDetails
+								style={{
+									fontWeight: "500",
+									fontSize: "20px",
+								}}
+							>
 								<SummaryDetail>Total</SummaryDetail>
-								<SummaryPrice>$ {addDecimals(totalSum)}</SummaryPrice>
+								<SummaryPrice style={{ color: "teal" }}>
+									$ {addDecimals(totalSum)}
+								</SummaryPrice>
 							</SummaryDetails>
 							<SummaryCheckoutButton
 								type="button"

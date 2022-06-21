@@ -7,8 +7,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux/apiCalls/categoryApiCalls";
 import { getProducts } from "../redux/apiCalls/productApiCalls";
-import { mobile, mobile480 } from "../responsive";
+import { mobile } from "../responsive";
 // import TopRatedProducts from "../components/TopRatedProducts";
+
+const HomeDiv = styled.div`
+	overflow-x: hidden;
+`;
 
 const Container = styled.div`
 	max-width: 1200px;
@@ -18,11 +22,8 @@ const Container = styled.div`
 	padding: 0 2rem;
 	${mobile({
 		padding: "2px",
-	})}/* ${mobile480({
-		padding: "0",
-		backgroundColor: "white",
-		width: "100vw",
-	})} */
+		width: "100%",
+	})}
 `;
 const Home = () => {
 	const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const Home = () => {
 	}, [dispatch]);
 
 	return (
-		<div>
+		<HomeDiv>
 			<Container>
 				{/* <TopRatedProducts /> */}
 				<CategoryList categories={currentCategory} isLoading={isLoading} />
@@ -50,7 +51,7 @@ const Home = () => {
 			</Container>
 			<NewsLetter />
 			<Footer />
-		</div>
+		</HomeDiv>
 	);
 };
 

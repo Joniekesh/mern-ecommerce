@@ -12,8 +12,9 @@ export const orderSlice = createSlice({
 		addOrderRequest: (state) => {
 			state.isLoading = true;
 		},
-		addOrderSuccess: (state, action) => {
+		addOrderSuccess: (state) => {
 			state.isLoading = false;
+			state.success = true;
 		},
 		addOrderFail: (state, action) => {
 			state.isLoading = false;

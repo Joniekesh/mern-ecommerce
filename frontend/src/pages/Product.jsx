@@ -13,6 +13,10 @@ import { addProduct } from "../redux/reducers/cartRedux";
 import { toast } from "react-toastify";
 import { miniPhoneResponsive685, mobile, mobile480 } from "../responsive";
 
+const Wrapper = styled.div`
+	overflow: hidden;
+`;
+
 const Container = styled.div`
 	max-width: 1200px;
 	background-color: white;
@@ -21,11 +25,17 @@ const Container = styled.div`
 	margin: auto;
 	margin-top: 7rem;
 	padding: 2rem;
+	${mobile({
+		padding: "none",
+	})}
 `;
 
 const ProductContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
+	${mobile({
+		flexDirection: "column",
+	})}
 `;
 
 const Image = styled.img`
@@ -36,16 +46,26 @@ const Image = styled.img`
 	${mobile480({
 		height: "300px",
 	})}
+	${mobile({
+		width: "100%",
+	})}
 `;
 
 const InfoContainer = styled.div`
 	width: 50%;
 	flex-direction: column;
+	${mobile({
+		width: "100%",
+	})}
 `;
 
 const Title = styled.span`
 	font-size: 32px;
 	font-weight: 300;
+	${mobile({
+		textAlign: "center",
+		fontSize: "24px",
+	})}
 `;
 
 const Desc = styled.p`
@@ -224,6 +244,9 @@ const ReviewsList = styled.div`
 	border: 1px solid #ddd;
 	width: 50%;
 	padding: 10px;
+	${mobile({
+		width: "100%",
+	})}
 `;
 const ReviewTop = styled.div`
 	margin-bottom: 10px;
@@ -273,31 +296,31 @@ const Product = () => {
 	};
 
 	return (
-		<>
+		<Wrapper>
 			<Container>
 				{isLoading ? (
 					<Loader />
 				) : (
 					<>
 						<ProductContainer>
-							<Image src={singleProduct.image} />
+							<Image src={singleProduct?.image} />
 							<InfoContainer>
-								<Title>{singleProduct.name}</Title>
-								<Desc>{singleProduct.description}</Desc>
+								<Title>{singleProduct?.name}</Title>
+								<Desc>{singleProduct?.description}</Desc>
 								<RatingContainer>
-									<RatingCount>{singleProduct.rating}</RatingCount>
+									<RatingCount>{singleProduct?.rating}</RatingCount>
 									<Rating
-										value={singleProduct.rating}
-										text={`${singleProduct.numReviews} reviews`}
+										value={singleProduct?.rating}
+										text={`${singleProduct?.numReviews} reviews`}
 									/>
 								</RatingContainer>
 								<PriceInstockContainer>
-									<Price>$ {addDecimals(singleProduct.price)}</Price>
+									<Price>$ {addDecimals(singleProduct?.price)}</Price>
 									<CountInStock>
-										Count In Stock: <b>{singleProduct.countInStock}</b>
+										Count In Stock: <b>{singleProduct?.countInStock}</b>
 									</CountInStock>
 								</PriceInstockContainer>
-								{singleProduct.size?.length > 0 &&
+								{singleProduct?.size?.length > 0 &&
 									singleProduct.color?.length > 0 && (
 										<FilterContainer>
 											<FilterColor>
@@ -341,16 +364,16 @@ const Product = () => {
 								<ReviewAverageContainer>
 									<Average>Average:</Average>
 									<RatingContainer>
-										<RatingCount>{singleProduct.rating}</RatingCount>
+										<RatingCount>{singleProduct?.rating}</RatingCount>
 										<Rating
-											value={singleProduct.rating}
-											text={`${singleProduct.numReviews} reviews`}
+											value={singleProduct?.rating}
+											text={`${singleProduct?.numReviews} reviews`}
 										/>
 									</RatingContainer>
 								</ReviewAverageContainer>
 							</ReviewTop>
 							<ReviewForm product={singleProduct} />
-							{singleProduct.reviews?.map((review) => (
+							{singleProduct?.reviews?.map((review) => (
 								<ReviewsListItem review={review} key={review._id} />
 							))}
 						</ReviewsList>
@@ -359,7 +382,7 @@ const Product = () => {
 			</Container>
 			<NewsLetter />
 			<Footer />
-		</>
+		</Wrapper>
 	);
 };
 

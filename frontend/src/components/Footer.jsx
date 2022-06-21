@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ipadAirResponsive800, mobile } from "../responsive";
 
 const Container = styled.div`
 	width: 100%;
@@ -8,6 +9,11 @@ const Container = styled.div`
 	justify-content: space-between;
 	padding: 20px 20px 0px 20px;
 	color: black;
+	${mobile({
+		flexDirection: "column",
+		height: "65vh",
+		padding: "8px",
+	})}
 `;
 
 const Left = styled.div`
@@ -19,10 +25,16 @@ const Left = styled.div`
 
 const Logo = styled.h1`
 	color: teal;
+	${mobile({
+		fontSize: "20px",
+	})}
 `;
 
 const Desc = styled.p`
 	margin: 20px 0px;
+	${mobile({
+		margin: "8px 0px",
+	})}
 `;
 
 const SocialContainer = styled.div`
@@ -41,11 +53,19 @@ const SocialIcon = styled.div`
 	justify-content: center;
 	margin-right: 20px;
 	cursor: pointer;
+	${mobile({
+		marginRight: "8px",
+		width: "28px",
+		height: "28px",
+	})}
 `;
 
 const Center = styled.div`
 	flex: 1;
 	padding: 20px;
+	${ipadAirResponsive800({
+		display: "none",
+	})}
 `;
 
 const Title = styled.h3`
@@ -69,6 +89,9 @@ const ListItem = styled.li`
 const Right = styled.div`
 	flex: 1;
 	padding: 20px;
+	${mobile({
+		marginTop: "-70px",
+	})}
 `;
 
 const PaymentMethod = styled.div`

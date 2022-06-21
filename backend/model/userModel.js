@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema(
 		avatar: {
 			type: String,
 			default:
-				"https://media.istockphoto.com/vectors/avatar-business-avatars-profile-icons-set-vector-vector-id967261826",
+				"/assets/avatar.jpg",
 		},
 		isAdmin: {
 			type: Boolean,

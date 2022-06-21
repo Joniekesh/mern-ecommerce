@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import Slider from "react-styled-carousel";
 
 const Text = styled.h2`
@@ -41,7 +42,7 @@ const Details = styled.div`
 	margin: auto;
 	font-size: 24px;
 	padding: 8px;
-	color: crimson;
+	color: black;
 	font-weight: 500;
 	height: 20px;
 	border: 1px solid black;
@@ -59,47 +60,27 @@ const responsive = [
 ];
 
 const TopRatedProducts = () => {
+	const adminProduct = useSelector((state) => state.adminProduct);
+	const { products } = adminProduct;
+
+	const topRatedProducts = products.filter((product) => product.rating >= 4);
 	return (
 		<>
 			<Text>Top Rated Products</Text>
 			<Container>
 				<Slider responsive={responsive} autoSlide={2500}>
-					<ProductContainer>
-						<ImageWrapper>
-							<Image src="assets/image6.jpg" />
-							<Details>
-								<Desc>WINTER SHIRT</Desc>
-								<Price>$ 15.99</Price>
-							</Details>
-						</ImageWrapper>
-					</ProductContainer>
-					<ProductContainer>
-						<ImageWrapper>
-							<Image src="assets/image8.jpg" />
-							<Details>
-								<Desc>WINTER SHIRT</Desc>
-								<Price>$ 15.99</Price>
-							</Details>
-						</ImageWrapper>
-					</ProductContainer>
-					<ProductContainer>
-						<ImageWrapper>
-							<Image src="assets/image5.jpg" />
-							<Details>
-								<Desc>WINTER SHIRT</Desc>
-								<Price>$ 15.99</Price>
-							</Details>
-						</ImageWrapper>
-					</ProductContainer>
-					<ProductContainer>
-						<ImageWrapper>
-							<Image src="assets/image10.jpg" />
-							<Details>
-								<Desc>WINTER SHIRT</Desc>
-								<Price>$ 15.99</Price>
-							</Details>
-						</ImageWrapper>
-					</ProductContainer>
+					{topRatedProducts &&
+						topRatedProducts.map((product) => (
+							<ProductContainer key={product._id}>
+								<ImageWrapper>
+									<Image src={product.image} />
+									<Details>
+										<Desc>{product.name}</Desc>
+										<Price>$ {product.price}</Price>
+									</Details>
+								</ImageWrapper>
+							</ProductContainer>
+						))}
 				</Slider>
 			</Container>
 		</>
