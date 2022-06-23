@@ -6,7 +6,6 @@ export const adminProductSlice = createSlice({
 		products: [],
 		product: null,
 		isLoading: false,
-		success: false,
 		error: null,
 	},
 	reducers: {
@@ -29,19 +28,6 @@ export const adminProductSlice = createSlice({
 			state.products.push(action.payload);
 		},
 		createProductFail: (state, action) => {
-			state.isLoading = false;
-			state.error = action.payload;
-		},
-		updateProductRequest: (state) => {
-			state.isLoading = true;
-		},
-		updateProductSuccess: (state, action) => {
-			state.isLoading = false;
-			state.products[
-				state.products.findIndex((product) => product._id === action.payload.id)
-			] = action.payload.product;
-		},
-		updateProductFail: (state, action) => {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -69,9 +55,6 @@ export const {
 	createProductRequest,
 	createProductSuccess,
 	createProductFail,
-	updateProductRequest,
-	updateProductSuccess,
-	updateProductFail,
 	deleteProductRequest,
 	deleteProductSuccess,
 	deleteProductFail,

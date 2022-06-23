@@ -89,6 +89,8 @@ const Table = styled.table`
 
 const TableHead = styled.thead``;
 
+const TableBody = styled.tbody``;
+
 const TableRow = styled.tr`
 	&:nth-child(even) {
 		background-color: #f2f2f2;
@@ -200,44 +202,48 @@ const Users = () => {
 											<TableHeading>ACTION</TableHeading>
 										</TableRow>
 									</TableHead>
-									{users.map((user) => (
-										<TableRow key={user._id}>
-											<TableData>{user._id}</TableData>
-											<TableData>
-												<UserContainer>
-													<UserImage src={user?.avatar} />
-													<UserName>{user.name}</UserName>
-												</UserContainer>
-											</TableData>
-											<TableData>
-												{new Date(user.createdAt).toDateString()}
-											</TableData>
+									<TableBody>
+										{users.map((user) => (
+											<TableRow key={user._id}>
+												<TableData>{user._id}</TableData>
+												<TableData>
+													<UserContainer>
+														<UserImage src={user?.avatar} />
+														<UserName>{user.name}</UserName>
+													</UserContainer>
+												</TableData>
+												<TableData>
+													{new Date(user.createdAt).toDateString()}
+												</TableData>
 
-											<TableData>{user.email}</TableData>
-											<TableData>
-												<b>
-													{user.isAdmin && (
-														<i
-															className="fas fa-check"
-															style={{ color: "green", fontSize: "20px" }}
-														></i>
-													)}
-												</b>
-											</TableData>
-											<TableData>
-												<ActionDiv>
-													<Link to={`/admin/users/${user._id}`}>
-														<View>View</View>
-													</Link>
-													<Delete
-														onClick={() => dispatch(adminDeleteUser(user._id))}
-													>
-														Delete
-													</Delete>
-												</ActionDiv>
-											</TableData>
-										</TableRow>
-									))}
+												<TableData>{user.email}</TableData>
+												<TableData>
+													<b>
+														{user.isAdmin && (
+															<i
+																className="fas fa-check"
+																style={{ color: "green", fontSize: "20px" }}
+															></i>
+														)}
+													</b>
+												</TableData>
+												<TableData>
+													<ActionDiv>
+														<Link to={`/admin/users/${user._id}`}>
+															<View>View</View>
+														</Link>
+														<Delete
+															onClick={() =>
+																dispatch(adminDeleteUser(user._id))
+															}
+														>
+															Delete
+														</Delete>
+													</ActionDiv>
+												</TableData>
+											</TableRow>
+										))}
+									</TableBody>
 								</Table>
 							</TableDiv>
 						)}

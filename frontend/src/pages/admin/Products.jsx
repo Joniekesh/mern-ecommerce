@@ -80,6 +80,7 @@ const Table = styled.table`
 `;
 
 const TableHead = styled.thead``;
+const TableBody = styled.tbody``;
 
 const TableRow = styled.tr`
 	&:nth-child(even) {
@@ -141,7 +142,7 @@ const Products = () => {
 
 	const user = useSelector((state) => state.user.currentUser.user);
 	const adminProduct = useSelector((state) => state.adminProduct);
-	const { products, isLoading, error } = adminProduct;
+	const { products, isLoading } = adminProduct;
 
 	if (!user.isAdmin) {
 		toast.error("You are not authorized to access this route", {
@@ -189,30 +190,32 @@ const Products = () => {
 										<TableHeading>ACTION</TableHeading>
 									</TableRow>
 								</TableHead>
-								{products.map((product) => (
-									<TableRow key={product._id}>
-										<TableData>{product._id}</TableData>
-										<TableData>
-											<UserContainer>
-												<UserImage src={product.image} />
-												<UserName>{product.name}</UserName>
-											</UserContainer>
-										</TableData>
-										<TableData>{product.countInStock}</TableData>
+								<TableBody>
+									{products.map((product) => (
+										<TableRow key={product._id}>
+											<TableData>{product._id}</TableData>
+											<TableData>
+												<UserContainer>
+													<UserImage src={product.image} />
+													<UserName>{product.name}</UserName>
+												</UserContainer>
+											</TableData>
+											<TableData>{product.countInStock}</TableData>
 
-										<TableData>$ {product.price}</TableData>
-										<TableData>
-											<ActionDiv>
-												<Link to={`/admin/products/${product._id}`}>
-													<View>View</View>
-												</Link>
-												<Delete onClick={() => handleDelete(product._id)}>
-													Delete
-												</Delete>
-											</ActionDiv>
-										</TableData>
-									</TableRow>
-								))}
+											<TableData>$ {product.price}</TableData>
+											<TableData>
+												<ActionDiv>
+													<Link to={`/admin/products/${product._id}`}>
+														<View>View</View>
+													</Link>
+													<Delete onClick={() => handleDelete(product._id)}>
+														Delete
+													</Delete>
+												</ActionDiv>
+											</TableData>
+										</TableRow>
+									))}
+								</TableBody>
 							</Table>
 						</TableDiv>
 					)}

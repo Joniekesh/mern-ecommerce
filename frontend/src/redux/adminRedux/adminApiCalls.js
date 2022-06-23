@@ -11,9 +11,6 @@ import {
 	adminGetSingleUserRequest,
 	adminGetSingleUserSuccess,
 	adminGetSingleUserFail,
-	adminUpdateUserRequest,
-	adminUpdateUserSuccess,
-	adminUpdateUserFail,
 	adminCreateUserRequest,
 	adminCreateUserSuccess,
 	adminCreateUserFail,
@@ -28,14 +25,25 @@ import {
 	createProductRequest,
 	createProductSuccess,
 	createProductFail,
-	updateProductRequest,
-	updateProductSuccess,
-	updateProductFail,
 	deleteProductRequest,
 	deleteProductSuccess,
 	deleteProductFail,
 } from "./adminProductRedux";
-import { userStatsFail, userStatsRequest, userStatsSuccess } from "./adminUserStatsRedux";
+import {
+	userStatsFail,
+	userStatsRequest,
+	userStatsSuccess,
+} from "./adminUserStatsRedux";
+import {
+	updateProductRequest,
+	updateProductSuccess,
+	updateProductFail,
+} from "./adminUpdateProductRedux";
+import {
+	adminUpdateUserRequest,
+	adminUpdateUserSuccess,
+	adminUpdateUserFail,
+} from "./adminUpdateUserRedux";
 
 // Get all orders(Admin only)
 export const adminGetAllOrders = () => async (dispatch, getState) => {
@@ -103,26 +111,27 @@ export const adminGetUserById = (id) => async (dispatch, getState) => {
 };
 
 // Update user(Admin only)
-export const adminUpdateUser = (id, data) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+export const userUpdateByAdmin =
+	(id, userData) => async (dispatch, getState) => {
+		const {
+			user: { currentUser },
+		} = getState();
 
-	const config = {
-		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
-		},
+		const config = {
+			headers: {
+				Authorization: `Bearer ${currentUser.token}`,
+			},
+		};
+
+		dispatch(adminUpdateUserRequest());
+
+		try {
+			const res = await axios.put(`/users/${id}`, userData, config);
+			dispatch(adminUpdateUserSuccess({ id, user: res.data }));
+		} catch (err) {
+			dispatch(adminUpdateUserFail());
+		}
 	};
-
-	dispatch(adminUpdateUserRequest());
-
-	try {
-		const res = await axios.put(`/users/${id}`, data, config);
-		dispatch(adminUpdateUserSuccess(res.data));
-	} catch (err) {
-		dispatch(adminUpdateUserFail());
-	}
-};
 
 // Create user(Admin only)
 export const adminCreateUser = (data) => async (dispatch, getState) => {
@@ -230,7 +239,7 @@ export const updateProduct = (id, product) => async (dispatch, getState) => {
 	dispatch(updateProductRequest());
 	try {
 		const res = await axios.put(`/products/${id}`, product, config);
-		dispatch(updateProductSuccess({ id, product: res.data }));
+		dispatch(updateProductSuccess({ product: res.data }));
 	} catch (err) {
 		dispatch(updateProductFail());
 	}
@@ -273,12 +282,12 @@ export const adminGetUserStats = () => async (dispatch, getState) => {
 		},
 	};
 
-dispatch(userStatsRequest())
+	dispatch(userStatsRequest());
 
 	try {
 		const res = await axios.get("/users/stats", config);
-		dispatch(userStatsSuccess(res.data))
+		dispatch(userStatsSuccess(res.data));
 	} catch (err) {
-		dispatch(userStatsFail)
+		dispatch(userStatsFail);
 	}
 };

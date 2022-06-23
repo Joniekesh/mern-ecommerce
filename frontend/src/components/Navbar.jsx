@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Announcement from "./Announcement";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { clearCart } from "../redux/reducers/cartRedux";
 import { userprofileReset } from "../redux/reducers/profileRedux";
 import { myOrderReset } from "../redux/reducers/myOrderRedux";
 import { resetShippingAddress } from "../redux/reducers/shippingAddressRedux";
+import { getProducts } from "../redux/apiCalls/productApiCalls";
 
 const NavContainer = styled.div`
 	display: flex;
@@ -42,8 +43,19 @@ const NavLeft = styled.div`
 	position: relative;
 `;
 
+const NavCenter = styled.h2`
+	cursor: pointer;
+	letter-spacing: 2px;
+	${miniPhoneResponsive({
+		fontSize: "16x",
+	})}
+	${mobile({
+		fontSize: "16px",
+	})}
+`;
+
 const Lang = styled.p`
-	margin-right: 8px;
+	margin-left: 8px;
 	${mobile({
 		fontSize: "15px",
 	})}
@@ -68,8 +80,7 @@ const SearchInput = styled.input`
 	outline: none;
 	border: none;
 	font-size: 16px;
-	width: 250px;
-	padding-left: 50px;
+	width: 200px;
 	${mobile({
 		fontSize: "15px",
 		width: "150px",
@@ -83,10 +94,11 @@ const Search = styled.div`
 	color: black;
 	padding: 10px;
 	position: absolute;
-	z-index: 999;
+	z-index: 9999;
 	top: 54px;
 	width: 100%;
-	text-align: center;
+	text-align: right;
+	margin-left: 50px;
 `;
 
 const SearchList = styled.ul`
@@ -100,15 +112,17 @@ const SearchListItem = styled.li`
 	color: teal;
 `;
 
-const NavCenter = styled.div`
-	font-size: 20px;
-	cursor: pointer;
-	${miniPhoneResponsive({
-		fontSize: "16x",
-	})}
-	${mobile({
-		fontSize: "16px",
-	})}
+const ListItemDiv = styled.div`
+	display: flex;
+	align-items: center;
+`;
+
+const ListItemImage = styled.img`
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-right: 5px;
 `;
 
 const NavRight = styled.div`
@@ -201,11 +215,15 @@ const Navbar = ({ user }) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
+	const cart = useSelector((state) => state.cart);
+	const { quantity } = cart;
+
 	const product = useSelector((state) => state.product);
 	const { products } = product;
 
-	const cart = useSelector((state) => state.cart);
-	const { quantity } = cart;
+	useEffect(() => {
+		dispatch(getProducts());
+	}, [dispatch]);
 
 	const handleLogout = () => {
 		dispatch(resetOrder());
@@ -223,6 +241,9 @@ const Navbar = ({ user }) => {
 			<Announcement />
 			<NavContainer>
 				<NavWrapper>
+					<Link to="/">
+						<NavCenter>SHOPARENA</NavCenter>
+					</Link>
 					<NavLeft>
 						<Lang>EN</Lang>
 						<SearchContainer>
@@ -245,7 +266,10 @@ const Navbar = ({ user }) => {
 										.map((product) => (
 											<SearchListItem key={product._id}>
 												<Link to={`/products/${product._id}`}>
-													{product.name}
+													<ListItemDiv>
+														<ListItemImage src={product.image} />
+														{product.name}
+													</ListItemDiv>
 												</Link>
 												<hr />
 											</SearchListItem>
@@ -254,9 +278,7 @@ const Navbar = ({ user }) => {
 							</Search>
 						)}
 					</NavLeft>
-					<Link to="/">
-						<NavCenter>SHOPARENA</NavCenter>
-					</Link>
+
 					<NavRight>
 						{!user && (
 							<>

@@ -142,8 +142,8 @@ const CreateProduct = () => {
 				image: url,
 			};
 			dispatch(adminCreateProduct(product));
-			history.push("/admin/products");
 			window.location.reload();
+			history.push("/admin/products");
 			toast.success("Product Created", { theme: "colored" });
 		} catch (error) {}
 	};

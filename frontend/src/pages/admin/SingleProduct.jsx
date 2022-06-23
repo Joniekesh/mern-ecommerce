@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, Link, useParams } from "react-router-dom";
 import SideBar from "../../components/admin/SideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import { getProductById } from "../../redux/apiCalls/productApiCalls";
 import Loader from "../../components/Loader";
 import axios from "axios";
 import { updateProduct } from "../../redux/adminRedux/adminApiCalls";
+import { updateProductReset } from "../../redux/adminRedux/adminUpdateProductRedux";
 
 const Container = styled.div`
 	max-width: 1200px;
@@ -189,14 +190,17 @@ const SingleProduct = () => {
 	const product = useSelector((state) => state.product);
 	const { product: singleProduct, isLoading } = product;
 
+	const adminUpdateProduct = useSelector((state) => state.adminUpdateProduct);
+	const { success } = adminUpdateProduct;
+
 	const [file, setFile] = useState("");
-	const [name, setName] = useState(singleProduct?.name);
-	const [description, setDescription] = useState(singleProduct?.description);
-	const [price, setPrice] = useState(singleProduct?.price);
-	const [categories, setCategories] = useState(singleProduct?.categories);
-	const [countInStock, setCountInStock] = useState(singleProduct?.countInStock);
-	const [color, setColor] = useState(singleProduct?.color);
-	const [size, setSize] = useState(singleProduct?.size);
+	const [name, setName] = useState("");
+	const [description, setDescription] = useState("");
+	const [price, setPrice] = useState("");
+	const [categories, setCategories] = useState("");
+	const [countInStock, setCountInStock] = useState("");
+	const [color, setColor] = useState("");
+	const [size, setSize] = useState("");
 
 	const history = useHistory();
 
@@ -213,8 +217,23 @@ const SingleProduct = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getProductById(id));
-	}, [dispatch, id]);
+		if (success) {
+			dispatch(updateProductReset());
+			history.push("/admin/products");
+		} else {
+			if (!singleProduct.name || singleProduct._id !== id) {
+				dispatch(getProductById(id));
+			} else {
+				setName(singleProduct.name);
+				setDescription(singleProduct.description);
+				setCountInStock(singleProduct.countInStock);
+				setPrice(singleProduct.price);
+				setCategories(singleProduct.categories);
+				setColor(singleProduct.color);
+				setSize(singleProduct.size);
+			}
+		}
+	}, [history, dispatch, id, singleProduct, success]);
 
 	const handleCategories = (e) => {
 		setCategories(e.target.value.split(","));
@@ -257,6 +276,7 @@ const SingleProduct = () => {
 			dispatch(updateProduct(id, product));
 			toast.success("Product updated", { theme: "colored" });
 			history.push("/admin/products");
+			window.location.reload();
 		} catch (error) {}
 	};
 
@@ -277,7 +297,9 @@ const SingleProduct = () => {
 						<DetailsContainer>
 							<DetailsTop>
 								<Image src={singleProduct.image} alt="" />
-								<ProductName>{singleProduct.name}</ProductName>
+								<Link to={`/products/${singleProduct._id}`}>
+									<ProductName>{singleProduct.name}</ProductName>
+								</Link>
 							</DetailsTop>
 							<DetailsBottom>
 								<DetailsDiv>

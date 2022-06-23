@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -210,8 +210,6 @@ const DeliverButton = styled.button`
 `;
 
 const Order = () => {
-	const [sdkReady, setSdkReady] = useState(false);
-
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -244,9 +242,7 @@ const Order = () => {
 			script.type = "text/javascripty";
 			script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
 			script.async = true;
-			script.onload = () => {
-				setSdkReady(true);
-			};
+			script.onload = () => {};
 			document.body.appendChild(script);
 		};
 

@@ -7,9 +7,11 @@ import SideBar from "../../components/admin/SideBar";
 import { useEffect } from "react";
 import {
 	adminGetUserById,
-	adminUpdateUser,
+	userUpdateByAdmin,
 } from "../../redux/adminRedux/adminApiCalls";
 import Loader from "../../components/Loader";
+import { mobile } from "../../responsive";
+import { adminUpdateUserReset } from "../../redux/adminRedux/adminUserRedux";
 
 const Container = styled.div`
 	max-width: 1200px;
@@ -47,9 +49,12 @@ const Title = styled.h2`
 const Form = styled.form`
 	border: 1px solid #ddd;
 	padding: 10px;
-	width: 50%;
+	width: 60%;
 	background-color: white;
 	height: 40vh;
+	${mobile({
+		width: "300px",
+	})}
 `;
 
 const FormGroup = styled.div`
@@ -112,16 +117,30 @@ const SingleUser = () => {
 	const adminUser = useSelector((state) => state.adminUser);
 	const { user, isLoading } = adminUser;
 
-	const [name, setName] = useState(user?.name);
-	const [email, setEmail] = useState(user?.email);
-	const [isAdmin, setIsAdmin] = useState(user.isAdmin);
+	const adminUpdateUser = useSelector((state) => state.adminUpdateUser);
+	const { success } = adminUpdateUser;
+
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [isAdmin, setIsAdmin] = useState("");
 
 	const location = useLocation();
 	const id = location.pathname.split("/")[3];
 
 	useEffect(() => {
-		id && dispatch(adminGetUserById(id));
-	}, [dispatch, id]);
+		if (success) {
+			dispatch(adminUpdateUserReset());
+			history.push("/admin/users");
+		} else {
+			if (!user.name || user._id !== id) {
+				dispatch(adminGetUserById(id));
+			} else {
+				setName(user.name);
+				setEmail(user.email);
+				setIsAdmin(user.isAdmin);
+			}
+		}
+	}, [success, dispatch, history, user, id]);
 
 	const updatedUser = {
 		_id: id,
@@ -132,7 +151,7 @@ const SingleUser = () => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		dispatch(adminUpdateUser(id, updatedUser));
+		dispatch(userUpdateByAdmin(id, updatedUser));
 		toast.success("User successfully UPDATED.", {
 			theme: "colored",
 		});

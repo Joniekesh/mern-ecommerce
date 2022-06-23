@@ -74,6 +74,7 @@ const Table = styled.table`
 `;
 
 const TableHead = styled.thead``;
+const TableBody = styled.tbody``;
 
 const TableRow = styled.tr`
 	&:nth-child(even) {
@@ -157,72 +158,74 @@ const Orders = () => {
 											<TableHeading></TableHeading>
 										</TableRow>
 									</TableHead>
-									{orders.map((order) => (
-										<TableRow key={order._id}>
-											<TableData>{order._id}</TableData>
-											<TableData>{order.user?.name}</TableData>
-											<TableData>{order.user?.email}</TableData>
-											<TableData>
-												{new Date(order.createdAt).toDateString()}
-											</TableData>
-											<TableData>$ {order.totalPrice}</TableData>
-											<TableData>
-												{order.isPaid ? (
-													<p
-														style={{
-															backgroundColor: "green",
-															color: "white",
-															padding: "5px",
-															borderRadius: "3px",
-														}}
-													>
-														{new Date(order.paidAt).toLocaleDateString()}
-													</p>
-												) : (
-													<p
-														style={{
-															backgroundColor: "crimson",
-															color: "white",
-															padding: "5px",
-															borderRadius: "3px",
-														}}
-													>
-														Not Paid
-													</p>
-												)}
-											</TableData>
-											<TableData>
-												{order.isDelivered ? (
-													<p
-														style={{
-															backgroundColor: "green",
-															color: "white",
-															padding: "5px",
-															borderRadius: "3px",
-														}}
-													>
-														{new Date(order.deliveredAt).toLocaleDateString()}
-													</p>
-												) : (
-													<p
-														style={{
-															backgroundColor: "crimson",
-															color: "white",
-															padding: "5px",
-															borderRadius: "3px",
-														}}
-													>
-														Not Delivered
-													</p>
-												)}
-											</TableData>
-											<Link to={`/order/${order._id}`}>
+									<TableBody>
+										{orders.map((order) => (
+											<TableRow key={order._id}>
+												<TableData>{order._id}</TableData>
+												<TableData>{order.user?.name}</TableData>
+												<TableData>{order.user?.email}</TableData>
 												<TableData>
-													<Button>View</Button>
+													{new Date(order.createdAt).toDateString()}
 												</TableData>
-											</Link>
-										</TableRow>
-									))}
+												<TableData>$ {order.totalPrice}</TableData>
+												<TableData>
+													{order.isPaid ? (
+														<p
+															style={{
+																backgroundColor: "green",
+																color: "white",
+																padding: "5px",
+																borderRadius: "3px",
+															}}
+														>
+															{new Date(order.paidAt).toLocaleDateString()}
+														</p>
+													) : (
+														<p
+															style={{
+																backgroundColor: "crimson",
+																color: "white",
+																padding: "5px",
+																borderRadius: "3px",
+															}}
+														>
+															Not Paid
+														</p>
+													)}
+												</TableData>
+												<TableData>
+													{order.isDelivered ? (
+														<p
+															style={{
+																backgroundColor: "green",
+																color: "white",
+																padding: "5px",
+																borderRadius: "3px",
+															}}
+														>
+															{new Date(order.deliveredAt).toLocaleDateString()}
+														</p>
+													) : (
+														<p
+															style={{
+																backgroundColor: "crimson",
+																color: "white",
+																padding: "5px",
+																borderRadius: "3px",
+															}}
+														>
+															Not Delivered
+														</p>
+													)}
+												</TableData>
+												<Link to={`/order/${order._id}`}>
+													<TableData>
+														<Button>View</Button>
+													</TableData>
+												</Link>
+											</TableRow>
+										))}
+									</TableBody>
 								</Table>
 							</TableDiv>
 						)}
