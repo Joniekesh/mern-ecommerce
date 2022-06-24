@@ -49,7 +49,7 @@ const rootReducer = combineReducers({
 	myOrder: myOrderReducer,
 	adminOrder: adminOrderReducer,
 	adminUser: adminUserReducer,
-	adminUserStat: adminUserStatsReducer,
+	adminUserStats: adminUserStatsReducer,
 	adminUpdateUser: adminUpdateUserReducer,
 	adminProduct: adminProductReducer,
 	adminUpdateProduct: adminUpdateProductReducer,

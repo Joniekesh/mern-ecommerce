@@ -271,7 +271,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 };
 
 // Get user stats(Admin only)
-export const adminGetUserStats = () => async (dispatch, getState) => {
+export const getUserStats = () => async (dispatch, getState) => {
 	const {
 		user: { currentUser },
 	} = getState();
@@ -288,6 +288,6 @@ export const adminGetUserStats = () => async (dispatch, getState) => {
 		const res = await axios.get("/users/stats", config);
 		dispatch(userStatsSuccess(res.data));
 	} catch (err) {
-		dispatch(userStatsFail);
+		dispatch(userStatsFail());
 	}
 };

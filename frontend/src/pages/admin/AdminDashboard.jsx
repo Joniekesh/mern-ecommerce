@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import SideBar from "../../components/admin/SideBar";
@@ -10,20 +10,71 @@ import "react-circular-progressbar/dist/styles.css";
 import Chart from "../../components/admin/Chart";
 
 import Loader from "../../components/Loader";
-import { adminGetAllOrders } from "../../redux/adminRedux/adminApiCalls";
+import {
+	adminGetAllOrders,
+	getUserStats,
+} from "../../redux/adminRedux/adminApiCalls";
+import axios from "axios";
 
 const AdminDashboard = () => {
+	const [stats, setStats] = useState([]);
+
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const user = useSelector((state) => state.user.currentUser.user);
+	const user = useSelector((state) => state.user);
+	const { currentUser } = user;
 
-	if (!user.isAdmin) {
+	if (!currentUser.user.isAdmin) {
 		toast.error("You are not authorized to access this route", {
 			theme: "colored",
 		});
 		history.push("/");
 	}
+
+	const adminUserStats = useSelector((state) => state.adminUserStats);
+	const { userStats } = adminUserStats;
+
+	const MONTHS = useMemo(
+		() => [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		],
+		[]
+	);
+
+	useEffect(() => {
+		const getStats = async () => {
+			try {
+				const res = await axios.get("/users/stats", {
+					headers: {
+						Authorization: `Bearer ${currentUser.token}`,
+					},
+				});
+
+				res.data
+					.map((item) => {
+						setStats((prev) => [
+							...prev,
+							{ name: MONTHS[item._id - 1], "Active Users": item.total },
+						]);
+					})
+					.reverse();
+			} catch (error) {}
+		};
+
+		getStats();
+	}, [MONTHS]);
 
 	const adminOrder = useSelector((state) => state.adminOrder);
 	const { orders, isLoading, error } = adminOrder;
@@ -284,7 +335,12 @@ const AdminDashboard = () => {
 							</BottomDiv>
 						</Left>
 						<Right>
-							<Chart />
+							<Chart
+								data={stats}
+								title="User Analytics"
+								grid
+								dataKey="Active Users"
+							/>
 						</Right>
 					</DashboarCenter>
 					<DashboardBottom>
