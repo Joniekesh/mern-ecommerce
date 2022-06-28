@@ -10,14 +10,13 @@ import "react-circular-progressbar/dist/styles.css";
 import Chart from "../../components/admin/Chart";
 
 import Loader from "../../components/Loader";
-import {
-	adminGetAllOrders,
-	getUserStats,
-} from "../../redux/adminRedux/adminApiCalls";
+import { adminGetAllOrders } from "../../redux/adminRedux/adminApiCalls";
 import axios from "axios";
 
 const AdminDashboard = () => {
 	const [stats, setStats] = useState([]);
+
+	const TOKEN = JSON.parse(localStorage.getItem("token"));
 
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -25,15 +24,12 @@ const AdminDashboard = () => {
 	const user = useSelector((state) => state.user);
 	const { currentUser } = user;
 
-	if (!currentUser.user.isAdmin) {
+	if (!currentUser?.isAdmin) {
 		toast.error("You are not authorized to access this route", {
 			theme: "colored",
 		});
 		history.push("/");
 	}
-
-	const adminUserStats = useSelector((state) => state.adminUserStats);
-	const { userStats } = adminUserStats;
 
 	const MONTHS = useMemo(
 		() => [
@@ -58,23 +54,23 @@ const AdminDashboard = () => {
 			try {
 				const res = await axios.get("/users/stats", {
 					headers: {
-						Authorization: `Bearer ${currentUser.token}`,
+						Authorization: `Bearer ${TOKEN}`,
 					},
 				});
 
-				res.data
-					.map((item) => {
-						setStats((prev) => [
-							...prev,
-							{ name: MONTHS[item._id - 1], "Active Users": item.total },
-						]);
-					})
-					.reverse();
-			} catch (error) {}
+				res.data.map((item) => {
+					return setStats((prev) => [
+						...prev,
+						{ name: MONTHS[item._id - 1], "Active Users": item.total },
+					]);
+				});
+			} catch (error) {
+				console.log(error);
+			}
 		};
 
 		getStats();
-	}, [MONTHS]);
+	}, [MONTHS, TOKEN]);
 
 	const adminOrder = useSelector((state) => state.adminOrder);
 	const { orders, isLoading, error } = adminOrder;
@@ -429,11 +425,11 @@ const AdminDashboard = () => {
 																</p>
 															)}
 														</TableData>
-														<Link to={`/order/${order._id}`}>
-															<TableData>
+														<TableData>
+															<Link to={`/order/${order._id}`}>
 																<Button>View</Button>
-															</TableData>
-														</Link>
+															</Link>
+														</TableData>
 													</TableRow>
 												))}
 											</TableBody>

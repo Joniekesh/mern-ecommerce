@@ -56,7 +56,7 @@ const ReviewForm = ({ product }) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const user = useSelector((state) => state.user.currentUser?.user);
+	const user = useSelector((state) => state.user.currentUser);
 
 	const alreadyReviewed = product?.reviews.find(
 		(review) => review.user === user?._id

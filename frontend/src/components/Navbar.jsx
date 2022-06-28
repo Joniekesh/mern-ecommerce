@@ -5,12 +5,13 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/apiCalls/userApiCalls";
 import { nestHubResponsive, miniPhoneResponsive, mobile } from "../responsive";
+import { resetUser } from "../redux/reducers/userRedux";
 import { resetOrder } from "../redux/reducers/orderRedux";
 import { clearCart } from "../redux/reducers/cartRedux";
-import { userprofileReset } from "../redux/reducers/profileRedux";
 import { myOrderReset } from "../redux/reducers/myOrderRedux";
 import { resetShippingAddress } from "../redux/reducers/shippingAddressRedux";
 import { getProducts } from "../redux/apiCalls/productApiCalls";
+import SideMenu from "./SideMenu";
 
 const NavContainer = styled.div`
 	display: flex;
@@ -24,8 +25,8 @@ const NavContainer = styled.div`
 	position: fixed;
 	top: 30px;
 	z-index: 3;
-	${nestHubResponsive({
-		padding: "10px",
+	${mobile({
+		padding: "10px 0px",
 	})}
 `;
 
@@ -35,6 +36,20 @@ const NavWrapper = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	color: white;
+	${mobile({
+		width: "100%",
+	})}
+`;
+
+const MenuIcon = styled.span`
+	margin-right: 5px;
+	font-size: 24px;
+	display: none;
+	cursor: pointer;
+	${mobile({
+		display: "flex",
+		margin: "0px 10px",
+	})}
 `;
 
 const NavLeft = styled.div`
@@ -57,7 +72,7 @@ const NavCenter = styled.h2`
 const Lang = styled.p`
 	margin-left: 8px;
 	${mobile({
-		fontSize: "15px",
+		display: "none",
 	})}
 `;
 
@@ -69,6 +84,7 @@ const SearchContainer = styled.div`
 	border-radius: 5px;
 	${mobile({
 		padding: "5px",
+		margin: "0px 5px",
 	})}
 `;
 
@@ -132,15 +148,12 @@ const NavRight = styled.div`
 	${nestHubResponsive({
 		marginRight: "24px",
 	})}
-	${mobile({
-		marginRight: "60px",
-	})}
 `;
 
 const Register = styled.span`
 	cursor: pointer;
 	${mobile({
-		fontSize: "15px",
+		fontSize: "14px",
 	})}
 `;
 
@@ -151,7 +164,7 @@ const Login = styled.span`
 		margin: "10px",
 	})}
 	${mobile({
-		fontSize: "15px",
+		fontSize: "14px",
 	})}
 `;
 
@@ -159,7 +172,7 @@ const Logout = styled.span`
 	margin-right: 12px;
 	cursor: pointer;
 	${mobile({
-		fontSize: "15px",
+		fontSize: "14px",
 	})}
 `;
 
@@ -168,27 +181,32 @@ const ProfileContainer = styled.div`
 	margin-right: 16px;
 `;
 
-const Image = styled.img`
+const UserInitials = styled.span`
 	width: 32px;
 	height: 32px;
 	border-radius: 50%;
-	object-fit: cover;
 	cursor: pointer;
-`;
-const OnlineLogo = styled.span`
-	position: absolute;
-	top: 20px;
-	right: -5px;
-	height: 6px;
-	width: 6px;
-	border-radius: 50%;
-	background-color: teal;
-	border: 2px solid white;
+	color: #08173b;
+	font-weight: 500;
+	background-color: white;
+	margin-right: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	${mobile({
+		width: "30px",
+		height: "30px",
+		fontSize: "15px",
+	})}
 `;
 
 const CartContainer = styled.span`
 	position: relative;
 	cursor: pointer;
+	${mobile({
+		paddingRight: "0px",
+	})}
 `;
 
 const CartLogo = styled.span``;
@@ -209,8 +227,11 @@ const CartCount = styled.span`
 	text-align: center;
 `;
 
-const Navbar = ({ user }) => {
+const Navbar = ({ user, open, setOpen, setOverlay }) => {
 	const [search, setSearch] = useState("");
+	const userInitials =
+		user?.name?.split(" ")[0].charAt(0).toString() +
+		user?.name?.split(" ")[1].charAt(0).toString();
 
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -226,14 +247,20 @@ const Navbar = ({ user }) => {
 	}, [dispatch]);
 
 	const handleLogout = () => {
+		dispatch(resetUser());
 		dispatch(resetOrder());
 		dispatch(clearCart());
-		dispatch(userprofileReset());
 		dispatch(myOrderReset());
 		dispatch(resetShippingAddress());
 		dispatch(logout());
+		localStorage.removeItem("token");
 
 		history.push("/login");
+	};
+
+	const handleOpen = () => {
+		setOpen(true);
+		setOverlay(true);
 	};
 
 	return (
@@ -241,6 +268,10 @@ const Navbar = ({ user }) => {
 			<Announcement />
 			<NavContainer>
 				<NavWrapper>
+					<SideMenu setOpen={setOpen} open={open} setOverlay={setOverlay} />
+					<MenuIcon onClick={() => handleOpen()}>
+						<i className="fa-solid fa-bars"></i>
+					</MenuIcon>
 					<Link to="/">
 						<NavCenter>SHOPARENA</NavCenter>
 					</Link>
@@ -295,8 +326,7 @@ const Navbar = ({ user }) => {
 								<Logout onClick={handleLogout}>LOGOUT</Logout>
 								<ProfileContainer>
 									<Link to="/profile">
-										<Image src="/assets/image6.jpg" alt="" />
-										<OnlineLogo></OnlineLogo>
+										<UserInitials>{userInitials}</UserInitials>
 									</Link>
 								</ProfileContainer>
 							</>

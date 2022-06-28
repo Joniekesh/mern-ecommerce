@@ -54,13 +54,12 @@ const CatListItem = styled.div`
 		width: "180px",
 		height: "230px",
 	})}
-	
 	${miniPhoneResponsive685({
 		width: "260px",
 		height: "300px",
 	})}
 		${mobile({
-		width: "100%",
+		width: "100vw",
 		height: "350px",
 	})}
 `;

@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useRef } from "react";
 import emailjs from "@emailjs/browser";
+import { mobile } from "../responsive";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
 	margin: 20px 0px;
@@ -16,11 +18,18 @@ const Container = styled.div`
 
 const Text = styled.h1`
 	font-size: 60px;
+	${mobile({
+		fontSize: "36px",
+	})}
 `;
 
 const Desc = styled.span`
 	font-size: 24px;
 	margin: 10px 0px 20px;
+	${mobile({
+		fontSize: "20px",
+		textAlign: "center",
+	})}
 `;
 
 const InputContainer = styled.form`
@@ -30,7 +39,9 @@ const InputContainer = styled.form`
 	justify-content: center;
 	width: 55%;
 	margin-top: 20px;
-	border-radius: 5px;
+	${mobile({
+		marginTop: "0px",
+	})}
 `;
 
 const InputDiv = styled.div`
@@ -42,8 +53,12 @@ const Input = styled.input`
 	flex: 8;
 	padding: 10px;
 	font-size: 18px;
-	/* border: none; */
+	border: none;
 	outline: none;
+	${mobile({
+		padding: "8px 10px",
+		fontSize: "16px",
+	})}
 `;
 
 const Button = styled.button`
@@ -72,14 +87,8 @@ const NewsLetter = () => {
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
 
-		emailjs
-			.sendForm(
-				"service_dyhz7at",
-				"template_ws07cum",
-				formRef.current,
-				"8eM_QdyapZvV9qn2M"
-			)
-			.then(
+		if (formRef.current.value?.length > 0) {
+			emailjs.sendForm(SERVICE, TEMPLATE, formRef.current, USER).then(
 				(result) => {
 					console.log(result.text);
 					setDone(true);
@@ -88,6 +97,9 @@ const NewsLetter = () => {
 					console.log(error.text);
 				}
 			);
+		} else {
+			toast.error("Please provide an email address", { theme: "colored" });
+		}
 	};
 
 	return (

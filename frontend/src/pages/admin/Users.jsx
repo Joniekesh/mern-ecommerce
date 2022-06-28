@@ -149,7 +149,7 @@ const Users = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const user = useSelector((state) => state.user.currentUser.user);
+	const user = useSelector((state) => state.user.currentUser);
 
 	const adminUser = useSelector((state) => state.adminUser);
 	const { users, isLoading, error } = adminUser;

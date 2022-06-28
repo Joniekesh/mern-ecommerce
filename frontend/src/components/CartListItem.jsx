@@ -27,7 +27,7 @@ const ProductDetailsLeft = styled.div`
 	height: 150px;
 	${mobile({
 		flexDirection: "column",
-		width: "90%",
+		width: "100%",
 		marginBottom: "32px",
 	})}
 `;
@@ -39,7 +39,6 @@ const ImageContainer = styled.div`
 	min-height: 140px;
 	${mobile({
 		width: "100%",
-		marginRight: "none",
 	})}
 `;
 
@@ -68,6 +67,10 @@ const Details = styled.div`
 
 const ProductName = styled.span`
 	width: 40%;
+	${mobile({
+		width: "100%",
+		textAlign: "center",
+	})}
 `;
 
 const ProductID = styled.span`

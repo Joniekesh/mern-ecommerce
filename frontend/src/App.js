@@ -1,4 +1,5 @@
 import "./index.css";
+import { useState } from "react";
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -28,14 +29,24 @@ import CreateUser from "./pages/admin/CreateUser";
 import CreateProduct from "./pages/admin/CreateProduct";
 import SingleUser from "./pages/admin/SingleUser";
 import SingleProduct from "./pages/admin/SingleProduct";
+import Overlay from "./components/Overlay";
 
 const App = () => {
 	const user = useSelector((state) => state.user.currentUser);
+	const [open, setOpen] = useState(false);
+	const [overlay, setOverlay] = useState(false);
 
 	return (
 		<Router>
 			<ToastContainer />
-			<Navbar user={user} />
+			<Navbar
+				user={user}
+				open={open}
+				setOpen={setOpen}
+				setOverlay={setOverlay}
+				overlay={overlay}
+			/>
+			<Overlay overlay={overlay} setOverlay={setOverlay} />
 			<Switch>
 				<Route exact path="/">
 					<Home />

@@ -105,7 +105,7 @@ const SingleUser = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const currentUser = useSelector((state) => state.user.currentUser.user);
+	const currentUser = useSelector((state) => state.user.currentUser);
 
 	if (!currentUser.isAdmin) {
 		toast.error("You are not authorized to access this route", {
@@ -132,7 +132,7 @@ const SingleUser = () => {
 			dispatch(adminUpdateUserReset());
 			history.push("/admin/users");
 		} else {
-			if (!user.name || user._id !== id) {
+			if (!user?.name || user._id !== id) {
 				dispatch(adminGetUserById(id));
 			} else {
 				setName(user.name);

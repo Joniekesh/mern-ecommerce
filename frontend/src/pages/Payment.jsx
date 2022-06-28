@@ -92,7 +92,7 @@ const Payment = () => {
 
 	const user = useSelector((state) => state.user);
 	const { currentUser } = user;
-	const userId = currentUser.user._id;
+	const userId = currentUser._id;
 
 	if (!userId) {
 		history.push("/login");

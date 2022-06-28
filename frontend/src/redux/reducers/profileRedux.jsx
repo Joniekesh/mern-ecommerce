@@ -6,7 +6,6 @@ const profileSlice = createSlice({
 		currentProfile: null,
 		isLoading: false,
 		error: false,
-		success: false,
 	},
 	reducers: {
 		userProfileRequest: (state) => {

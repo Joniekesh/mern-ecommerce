@@ -6,12 +6,14 @@ import userRoutes from "./route/userRoutes.js";
 import productRoutes from "./route/productRoutes.js";
 import categoryRoutes from "./route/cateGoryRoutes.js";
 import orderRoutes from "./route/orderRoutes.js";
+import cors from "cors";
 
 // Connect to DB
 connectDB();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);

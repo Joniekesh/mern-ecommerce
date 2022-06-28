@@ -47,13 +47,11 @@ import {
 
 // Get all orders(Admin only)
 export const adminGetAllOrders = () => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -69,13 +67,11 @@ export const adminGetAllOrders = () => async (dispatch, getState) => {
 
 // Get all users (Admin only)
 export const adminGetAllUsers = () => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -90,13 +86,11 @@ export const adminGetAllUsers = () => async (dispatch, getState) => {
 };
 // Get user by ID (Admin only)
 export const adminGetUserById = (id) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -113,13 +107,11 @@ export const adminGetUserById = (id) => async (dispatch, getState) => {
 // Update user(Admin only)
 export const userUpdateByAdmin =
 	(id, userData) => async (dispatch, getState) => {
-		const {
-			user: { currentUser },
-		} = getState();
+		const { user } = getState();
 
 		const config = {
 			headers: {
-				Authorization: `Bearer ${currentUser.token}`,
+				Authorization: `Bearer ${user.token}`,
 			},
 		};
 
@@ -135,13 +127,11 @@ export const userUpdateByAdmin =
 
 // Create user(Admin only)
 export const adminCreateUser = (data) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -157,13 +147,11 @@ export const adminCreateUser = (data) => async (dispatch, getState) => {
 
 // Delete user(admin only)
 export const adminDeleteUser = (id) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -180,13 +168,11 @@ export const adminDeleteUser = (id) => async (dispatch, getState) => {
 };
 
 export const adminGetProducts = () => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -202,14 +188,12 @@ export const adminGetProducts = () => async (dispatch, getState) => {
 
 // Create product (Admin only)
 export const adminCreateProduct = (data) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -225,14 +209,12 @@ export const adminCreateProduct = (data) => async (dispatch, getState) => {
 
 // Update product(Admin only)
 export const updateProduct = (id, product) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -247,13 +229,11 @@ export const updateProduct = (id, product) => async (dispatch, getState) => {
 
 // Delete product(Admin only)
 export const deleteProduct = (id) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -272,13 +252,11 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 
 // Get user stats(Admin only)
 export const getUserStats = () => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 

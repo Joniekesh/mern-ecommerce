@@ -140,7 +140,7 @@ const Products = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const user = useSelector((state) => state.user.currentUser.user);
+	const user = useSelector((state) => state.user.currentUser);
 	const adminProduct = useSelector((state) => state.adminProduct);
 	const { products, isLoading } = adminProduct;
 

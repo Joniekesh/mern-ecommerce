@@ -53,9 +53,6 @@ const ListItem = styled.div`
 		width: "180px",
 		height: "230px",
 	})}
-	${miniPhoneResponsive715({
-		height: "310px",
-	})}
 	${miniPhoneResponsive685({
 		width: "260px",
 		height: "300px",

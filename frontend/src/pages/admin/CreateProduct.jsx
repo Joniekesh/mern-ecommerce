@@ -95,7 +95,7 @@ const CreateProduct = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const user = useSelector((state) => state.user.currentUser.user);
+	const user = useSelector((state) => state.user.currentUser);
 
 	if (!user.isAdmin) {
 		toast.error("You are not authorized to access this route", {
@@ -143,9 +143,11 @@ const CreateProduct = () => {
 			};
 			dispatch(adminCreateProduct(product));
 			window.location.reload();
-			history.push("/admin/products");
 			toast.success("Product Created", { theme: "colored" });
-		} catch (error) {}
+			history.push("/admin/products");
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

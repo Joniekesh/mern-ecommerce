@@ -35,14 +35,12 @@ export const getProductById = (id) => async (dispatch) => {
 };
 
 export const addReview = (id, data) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 

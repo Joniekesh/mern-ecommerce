@@ -204,7 +204,7 @@ const SingleProduct = () => {
 
 	const history = useHistory();
 
-	const currentUser = useSelector((state) => state.user.currentUser.user);
+	const currentUser = useSelector((state) => state.user.currentUser);
 
 	if (!currentUser.isAdmin) {
 		toast.error("You are not authorized to access this route", {

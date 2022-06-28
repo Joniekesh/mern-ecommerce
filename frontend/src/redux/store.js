@@ -16,7 +16,7 @@ import adminProductReducer from "./adminRedux/adminProductRedux";
 import adminUserStatsReducer from "./adminRedux/adminUserStatsRedux";
 import adminUpdateProductReducer from "./adminRedux/adminUpdateProductRedux";
 import adminUpdateUserReducer from "./adminRedux/adminUpdateUserRedux";
-
+import updateMyProfileReducer from "./reducers/updateMyProfileRedux";
 import {
 	persistStore,
 	persistReducer,
@@ -46,6 +46,7 @@ const rootReducer = combineReducers({
 	orderPay: orderPayReducer,
 	orderDeliver: orderDeliverReducer,
 	profile: profileReducer,
+	updateMyProfile: updateMyProfileReducer,
 	myOrder: myOrderReducer,
 	adminOrder: adminOrderReducer,
 	adminUser: adminUserReducer,

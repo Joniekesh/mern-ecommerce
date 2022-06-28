@@ -107,7 +107,7 @@ const CreateUser = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const user = useSelector((state) => state.user.currentUser.user);
+	const user = useSelector((state) => state.user.currentUser);
 
 	if (!user.isAdmin) {
 		toast.error("You are not authorized to access this route", {

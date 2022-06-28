@@ -215,7 +215,7 @@ const Order = () => {
 	const location = useLocation();
 	const id = location.pathname.split("/")[2];
 
-	const user = useSelector((state) => state.user.currentUser.user);
+	const user = useSelector((state) => state.user.currentUser);
 
 	if (!user) {
 		history.push("/login");
@@ -246,7 +246,7 @@ const Order = () => {
 			document.body.appendChild(script);
 		};
 
-		!currentOrder.ispaid && !isLoading && addPayPalScript();
+		!currentOrder?.ispaid && !isLoading && addPayPalScript();
 	}, [currentOrder, isLoading]);
 
 	const successPaymentHandler = (paymentResult) => {

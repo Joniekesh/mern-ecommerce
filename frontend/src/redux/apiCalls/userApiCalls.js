@@ -13,16 +13,20 @@ import {
 	userLogout,
 } from "../reducers/userRedux";
 
+import {
+	userProfileUpdateRequest,
+	userProfileUpdateSuccess,
+	userProfileUpdateFail,
+} from "../reducers/updateMyProfileRedux";
+
 export const getCurrentUser = () => async (dispatch, getState) => {
 	dispatch(getCurrentUserRequest());
 
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Autorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -34,6 +38,27 @@ export const getCurrentUser = () => async (dispatch, getState) => {
 		dispatch(getCurrentUserFail());
 	}
 };
+export const updateLoggedInMyProfile =
+	(userData) => async (dispatch, getState) => {
+		const { user } = getState();
+
+		dispatch(userProfileUpdateRequest());
+
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${user.token}`,
+			},
+		};
+
+		try {
+			const res = await axios.put("/users/profile", userData, config);
+
+			dispatch(userProfileUpdateSuccess(res.data));
+		} catch (err) {
+			dispatch(userProfileUpdateFail());
+		}
+	};
 
 export const registerUser = (user) => async (dispatch) => {
 	dispatch(userRegisterRequest());
@@ -48,6 +73,9 @@ export const registerUser = (user) => async (dispatch) => {
 		const res = await axios.post("/users", user, config);
 		dispatch(userRegisterSuccess(res.data));
 		dispatch(getCurrentUser());
+		toast.success("User register Success", { theme: "colored" });
+
+		localStorage.setItem("token", JSON.stringify(res.data.token));
 	} catch (err) {
 		dispatch(userRegisterFail());
 	}
@@ -67,10 +95,14 @@ export const loginUser = (user) => async (dispatch) => {
 		dispatch(userloginSuccess(res.data));
 		dispatch(getCurrentUser());
 		toast.success("User login Success", { theme: "colored" });
+		localStorage.setItem("token", JSON.stringify(res.data.token));
 	} catch (err) {
 		dispatch(userloginFail());
 		toast.error(err.response.data, { theme: "colored" });
 	}
 };
 
-export const logout = () => userLogout();
+export const logout = () => (dispatch) => {
+	localStorage.removeItem("token");
+	dispatch(userLogout());
+};

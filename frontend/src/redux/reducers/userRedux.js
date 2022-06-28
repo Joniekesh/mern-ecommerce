@@ -6,29 +6,32 @@ const userSlice = createSlice({
 		currentUser: null,
 		isLoading: false,
 		error: false,
+		token: JSON.parse(localStorage.getItem("token")),
 	},
 	reducers: {
 		getCurrentUserRequest: (state) => {
 			state.isLoading = true;
 		},
 		getCurrentUserSuccess: (state, action) => {
+			state.isLoading = false;
 			state.currentUser = action.payload;
-			state.isLoading = false;
 		},
-		getCurrentUserFail: (state) => {
+		getCurrentUserFail: (state, action) => {
 			state.isLoading = false;
-			state.error = true;
+			state.error = action.payload;
 		},
 		userRegisterRequest: (state) => {
 			state.isLoading = true;
 		},
 		userRegisterSuccess: (state, action) => {
+			state.isLoading = false;
 			state.currentUser = action.payload;
-			state.isLoading = false;
+			state.token = action.payload.token;
 		},
-		userRegisterFail: (state) => {
+		userRegisterFail: (state, action) => {
 			state.isLoading = false;
-			state.error = true;
+			state.error = action.payload;
+			state.token = null;
 		},
 		userloginRequest: (state) => {
 			state.isLoading = true;
@@ -36,16 +39,19 @@ const userSlice = createSlice({
 		userloginSuccess: (state, action) => {
 			state.currentUser = action.payload;
 			state.isLoading = false;
+			state.token = action.payload.token;
 		},
-		userloginFail: (state) => {
+		userloginFail: (state, action) => {
 			state.isLoading = false;
-			state.error = true;
+			state.error = action.payload;
+			state.token = null;
 		},
 		resetUser: (state) => {
 			state.currentUser = null;
 		},
 		userLogout: (state) => {
 			state.currentUser = null;
+			state.token = null;
 		},
 	},
 });

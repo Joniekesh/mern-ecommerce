@@ -170,7 +170,7 @@ const Footer = () => {
 						className="fa-solid fa-envelope"
 						style={{ marginRight: "10px", color: "#08173b" }}
 					></i>{" "}
-					contact@lama.dev
+					contact@john.dev
 				</ContactItem>
 				<PaymentMethod>
 					<i

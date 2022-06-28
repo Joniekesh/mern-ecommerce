@@ -9,13 +9,11 @@ import {
 } from "../reducers/myOrderRedux";
 
 export const getMyOrders = () => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -30,13 +28,11 @@ export const getMyOrders = () => async (dispatch, getState) => {
 };
 
 export const getOrderById = (id) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 

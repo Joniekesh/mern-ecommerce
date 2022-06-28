@@ -110,7 +110,7 @@ const Button = styled.button`
 const Orders = () => {
 	const history = useHistory();
 
-	const user = useSelector((state) => state.user.currentUser.user);
+	const user = useSelector((state) => state.user.currentUser);
 
 	const adminOrder = useSelector((state) => state.adminOrder);
 	const { orders, isLoading, error } = adminOrder;
