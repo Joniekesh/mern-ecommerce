@@ -7,6 +7,7 @@ import productRoutes from "./route/productRoutes.js";
 import categoryRoutes from "./route/cateGoryRoutes.js";
 import orderRoutes from "./route/orderRoutes.js";
 import cors from "cors";
+import path from "path";
 
 // Connect to DB
 connectDB();
@@ -23,6 +24,14 @@ app.use("/api/orders", orderRoutes);
 app.get("/api/config/paypal", (req, res) => {
 	res.send(process.env.PAYPAL_CLIENT_ID);
 });
+
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+	});
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
