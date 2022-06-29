@@ -7,14 +7,12 @@ import {
 } from "../reducers/orderDeliverRedux";
 
 export const deliverOrder = (id, order) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 

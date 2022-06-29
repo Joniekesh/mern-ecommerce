@@ -73,7 +73,6 @@ export const registerUser = (user) => async (dispatch) => {
 		const res = await axios.post("/users", user, config);
 		dispatch(userRegisterSuccess(res.data));
 		dispatch(getCurrentUser());
-		toast.success("User register Success", { theme: "colored" });
 
 		localStorage.setItem("token", JSON.stringify(res.data.token));
 	} catch (err) {

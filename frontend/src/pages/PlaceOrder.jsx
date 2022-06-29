@@ -172,8 +172,7 @@ const PlaceOrder = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const user = useSelector((state) => state.user);
-	const { currentUser } = user;
+	const currentUser = useSelector((state) => state.user.currentUser);
 	const userId = currentUser._id;
 
 	if (!userId) {

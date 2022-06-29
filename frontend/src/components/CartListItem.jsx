@@ -1,16 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { deleteProductById } from "../redux/apiCalls/cartApiCalls";
-import {
-	surfaceProResponsive,
-	ipadAirResponsive,
-	ipadMiniResponsive,
-	miniPhoneResponsive,
-	miniPhoneResponsive715,
-	miniPhoneResponsive685,
-	mobile,
-} from "../responsive";
+import { mobile } from "../responsive";
 
 const ProductList = styled.div`
 	display: flex;
@@ -155,35 +145,8 @@ const Price = styled.span`
 	})}
 `;
 
-const DeleteIcon = styled.span`
-	color: crimson;
-	cursor: pointer;
-	${surfaceProResponsive({
-		marginLeft: "60px",
-	})}
-	${ipadAirResponsive({
-		marginLeft: "80px",
-	})}
-	${ipadMiniResponsive({
-		marginLeft: "60px",
-	})}
-	${miniPhoneResponsive({
-		marginLeft: "60px",
-	})}
-	${miniPhoneResponsive715({
-		marginLeft: "60px",
-	})}
-	${miniPhoneResponsive685({
-		marginLeft: "60px",
-	})}
-	${mobile({
-		marginLeft: "-10px",
-	})}
-`;
-
 const CartListItem = ({ product }) => {
 	const [quantity, setQuantity] = useState(0);
-	const dispatch = useDispatch();
 
 	const handleClick = (type) => {
 		if (type === "plus") {
@@ -223,12 +186,6 @@ const CartListItem = ({ product }) => {
 						<Add onClick={() => handleClick("plus")}>+</Add>
 					</Counter>
 					<Price>$ {product.price}</Price>
-					<DeleteIcon>
-						<i
-							className="fas fa-trash"
-							onClick={() => dispatch(deleteProductById(product._id))}
-						></i>
-					</DeleteIcon>
 				</ProductDetailsRight>
 			</ProductList>
 		</div>

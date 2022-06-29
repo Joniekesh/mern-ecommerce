@@ -108,6 +108,36 @@ const List = styled.div`
 	justify-content: space-between;
 `;
 
+const ListItemCart = styled.div`
+	position: relative;
+	display: flex;
+	padding: 10px;
+	cursor: pointer;
+	border-bottom: 1px solid #ddd;
+`;
+
+const IconCart = styled.span`
+	margin-right: 16px;
+	color: teal;
+`;
+
+const CartCount = styled.span`
+	position: absolute;
+	top: 0px;
+	left: 24px;
+	font-size: 12px;
+	font-weight: 500;
+	background-color: orange;
+	color: white;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+`;
+
 const ListItem = styled.div`
 	display: flex;
 	padding: 10px;
@@ -129,6 +159,9 @@ const SideMenu = ({ open, setOpen, setOverlay }) => {
 
 	const user = useSelector((state) => state.user);
 	const { currentUser } = user;
+
+	const cart = useSelector((state) => state.cart);
+	const { quantity } = cart;
 
 	const userInitials =
 		currentUser?.name?.split(" ")[0].charAt(0) +
@@ -154,6 +187,11 @@ const SideMenu = ({ open, setOpen, setOverlay }) => {
 		setOpen(false);
 		setOverlay(false);
 		history.push("/login");
+	};
+	const handleMyCart = () => {
+		setOpen(false);
+		setOverlay(false);
+		history.push("/cart");
 	};
 
 	const handleProfile = () => {
@@ -205,6 +243,13 @@ const SideMenu = ({ open, setOpen, setOverlay }) => {
 					)}
 					<MenuBottom>
 						<List>
+							<ListItemCart onClick={handleMyCart}>
+								<IconCart>
+									<i className="fa-solid fa-cart-shopping"></i>
+								</IconCart>
+								<Text>My Cart</Text>
+								{quantity > 0 && <CartCount>{quantity}</CartCount>}
+							</ListItemCart>
 							<ListItem onClick={handleProfile}>
 								<Icon>
 									<i className="fa-solid fa-cart-arrow-down"></i>

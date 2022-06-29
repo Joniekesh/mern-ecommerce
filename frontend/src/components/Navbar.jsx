@@ -4,7 +4,12 @@ import Announcement from "./Announcement";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/apiCalls/userApiCalls";
-import { nestHubResponsive, miniPhoneResponsive, mobile } from "../responsive";
+import {
+	nestHubResponsive,
+	miniPhoneResponsive,
+	mobile,
+	mobile444,
+} from "../responsive";
 import { resetUser } from "../redux/reducers/userRedux";
 import { resetOrder } from "../redux/reducers/orderRedux";
 import { clearCart } from "../redux/reducers/cartRedux";
@@ -14,12 +19,13 @@ import { getProducts } from "../redux/apiCalls/productApiCalls";
 import SideMenu from "./SideMenu";
 
 const NavContainer = styled.div`
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	margin: auto;
 	width: 100%;
-	height: 50px;
+	height: 70px;
 	padding: 10px 20px;
 	background-color: #08173b;
 	position: fixed;
@@ -27,6 +33,19 @@ const NavContainer = styled.div`
 	z-index: 3;
 	${mobile({
 		padding: "10px 0px",
+	})}
+`;
+
+const NavLogo = styled.h2`
+	position: absolute;
+	left: 40%;
+	top: 0;
+	color: white;
+	display: none;
+	${mobile444({
+		display: "flex",
+		left: "33%",
+		fontSize: "18px",
 	})}
 `;
 
@@ -66,6 +85,9 @@ const NavCenter = styled.h2`
 	})}
 	${mobile({
 		fontSize: "16px",
+	})}
+	${mobile444({
+		display: "none",
 	})}
 `;
 
@@ -153,7 +175,7 @@ const NavRight = styled.div`
 const Register = styled.span`
 	cursor: pointer;
 	${mobile({
-		fontSize: "14px",
+		display: "none",
 	})}
 `;
 
@@ -164,7 +186,7 @@ const Login = styled.span`
 		margin: "10px",
 	})}
 	${mobile({
-		fontSize: "14px",
+		display: "none",
 	})}
 `;
 
@@ -172,7 +194,7 @@ const Logout = styled.span`
 	margin-right: 12px;
 	cursor: pointer;
 	${mobile({
-		fontSize: "14px",
+		display: "none",
 	})}
 `;
 
@@ -267,6 +289,7 @@ const Navbar = ({ user, open, setOpen, setOverlay }) => {
 		<>
 			<Announcement />
 			<NavContainer>
+				<NavLogo>SHOPARENA</NavLogo>
 				<NavWrapper>
 					<SideMenu setOpen={setOpen} open={open} setOverlay={setOverlay} />
 					<MenuIcon onClick={() => handleOpen()}>

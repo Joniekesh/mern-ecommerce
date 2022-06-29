@@ -109,3 +109,10 @@ export const mobile480 = (props) => {
 		}
 	`;
 };
+export const mobile444 = (props) => {
+	return css`
+		@media only screen and (max-width: 444px) {
+			${props}
+		}
+	`;
+};

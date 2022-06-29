@@ -22,6 +22,7 @@ const CartContainer = styled.div``;
 const Title = styled.h1`
 	text-align: center;
 	font-weight: 400;
+	color: teal;
 	${ipadMiniResponsive({
 		fontSize: "24px",
 	})}
@@ -114,6 +115,7 @@ const SummaryTitle = styled.span`
 	font-size: 24px;
 	font-weight: 500;
 	text-align: center;
+	color: teal;
 	${ipadMiniResponsive({
 		fontSize: "18px",
 	})}

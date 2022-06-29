@@ -25,6 +25,10 @@ const Container = styled.div`
 
 const CatTitle = styled.h1`
 	margin-top: 20px;
+	color: teal;
+	${mobile({
+		fontSize: "28px",
+	})}
 `;
 
 const FilterDiv = styled.div`
@@ -36,6 +40,9 @@ const FilterDiv = styled.div`
 const Left = styled.div`
 	display: flex;
 	align-items: center;
+	${mobile({
+		flexDirection: "column",
+	})}
 `;
 
 const Title = styled.div`
@@ -43,7 +50,7 @@ const Title = styled.div`
 	font-weight: 500;
 	font-size: 20px;
 	${mobile({
-		fontSize: "18px",
+		marginBottom: "8px",
 	})}
 `;
 
@@ -69,6 +76,9 @@ const Option = styled.option`
 const Right = styled.div`
 	display: flex;
 	align-items: center;
+	${mobile({
+		flexDirection: "column",
+	})}
 `;
 
 const Category = () => {

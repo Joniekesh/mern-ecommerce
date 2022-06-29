@@ -11,14 +11,12 @@ import {
 import { clearCart } from "../reducers/cartRedux";
 
 export const createOrder = (data) => async (dispatch, getState) => {
-	const {
-		user: { currentUser },
-	} = getState();
+	const { user } = getState();
 
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${currentUser.token}`,
+			Authorization: `Bearer ${user.token}`,
 		},
 	};
 
@@ -34,14 +32,12 @@ export const createOrder = (data) => async (dispatch, getState) => {
 
 export const payOrder =
 	(orderId, paymentResult) => async (dispatch, getState) => {
-		const {
-			user: { currentUser },
-		} = getState();
+		const { user } = getState();
 
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${currentUser.token}`,
+				Authorization: `Bearer ${user.token}`,
 			},
 		};
 

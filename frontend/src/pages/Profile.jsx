@@ -445,19 +445,19 @@ const Profile = () => {
 								</InfoContainer>
 								<InfoContainer>
 									<InfoTitle>Phone:</InfoTitle>
-									<InfoDesc>{lastOrder?.shippingAddress.phone}</InfoDesc>
+									<InfoDesc>{lastOrder?.shippingAddress?.phone}</InfoDesc>
 								</InfoContainer>
 								<InfoContainer>
 									<InfoTitle>Country:</InfoTitle>
-									<InfoDesc>{lastOrder?.shippingAddress.country}</InfoDesc>
+									<InfoDesc>{lastOrder?.shippingAddress?.country}</InfoDesc>
 								</InfoContainer>
 								<InfoContainer>
 									<InfoTitle>City:</InfoTitle>
-									<InfoDesc>{lastOrder?.shippingAddress.city}</InfoDesc>
+									<InfoDesc>{lastOrder?.shippingAddress?.city}</InfoDesc>
 								</InfoContainer>
 								<InfoContainer>
 									<InfoTitle>Postal Code:</InfoTitle>
-									<InfoDesc>{lastOrder?.shippingAddress.postalCode}</InfoDesc>
+									<InfoDesc>{lastOrder?.shippingAddress?.postalCode}</InfoDesc>
 								</InfoContainer>
 							</TopRight>
 						)}
