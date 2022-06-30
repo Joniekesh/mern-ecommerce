@@ -42,6 +42,7 @@ const NavLogo = styled.h2`
 	top: 0;
 	color: white;
 	display: none;
+	cursor: pointer;
 	${mobile444({
 		display: "flex",
 		left: "33%",
@@ -289,7 +290,9 @@ const Navbar = ({ user, open, setOpen, setOverlay }) => {
 		<>
 			<Announcement />
 			<NavContainer>
-				<NavLogo>SHOPARENA</NavLogo>
+				<Link to="/">
+					<NavLogo>SHOPARENA</NavLogo>
+				</Link>
 				<NavWrapper>
 					<SideMenu setOpen={setOpen} open={open} setOverlay={setOverlay} />
 					<MenuIcon onClick={() => handleOpen()}>
