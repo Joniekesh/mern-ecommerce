@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../utils/config";
 import {
 	getCategoriesRequest,
 	getCategoriesSuccess,
@@ -9,7 +9,7 @@ export const getCategories = () => async (dispatch) => {
 	dispatch(getCategoriesRequest());
 
 	try {
-		const res = await axios.get("/categories");
+		const res = await axiosInstance.get("/categories");
 		dispatch(getCategoriesSuccess(res.data));
 	} catch (err) {
 		dispatch(getCategoriesFail());

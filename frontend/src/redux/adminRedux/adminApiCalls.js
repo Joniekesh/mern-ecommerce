@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../utils/config";
 import {
 	adminGeOrdersRequest,
 	adminGetOrdersSuccess,
@@ -58,7 +58,7 @@ export const adminGetAllOrders = () => async (dispatch, getState) => {
 	dispatch(adminGeOrdersRequest());
 
 	try {
-		const res = await axios.get("/orders", config);
+		const res = await axiosInstance.get("/orders", config);
 		dispatch(adminGetOrdersSuccess(res.data));
 	} catch (err) {
 		dispatch(adminGetOrdersFail());
@@ -78,7 +78,7 @@ export const adminGetAllUsers = () => async (dispatch, getState) => {
 	dispatch(adminGetUsersRequest());
 
 	try {
-		const res = await axios.get("/users", config);
+		const res = await axiosInstance.get("/users", config);
 		dispatch(adminGetUsersSuccess(res.data));
 	} catch (error) {
 		dispatch(adminGetUsersFail());
@@ -97,7 +97,7 @@ export const adminGetUserById = (id) => async (dispatch, getState) => {
 	dispatch(adminGetSingleUserRequest());
 
 	try {
-		const res = await axios.get(`/users/${id}`, config);
+		const res = await axiosInstance.get(`/users/${id}`, config);
 		dispatch(adminGetSingleUserSuccess(res.data));
 	} catch (error) {
 		dispatch(adminGetSingleUserFail());
@@ -118,7 +118,7 @@ export const userUpdateByAdmin =
 		dispatch(adminUpdateUserRequest());
 
 		try {
-			const res = await axios.put(`/users/${id}`, userData, config);
+			const res = await axiosInstance.put(`/users/${id}`, userData, config);
 			dispatch(adminUpdateUserSuccess({ id, user: res.data }));
 		} catch (err) {
 			dispatch(adminUpdateUserFail());
@@ -138,7 +138,7 @@ export const adminCreateUser = (data) => async (dispatch, getState) => {
 	dispatch(adminCreateUserRequest());
 
 	try {
-		const res = await axios.post("/users/admin/create", data, config);
+		const res = await axiosInstance.post("/users/admin/create", data, config);
 		dispatch(adminCreateUserSuccess(res.data));
 	} catch (err) {
 		dispatch(adminCreateUserFail());
@@ -159,7 +159,7 @@ export const adminDeleteUser = (id) => async (dispatch, getState) => {
 
 	try {
 		if (window.confirm("Are You SURE?")) {
-			await axios.delete(`/users/${id}`, config);
+			await axiosInstance.delete(`/users/${id}`, config);
 			dispatch(adminDeleteUserSuccess(id));
 		}
 	} catch (err) {
@@ -179,7 +179,7 @@ export const adminGetProducts = () => async (dispatch, getState) => {
 	dispatch(getProductsRequest());
 
 	try {
-		const res = await axios.get("/products", config);
+		const res = await axiosInstance.get("/products", config);
 		dispatch(getProductsSuccess(res.data));
 	} catch (err) {
 		dispatch(getProductsFail());
@@ -200,7 +200,7 @@ export const adminCreateProduct = (data) => async (dispatch, getState) => {
 	dispatch(createProductRequest());
 
 	try {
-		const res = await axios.post("/products", data, config);
+		const res = await axiosInstance.post("/products", data, config);
 		dispatch(createProductSuccess(res.data));
 	} catch (err) {
 		dispatch(createProductFail());
@@ -220,7 +220,7 @@ export const updateProduct = (id, product) => async (dispatch, getState) => {
 
 	dispatch(updateProductRequest());
 	try {
-		const res = await axios.put(`/products/${id}`, product, config);
+		const res = await axiosInstance.put(`/products/${id}`, product, config);
 		dispatch(updateProductSuccess({ product: res.data }));
 	} catch (err) {
 		dispatch(updateProductFail());
@@ -241,7 +241,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 
 	try {
 		if (window.confirm("Are You Sure?")) {
-			await axios.delete(`/products/${id}`, config);
+			await axiosInstance.delete(`/products/${id}`, config);
 
 			dispatch(deleteProductSuccess());
 		}
@@ -263,7 +263,7 @@ export const getUserStats = () => async (dispatch, getState) => {
 	dispatch(userStatsRequest());
 
 	try {
-		const res = await axios.get("/users/stats", config);
+		const res = await axiosInstance.get("/users/stats", config);
 		dispatch(userStatsSuccess(res.data));
 	} catch (err) {
 		dispatch(userStatsFail());

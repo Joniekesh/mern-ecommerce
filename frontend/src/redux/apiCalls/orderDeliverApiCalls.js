@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../utils/config";
 
 import {
 	orderDeliverRequest,
@@ -19,7 +19,7 @@ export const deliverOrder = (id, order) => async (dispatch, getState) => {
 	dispatch(orderDeliverRequest());
 
 	try {
-		const res = await axios.put(`/orders/${id}/deliver`, order, config);
+		const res = await axiosInstance.put(`/orders/${id}/deliver`, order, config);
 		dispatch(orderDeliverSuccess(res.data));
 	} catch (err) {
 		dispatch(orderDeliverFail());

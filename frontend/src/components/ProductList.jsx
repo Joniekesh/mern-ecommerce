@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import ProductListItem from "./ProductListItem";
 import axios from "axios";
+import { axiosInstance } from "../utils/config";
 
 const Container = styled.div`
 	margin: 20px 0px;
@@ -43,7 +44,9 @@ const ProductList = ({ home, cat, filters, sorting }) => {
 	useEffect(() => {
 		const getProducts = async () => {
 			try {
-				const res = await axios.get(cat ? `/products?cat=${cat}` : "/products");
+				const res = await axiosInstance.get(
+					cat ? `/products?cat=${cat}` : "/products"
+				);
 				setProducts(res.data);
 			} catch (error) {}
 		};

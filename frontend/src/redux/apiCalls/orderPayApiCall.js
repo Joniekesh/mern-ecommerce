@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../utils/config";
 import {
 	orderPayRequest,
 	orderPaySuccess,
@@ -19,7 +19,7 @@ export const payOrder =
 		dispatch(orderPayRequest());
 
 		try {
-			const res = await axios.put(
+			const res = await axiosInstance.put(
 				`/orders/${orderId}/pay`,
 				paymentResult,
 				config

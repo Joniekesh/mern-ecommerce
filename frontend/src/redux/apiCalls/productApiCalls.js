@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../utils/config";
 import {
 	getProductsRequest,
 	getProductsSuccess,
@@ -15,7 +15,7 @@ export const getProducts = () => async (dispatch) => {
 	dispatch(getProductsRequest());
 
 	try {
-		const res = await axios.get("/products");
+		const res = await axiosInstance.get("/products");
 
 		dispatch(getProductsSuccess(res.data));
 	} catch (err) {
@@ -26,7 +26,7 @@ export const getProductById = (id) => async (dispatch) => {
 	dispatch(getProductRequest());
 
 	try {
-		const res = await axios.get(`/products/${id}`);
+		const res = await axiosInstance.get(`/products/${id}`);
 
 		dispatch(getProductSuccess(res.data));
 	} catch (err) {
@@ -47,7 +47,11 @@ export const addReview = (id, data) => async (dispatch, getState) => {
 	dispatch(addReviewRequest());
 
 	try {
-		const res = await axios.post(`/products/${id}/reviews`, data, config);
+		const res = await axiosInstance.post(
+			`/products/${id}/reviews`,
+			data,
+			config
+		);
 		dispatch(addReviewSuccess(res.data));
 	} catch (err) {
 		dispatch(addReviewFail());

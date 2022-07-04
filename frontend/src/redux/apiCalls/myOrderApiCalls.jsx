@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../utils/config";
 import {
 	myOrdersRequest,
 	myOrdersSuccess,
@@ -20,7 +20,7 @@ export const getMyOrders = () => async (dispatch, getState) => {
 	dispatch(myOrdersRequest());
 
 	try {
-		const res = await axios.get("/orders/my", config);
+		const res = await axiosInstance.get("/orders/my", config);
 		dispatch(myOrdersSuccess(res.data));
 	} catch (err) {
 		dispatch(myOrdersFail());
@@ -39,7 +39,7 @@ export const getOrderById = (id) => async (dispatch, getState) => {
 	dispatch(getOrderDetailsRequest());
 
 	try {
-		const res = await axios.get(`/orders/${id}`, config);
+		const res = await axiosInstance.get(`/orders/${id}`, config);
 		dispatch(getOrderDetailsSuccess(res.data));
 	} catch (err) {
 		dispatch(getOrderDetailsFail());

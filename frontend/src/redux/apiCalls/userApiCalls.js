@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../utils/config";
 import { toast } from "react-toastify";
 import {
 	getCurrentUserRequest,
@@ -31,7 +31,7 @@ export const getCurrentUser = () => async (dispatch, getState) => {
 	};
 
 	try {
-		const res = await axios.get("/users/profile", config);
+		const res = await axiosInstance.get("/users/profile", config);
 
 		dispatch(getCurrentUserSuccess(res.data));
 	} catch (err) {
@@ -52,7 +52,7 @@ export const updateLoggedInMyProfile =
 		};
 
 		try {
-			const res = await axios.put("/users/profile", userData, config);
+			const res = await axiosInstance.put("/users/profile", userData, config);
 
 			dispatch(userProfileUpdateSuccess(res.data));
 		} catch (err) {
@@ -70,7 +70,7 @@ export const registerUser = (user) => async (dispatch) => {
 	};
 
 	try {
-		const res = await axios.post("/users", user, config);
+		const res = await axiosInstance.post("/users", user, config);
 		dispatch(userRegisterSuccess(res.data));
 		dispatch(getCurrentUser());
 
@@ -90,7 +90,7 @@ export const loginUser = (user) => async (dispatch) => {
 	};
 
 	try {
-		const res = await axios.post("/users/login", user, config);
+		const res = await axiosInstance.post("/users/login", user, config);
 		dispatch(userloginSuccess(res.data));
 		dispatch(getCurrentUser());
 		toast.success("User login Success", { theme: "colored" });
