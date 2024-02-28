@@ -8,51 +8,81 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux/apiCalls/categoryApiCalls";
 import { getProducts } from "../redux/apiCalls/productApiCalls";
 import { mobile } from "../responsive";
+import axios from "axios";
 // import TopRatedProducts from "../components/TopRatedProducts";
 
 const HomeDiv = styled.div`
-	overflow-x: hidden;
+  overflow-x: hidden;
 `;
 
 const Container = styled.div`
-	max-width: 1200px;
-	overflow: hidden;
-	margin: auto;
-	margin-top: 7rem;
-	padding: 0 2rem;
-	${mobile({
-		padding: "2px",
-		width: "100%",
-	})}
+  max-width: 1200px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 7rem;
+  padding: 0 2rem;
+  ${mobile({
+    padding: "2px",
+    width: "100%",
+  })}
 `;
 const Home = () => {
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	const category = useSelector((state) => state.category);
-	const { category: currentCategory, isLoading } = category;
+  const category = useSelector((state) => state.category);
+  const { category: currentCategory, isLoading } = category;
 
-	const product = useSelector((state) => state.product);
-	const { products, isLoadingProducts } = product;
+  const user = useSelector((state) => state.user);
 
-	useEffect(() => {
-		dispatch(getCategories());
-	}, [dispatch]);
+  const token = user?.token;
+  const product = useSelector((state) => state.product);
+  const { products, isLoadingProducts } = product;
 
-	useEffect(() => {
-		dispatch(getProducts());
-	}, [dispatch]);
+  // console.log(products);
 
-	return (
-		<HomeDiv>
-			<Container>
-				{/* <TopRatedProducts /> */}
-				<CategoryList categories={currentCategory} isLoading={isLoading} />
-				<ProductList home products={products} isLoading={isLoadingProducts} />
-			</Container>
-			<NewsLetter />
-			<Footer />
-		</HomeDiv>
-	);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  useEffect(() => {
+    const fetchCat = async () => {
+      const res = await axios.get(
+        "http://localhost:5000/api/categories",
+        config
+      );
+      // const profile = await axios.get(
+      //   "http://localhost:5000/api/users/profile"
+      // );
+
+      console.log(res.data);
+      // console.log(profile.data);
+    };
+
+    fetchCat();
+  }, [config]);
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
+  return (
+    <HomeDiv>
+      <Container>
+        {/* <TopRatedProducts /> */}
+        <CategoryList categories={currentCategory} isLoading={isLoading} />
+        <ProductList home products={products} isLoading={isLoadingProducts} />
+      </Container>
+      <NewsLetter />
+      <Footer />
+    </HomeDiv>
+  );
 };
 
 export default Home;
