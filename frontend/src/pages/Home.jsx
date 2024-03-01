@@ -9,6 +9,7 @@ import { getCategories } from "../redux/apiCalls/categoryApiCalls";
 import { getProducts } from "../redux/apiCalls/productApiCalls";
 import { mobile } from "../responsive";
 import axios from "axios";
+import { axiosInstance } from "../utils/config";
 // import TopRatedProducts from "../components/TopRatedProducts";
 
 const HomeDiv = styled.div`
@@ -40,29 +41,25 @@ const Home = () => {
 
   // console.log(products);
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  };
+  // const config = {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //     "Content-Type": "application/json",
+  //   },
+  // };
+  // useEffect(() => {
+  //   const fetchCat = async () => {
+  //     const res = await axiosInstance.get("/categories", config);
+  //     // const profile = await axios.get(
+  //     //   "http://localhost:5000/api/users/profile"
+  //     // );
 
-  useEffect(() => {
-    const fetchCat = async () => {
-      const res = await axios.get(
-        "http://localhost:5000/api/categories",
-        config
-      );
-      // const profile = await axios.get(
-      //   "http://localhost:5000/api/users/profile"
-      // );
+  //     console.log(res.data);
+  //     // console.log(profile.data);
+  //   };
 
-      console.log(res.data);
-      // console.log(profile.data);
-    };
-
-    fetchCat();
-  }, [config]);
+  //   fetchCat();
+  // }, []);
 
   useEffect(() => {
     dispatch(getCategories());
