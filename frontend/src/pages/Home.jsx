@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux/apiCalls/categoryApiCalls";
 import { getProducts } from "../redux/apiCalls/productApiCalls";
 import { mobile } from "../responsive";
-import axios from "axios";
-import { axiosInstance } from "../utils/config";
 // import TopRatedProducts from "../components/TopRatedProducts";
 
 const HomeDiv = styled.div`
