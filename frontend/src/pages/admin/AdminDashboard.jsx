@@ -12,6 +12,151 @@ import Chart from "../../components/admin/Chart";
 import Loader from "../../components/Loader";
 import { adminGetAllOrders } from "../../redux/adminRedux/adminApiCalls";
 import axios from "axios";
+import { Table } from "antd";
+
+const Container = styled.div`
+  max-width: 1200px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 7rem;
+  display: flex;
+  padding: 0 1rem 0 0;
+`;
+
+const LeftContainer = styled.div`
+  flex: 1.5;
+  -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  background-color: white;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 10;
+  overflow: hidden;
+`;
+const RightContainer = styled.div`
+  flex: 10;
+  overflow: hidden;
+
+  // margin-left: 205px;//
+`;
+
+const DashboarCenter = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+`;
+
+const Left = styled.div`
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+`;
+
+const Desc = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+`;
+
+const DescTitle = styled.h4`
+  font-weight: 500;
+  color: gray;
+`;
+
+const DescIcon = styled.span``;
+
+const BottomDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ProgressBar = styled.div`
+  width: 100px;
+  height: 100px;
+  margin: 10px 0;
+`;
+
+const BottomTitle = styled.p`
+  font-size: 18px;
+  font-weight: 500;
+  color: gray;
+`;
+
+const Amount = styled.h1`
+  margin: 20px 0;
+`;
+
+const SalesDesc = styled.span`
+  text-align: center;
+  color: gray;
+  font-size: 14px;
+`;
+
+const TargetContainer = styled.div`
+  display: flex;
+  margin: 20px 0;
+`;
+
+const Target = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 30px;
+  text-align: center;
+`;
+
+const TargetTitle = styled.p`
+  font-weight: 500;
+  color: gray;
+  margin-bottom: 16px;
+`;
+
+const TargetDescDiv = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+`;
+
+const TargetIcon = styled.span`
+  margin-right: 5px;
+`;
+const TargetAmount = styled.p``;
+
+const Right = styled.div`
+  flex: 3;
+  -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+`;
+
+const DashboardBottom = styled.div`
+  overflow-x: auto;
+  -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  background-color: white;
+  padding: 10px;
+  height: fit-content;
+  width: 100%;
+`;
+
+const OrderTitle = styled.h2`
+  color: gray;
+  font-weight: 500;
+`;
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState([]);
@@ -75,199 +220,114 @@ const AdminDashboard = () => {
   const adminOrder = useSelector((state) => state.adminOrder);
   const { orders, isLoading, error } = adminOrder;
 
+  const filteredOrders = orders.map((order) => {
+    return {
+      _id: order._id,
+      name: order.user.name,
+      email: order.user.email,
+      createdAt: order.createdAt,
+      totalPrice: order.totalPrice,
+      isPaid: order.isPaid,
+      isDelivered: order.isDelivered,
+    };
+  });
+
   useEffect(() => {
     dispatch(adminGetAllOrders());
   }, [dispatch]);
 
-  const Container = styled.div`
-    max-width: 1200px;
-    overflow: hidden;
-    margin: auto;
-    margin-top: 7rem;
-    display: flex;
-    padding: 0 1rem 0 0;
-  `;
-
-  const LeftContainer = styled.div`
-    flex: 1.5;
-    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    background-color: white;
-    padding: 10px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    z-index: 10;
-    overflow: hidden;
-  `;
-  const RightContainer = styled.div`
-    flex: 10;
-    overflow: hidden;
-
-    // margin-left: 205px;//
-  `;
-
-  const DashboarCenter = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 16px 0;
-  `;
-
-  const Left = styled.div`
-    flex: 1.5;
-    display: flex;
-    flex-direction: column;
-    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-  `;
-
-  const Desc = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  `;
-
-  const DescTitle = styled.h4`
-    font-weight: 500;
-    color: gray;
-  `;
-
-  const DescIcon = styled.span``;
-
-  const BottomDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  const ProgressBar = styled.div`
-    width: 100px;
-    height: 100px;
-    margin: 10px 0;
-  `;
-
-  const BottomTitle = styled.p`
-    font-size: 18px;
-    font-weight: 500;
-    color: gray;
-  `;
-
-  const Amount = styled.h1`
-    margin: 20px 0;
-  `;
-
-  const SalesDesc = styled.span`
-    text-align: center;
-    color: gray;
-    font-size: 14px;
-  `;
-
-  const TargetContainer = styled.div`
-    display: flex;
-    margin: 20px 0;
-  `;
-
-  const Target = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 30px;
-    text-align: center;
-  `;
-
-  const TargetTitle = styled.p`
-    font-weight: 500;
-    color: gray;
-    margin-bottom: 16px;
-  `;
-
-  const TargetDescDiv = styled.div`
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-  `;
-
-  const TargetIcon = styled.span`
-    margin-right: 5px;
-  `;
-  const TargetAmount = styled.p``;
-
-  const Right = styled.div`
-    flex: 3;
-    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-  `;
-
-  const DashboardBottom = styled.div`
-    overflow-x: auto;
-    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    background-color: white;
-    padding: 10px;
-    height: fit-content;
-    width: 100%;
-  `;
-
-  const OrderTitle = styled.h2`
-    color: gray;
-    font-weight: 500;
-  `;
-
-  const TableDiv = styled.table`
-    overflow-x: auto;
-    width: 100%;
-  `;
-
-  const Table = styled.table`
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    border: 1px solid #ddd;
-  `;
-
-  const TableHead = styled.thead``;
-  const TableBody = styled.tbody``;
-
-  const TableRow = styled.tr`
-    &:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    &:hover {
-      background-color: orange;
-    }
-  `;
-  const TableHeading = styled.th`
-    text-align: left;
-    padding: 8px;
-  `;
-
-  const TableData = styled.td`
-    text-align: left;
-    padding: 8px;
-  `;
-
-  const Button = styled.button`
-    padding: 5px 8px;
-    cursor: pointer;
-    border: none;
-    background-color: #08173b;
-    color: white;
-    border-radius: 3px;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "_id",
+      key: "_id",
+    },
+    {
+      title: "NAME",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "EMAIL",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "DATE",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => <span>{new Date(text).toDateString()}</span>,
+    },
+    {
+      title: "TOTAL",
+      dataIndex: "totalPrice",
+      key: "totalPrice",
+    },
+    {
+      title: "PAID",
+      dataIndex: "isPaid",
+      key: "isPaid",
+      render: (_, record) =>
+        record.isPaid ? (
+          <span
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            PAID
+          </span>
+        ) : (
+          <span
+            style={{
+              backgroundColor: "crimson",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            NOT PAID
+          </span>
+        ),
+    },
+    {
+      title: "DELIVERED",
+      dataIndex: "isDelivered",
+      key: "isDelivered",
+      render: (_, record) =>
+        record.isDelivered ? (
+          <span
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            DELIVERED
+          </span>
+        ) : (
+          <span
+            style={{
+              backgroundColor: "crimson",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            NOT DELIVERED
+          </span>
+        ),
+    },
+    {
+      title: "ACTION",
+      dataIndex: "action",
+      key: "action",
+      render: (_, record) => <Link to={`/order/${record._id}`}>View</Link>,
+    },
+  ];
 
   return (
     <>
@@ -349,92 +409,7 @@ const AdminDashboard = () => {
                 {orders.length === 0 ? (
                   <h4>No orders to show</h4>
                 ) : (
-                  <TableDiv>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableHeading>ORDER ID</TableHeading>
-                          <TableHeading>NAME</TableHeading>
-                          <TableHeading>EMAIL</TableHeading>
-                          <TableHeading>DATE</TableHeading>
-                          <TableHeading>TOTAL</TableHeading>
-                          <TableHeading>PAID</TableHeading>
-                          <TableHeading>DELIVERED</TableHeading>
-                          <TableHeading></TableHeading>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {orders.map((order) => (
-                          <TableRow key={order._id}>
-                            <TableData>{order._id}</TableData>
-                            <TableData>{order.user?.name}</TableData>
-                            <TableData>{order.user?.email}</TableData>
-                            <TableData>
-                              {new Date(order.createdAt).toDateString()}
-                            </TableData>
-                            <TableData>$ {order.totalPrice}</TableData>
-                            <TableData>
-                              {order.isPaid ? (
-                                <p
-                                  style={{
-                                    backgroundColor: "green",
-                                    color: "white",
-                                    padding: "5px",
-                                    borderRadius: "3px",
-                                  }}
-                                >
-                                  {new Date(order.paidAt).toLocaleDateString()}
-                                </p>
-                              ) : (
-                                <p
-                                  style={{
-                                    backgroundColor: "crimson",
-                                    color: "white",
-                                    padding: "5px",
-                                    borderRadius: "3px",
-                                  }}
-                                >
-                                  Not Paid
-                                </p>
-                              )}
-                            </TableData>
-                            <TableData>
-                              {order.isDelivered ? (
-                                <p
-                                  style={{
-                                    backgroundColor: "green",
-                                    color: "white",
-                                    padding: "5px",
-                                    borderRadius: "3px",
-                                  }}
-                                >
-                                  {new Date(
-                                    order.deliveredAt
-                                  ).toLocaleDateString()}
-                                </p>
-                              ) : (
-                                <p
-                                  style={{
-                                    backgroundColor: "crimson",
-                                    color: "white",
-                                    padding: "5px",
-                                    borderRadius: "3px",
-                                  }}
-                                >
-                                  Not Delivered
-                                </p>
-                              )}
-                            </TableData>
-                            <TableData>
-                              <Link to={`/order/${order._id}`}>
-                                <Button>View</Button>
-                              </Link>
-                            </TableData>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableDiv>
+                  <Table dataSource={filteredOrders} columns={columns} />
                 )}
               </>
             )}

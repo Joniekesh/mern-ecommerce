@@ -10,6 +10,7 @@ import {
 } from "../../redux/adminRedux/adminApiCalls";
 import { useEffect } from "react";
 import Loader from "../../components/Loader";
+import { Table } from "antd";
 
 const Container = styled.div`
   max-width: 1200px;
@@ -68,74 +69,6 @@ const AddUser = styled.button`
 
 const Title = styled.h2``;
 
-const TableDiv = styled.table`
-  width: 100%;
-`;
-
-const Table = styled.table`
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-`;
-
-const TableHead = styled.thead``;
-const TableBody = styled.tbody``;
-
-const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  &:hover {
-    background-color: orange;
-  }
-`;
-
-const UserContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const UserImage = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 8px;
-`;
-const UserName = styled.p``;
-
-const TableHeading = styled.th`
-  text-align: left;
-  padding: 8px;
-`;
-
-const TableData = styled.td`
-  text-align: left;
-  padding: 8px;
-`;
-
-const ActionDiv = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const View = styled.p`
-  cursor: pointer;
-  margin-right: 8px;
-  color: green;
-  background-color: #00800078;
-  padding: 5px;
-  border-radius: 4px;
-`;
-
-const Delete = styled.p`
-  cursor: pointer;
-  color: crimson;
-  background-color: #dc143c7b;
-  padding: 5px;
-  border-radius: 4px;
-`;
-
 const Products = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -143,6 +76,16 @@ const Products = () => {
   const user = useSelector((state) => state.user.currentUser);
   const adminProduct = useSelector((state) => state.adminProduct);
   const { products, isLoading } = adminProduct;
+
+  const filteredProducts = products.map((product) => {
+    return {
+      _id: product._id,
+      product: product.name,
+      image: product.image,
+      countInStock: product.countInStock,
+      price: product.price,
+    };
+  });
 
   if (!user.isAdmin) {
     toast.error("You are not authorized to access this route", {
@@ -158,6 +101,77 @@ const Products = () => {
   const handleDelete = (id) => {
     dispatch(deleteProduct(id));
   };
+
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "_id",
+      key: "_id",
+    },
+    {
+      title: "PRODUCT",
+      dataIndex: "product",
+      key: "product",
+      render: (_, record) => (
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <img
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+            src={record.image}
+            alt=""
+          />
+          <span>{record.product}</span>
+        </div>
+      ),
+    },
+    {
+      title: "STOCK",
+      dataIndex: "countInStock",
+      key: "countInStock",
+    },
+    {
+      title: "PRICE",
+      dataIndex: "price",
+      key: "price",
+    },
+
+    {
+      title: "ACTION",
+      dataIndex: "action",
+      key: "action",
+      render: (_, record) => (
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <button
+            style={{
+              padding: "5px",
+              cursor: "pointer",
+              color: "green",
+              background: "#00800078",
+              border: "none",
+            }}
+          >
+            <Link to={`/admin/products/${record._id}`}>View</Link>
+          </button>
+          <button
+            style={{
+              padding: "5px",
+              cursor: "pointer",
+              color: "crimson",
+              background: "#dc143c7b",
+              border: "none",
+            }}
+            onClick={() => handleDelete(record._id)}
+          >
+            Delete
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <Container>
@@ -179,45 +193,7 @@ const Products = () => {
           {products.length === 0 ? (
             <h4>No products to show</h4>
           ) : (
-            <TableDiv>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableHeading>ID</TableHeading>
-                    <TableHeading>PRODUCT</TableHeading>
-                    <TableHeading>STOCK</TableHeading>
-                    <TableHeading>PRICE</TableHeading>
-                    <TableHeading>ACTION</TableHeading>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {products.map((product) => (
-                    <TableRow key={product._id}>
-                      <TableData>{product._id.slice(0, 10)}...</TableData>
-                      <TableData>
-                        <UserContainer>
-                          <UserImage src={product.image} />
-                          <UserName>{product.name}</UserName>
-                        </UserContainer>
-                      </TableData>
-                      <TableData>{product.countInStock}</TableData>
-
-                      <TableData>$ {product.price}</TableData>
-                      <TableData>
-                        <ActionDiv>
-                          <Link to={`/admin/products/${product._id}`}>
-                            <View>View</View>
-                          </Link>
-                          <Delete onClick={() => handleDelete(product._id)}>
-                            Delete
-                          </Delete>
-                        </ActionDiv>
-                      </TableData>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableDiv>
+            <Table dataSource={filteredProducts} columns={columns} />
           )}
         </RightContainer>
       )}

@@ -7,14 +7,13 @@ import productRoutes from "./route/productRoutes.js";
 import categoryRoutes from "./route/cateGoryRoutes.js";
 import orderRoutes from "./route/orderRoutes.js";
 import cors from "cors";
-import path from "path";
 
 // Connect to DB
 connectDB();
 
 const app = express();
 
-app.use(cors({ orgin: "http://localhost:5173" }));
+app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);

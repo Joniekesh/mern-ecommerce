@@ -12,7 +12,7 @@ import { getMyOrders } from "../redux/apiCalls/myOrderApiCalls";
 import NewsLetter from "../components/NewsLetter";
 import Footer from "../components/Footer";
 import { mobile } from "../responsive";
-// import { Table } from "antd";
+import { Table } from "antd";
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -201,48 +201,6 @@ const ProfileBottom = styled.div`
   overflow-x: auto;
 `;
 
-const TableDiv = styled.table`
-  width: 100%;
-`;
-
-const Table = styled.table`
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-`;
-
-const TableHead = styled.thead``;
-const TableBody = styled.tbody``;
-
-const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  &:hover {
-    background-color: orange;
-  }
-`;
-const TableHeading = styled.th`
-  text-align: left;
-  padding: 8px;
-`;
-
-const TableData = styled.td`
-  text-align: left;
-  padding: 8px;
-`;
-
-const Button = styled.button`
-  padding: 5px 8px;
-  cursor: pointer;
-  border: none;
-  background-color: #08173b;
-  color: white;
-  border-radius: 3px;
-  letter-spacing: 1px;
-`;
-
 const Profile = () => {
   const user = useSelector((state) => state.user.currentUser);
 
@@ -297,8 +255,6 @@ const Profile = () => {
     };
   });
 
-  //   console.log(filteredOrders);
-
   useEffect(() => {
     dispatch(getCurrentUser());
   }, [dispatch]);
@@ -327,12 +283,13 @@ const Profile = () => {
     {
       title: "ID",
       dataIndex: "_id",
-      key: "id",
+      key: "_id",
     },
     {
       title: "DATE",
       dataIndex: "date",
       key: "date",
+      render: (record) => <span>{new Date(record).toDateString()}</span>,
     },
     {
       title: "TOTAL",
@@ -343,16 +300,65 @@ const Profile = () => {
       title: "STATUS",
       dataIndex: "isPaid",
       key: "isPaid",
+      render: (_, record) =>
+        record.isPaid ? (
+          <span
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            PAID
+          </span>
+        ) : (
+          <span
+            style={{
+              backgroundColor: "crimson",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            NOT PAID
+          </span>
+        ),
     },
     {
       title: "DELIVERED",
       dataIndex: "isDelivered",
       key: "isDelivered",
+      render: (_, record) =>
+        record.isDelivered ? (
+          <span
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            DELIVERED
+          </span>
+        ) : (
+          <span
+            style={{
+              backgroundColor: "crimson",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            NOT DELIVERED
+          </span>
+        ),
     },
     {
       title: "ACTION",
       dataIndex: "action",
       key: "action",
+      render: (_, record) => <Link to={`/order/${record._id}`}>View</Link>,
     },
   ];
 
@@ -517,89 +523,89 @@ const Profile = () => {
                 {orders.length === 0 ? (
                   <h4>No order to show</h4>
                 ) : (
-                  //   <Table dataSource={filteredOrders} columns={columns} />
-                  <TableDiv>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableHeading>ID</TableHeading>
-                          <TableHeading>DATE</TableHeading>
-                          <TableHeading>TOTAL</TableHeading>
-                          <TableHeading>PAID</TableHeading>
-                          <TableHeading>DELIVERED</TableHeading>
-                          <TableHeading></TableHeading>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {orders.map((order) => (
-                          <TableRow key={order._id}>
-                            <TableData>{order._id}</TableData>
-                            <TableData>
-                              {new Date(order.createdAt).toDateString()}
-                            </TableData>
-                            <TableData>$ {order.totalPrice}</TableData>
-                            <TableData>
-                              {order.isPaid ? (
-                                <p
-                                  style={{
-                                    backgroundColor: "green",
-                                    color: "white",
-                                    padding: "5px",
-                                    borderRadius: "3px",
-                                  }}
-                                >
-                                  {new Date(order.paidAt).toLocaleDateString()}
-                                </p>
-                              ) : (
-                                <p
-                                  style={{
-                                    backgroundColor: "crimson",
-                                    color: "white",
-                                    padding: "5px",
-                                    borderRadius: "3px",
-                                  }}
-                                >
-                                  Not Paid
-                                </p>
-                              )}
-                            </TableData>
-                            <TableData>
-                              {order.isDelivered ? (
-                                <p
-                                  style={{
-                                    backgroundColor: "green",
-                                    color: "white",
-                                    padding: "5px",
-                                    borderRadius: "3px",
-                                  }}
-                                >
-                                  {new Date(
-                                    order.deliveredAt
-                                  ).toLocaleDateString()}
-                                </p>
-                              ) : (
-                                <p
-                                  style={{
-                                    backgroundColor: "crimson",
-                                    color: "white",
-                                    padding: "5px",
-                                    borderRadius: "3px",
-                                  }}
-                                >
-                                  Not Delivered
-                                </p>
-                              )}
-                            </TableData>
-                            <TableData>
-                              <Link to={`/order/${order._id}`}>
-                                <Button>View</Button>
-                              </Link>
-                            </TableData>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableDiv>
+                  <Table dataSource={filteredOrders} columns={columns} />
+                  // <TableDiv>
+                  //   <Table>
+                  //     <TableHead>
+                  //       <TableRow>
+                  //         <TableHeading>ID</TableHeading>
+                  //         <TableHeading>DATE</TableHeading>
+                  //         <TableHeading>TOTAL</TableHeading>
+                  //         <TableHeading>PAID</TableHeading>
+                  //         <TableHeading>DELIVERED</TableHeading>
+                  //         <TableHeading></TableHeading>
+                  //       </TableRow>
+                  //     </TableHead>
+                  //     <TableBody>
+                  //       {orders.map((order) => (
+                  //         <TableRow key={order._id}>
+                  //           <TableData>{order._id}</TableData>
+                  //           <TableData>
+                  //             {new Date(order.createdAt).toDateString()}
+                  //           </TableData>
+                  //           <TableData>$ {order.totalPrice}</TableData>
+                  //           <TableData>
+                  //             {order.isPaid ? (
+                  //               <p
+                  //                 style={{
+                  //                   backgroundColor: "green",
+                  //                   color: "white",
+                  //                   padding: "5px",
+                  //                   borderRadius: "3px",
+                  //                 }}
+                  //               >
+                  //                 {new Date(order.paidAt).toLocaleDateString()}
+                  //               </p>
+                  //             ) : (
+                  //               <p
+                  //                 style={{
+                  //                   backgroundColor: "crimson",
+                  //                   color: "white",
+                  //                   padding: "5px",
+                  //                   borderRadius: "3px",
+                  //                 }}
+                  //               >
+                  //                 Not Paid
+                  //               </p>
+                  //             )}
+                  //           </TableData>
+                  //           <TableData>
+                  //             {order.isDelivered ? (
+                  //               <p
+                  //                 style={{
+                  //                   backgroundColor: "green",
+                  //                   color: "white",
+                  //                   padding: "5px",
+                  //                   borderRadius: "3px",
+                  //                 }}
+                  //               >
+                  //                 {new Date(
+                  //                   order.deliveredAt
+                  //                 ).toLocaleDateString()}
+                  //               </p>
+                  //             ) : (
+                  //               <p
+                  //                 style={{
+                  //                   backgroundColor: "crimson",
+                  //                   color: "white",
+                  //                   padding: "5px",
+                  //                   borderRadius: "3px",
+                  //                 }}
+                  //               >
+                  //                 Not Delivered
+                  //               </p>
+                  //             )}
+                  //           </TableData>
+                  //           <TableData>
+                  //             <Link to={`/order/${order._id}`}>
+                  //               <Button>View</Button>
+                  //             </Link>
+                  //           </TableData>
+                  //         </TableRow>
+                  //       ))}
+                  //     </TableBody>
+                  //   </Table>
+                  // </TableDiv>
                 )}
               </>
             )}

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import SideBar from "../../components/admin/SideBar";
 import Loader from "../../components/Loader";
+import { Table } from "antd";
 
 const Container = styled.div`
   max-width: 1200px;
@@ -60,52 +61,6 @@ const Icon = styled.span`
 
 const Title = styled.h2``;
 
-const TableDiv = styled.table`
-  overflow-x: auto;
-  width: 100%;
-`;
-
-const Table = styled.table`
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-`;
-
-const TableHead = styled.thead``;
-const TableBody = styled.tbody``;
-
-const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  &:hover {
-    background-color: orange;
-  }
-`;
-const TableHeading = styled.th`
-  text-align: left;
-  padding: 8px;
-`;
-
-const TableData = styled.td`
-  text-align: left;
-  padding: 8px;
-`;
-
-const Button = styled.button`
-  padding: 5px 8px;
-  cursor: pointer;
-  border: none;
-  background-color: #08173b;
-  color: white;
-  border-radius: 3px;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const Orders = () => {
   const history = useHistory();
 
@@ -114,12 +69,118 @@ const Orders = () => {
   const adminOrder = useSelector((state) => state.adminOrder);
   const { orders, isLoading, error } = adminOrder;
 
+  const filteredOrders = orders.map((order) => {
+    return {
+      _id: order._id,
+      name: order.user.name,
+      email: order.user.email,
+      createdAt: order.createdAt,
+      totalPrice: order.totalPrice,
+      isPaid: order.isPaid,
+      isDelivered: order.isDelivered,
+    };
+  });
+
   if (!user.isAdmin) {
     toast.error("You are not authorized to access this route", {
       theme: "colored",
     });
     history.push("/");
   }
+
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "_id",
+      key: "_id",
+      render: (text) => <span>{text.slice(0, 10)}...</span>,
+    },
+    {
+      title: "NAME",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "EMAIL",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "DATE",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => <span>{new Date(text).toDateString()}</span>,
+    },
+    {
+      title: "TOTAL",
+      dataIndex: "totalPrice",
+      key: "totalPrice",
+    },
+    {
+      title: "PAID",
+      dataIndex: "isPaid",
+      key: "isPaid",
+      render: (_, record) =>
+        record.isPaid ? (
+          <span
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            PAID
+          </span>
+        ) : (
+          <span
+            style={{
+              backgroundColor: "crimson",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            NOT PAID
+          </span>
+        ),
+    },
+    {
+      title: "DELIVERED",
+      dataIndex: "isDelivered",
+      key: "isDelivered",
+      render: (_, record) =>
+        record.isDelivered ? (
+          <span
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            DELIVERED
+          </span>
+        ) : (
+          <span
+            style={{
+              backgroundColor: "crimson",
+              color: "white",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+          >
+            NOT DELIVERED
+          </span>
+        ),
+    },
+    {
+      title: "ACTION",
+      dataIndex: "action",
+      key: "action",
+      render: (_, record) => <Link to={`/order/${record._id}`}>View</Link>,
+    },
+  ];
 
   return (
     <Container>
@@ -143,90 +204,7 @@ const Orders = () => {
             {orders.length === 0 ? (
               <h4>No order to show</h4>
             ) : (
-              <TableDiv>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableHeading>ORDER ID</TableHeading>
-                      <TableHeading>NAME</TableHeading>
-                      <TableHeading>EMAIL</TableHeading>
-                      <TableHeading>DATE</TableHeading>
-                      <TableHeading>TOTAL</TableHeading>
-                      <TableHeading>PAID</TableHeading>
-                      <TableHeading>DELIVERED</TableHeading>
-                      <TableHeading></TableHeading>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {orders.map((order) => (
-                      <TableRow key={order._id}>
-                        <TableData>{order._id}</TableData>
-                        <TableData>{order.user?.name}</TableData>
-                        <TableData>{order.user?.email}</TableData>
-                        <TableData>
-                          {new Date(order.createdAt).toDateString()}
-                        </TableData>
-                        <TableData>$ {order.totalPrice}</TableData>
-                        <TableData>
-                          {order.isPaid ? (
-                            <p
-                              style={{
-                                backgroundColor: "green",
-                                color: "white",
-                                padding: "5px",
-                                borderRadius: "3px",
-                              }}
-                            >
-                              {new Date(order.paidAt).toLocaleDateString()}
-                            </p>
-                          ) : (
-                            <p
-                              style={{
-                                backgroundColor: "crimson",
-                                color: "white",
-                                padding: "5px",
-                                borderRadius: "3px",
-                              }}
-                            >
-                              Not Paid
-                            </p>
-                          )}
-                        </TableData>
-                        <TableData>
-                          {order.isDelivered ? (
-                            <p
-                              style={{
-                                backgroundColor: "green",
-                                color: "white",
-                                padding: "5px",
-                                borderRadius: "3px",
-                              }}
-                            >
-                              {new Date(order.deliveredAt).toLocaleDateString()}
-                            </p>
-                          ) : (
-                            <p
-                              style={{
-                                backgroundColor: "crimson",
-                                color: "white",
-                                padding: "5px",
-                                borderRadius: "3px",
-                              }}
-                            >
-                              Not Delivered
-                            </p>
-                          )}
-                        </TableData>
-                        <Link to={`/order/${order._id}`}>
-                          <TableData>
-                            <Button>View</Button>
-                          </TableData>
-                        </Link>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableDiv>
+              <Table dataSource={filteredOrders} columns={columns} />
             )}
           </>
         )}
