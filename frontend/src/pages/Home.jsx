@@ -31,9 +31,6 @@ const Home = () => {
   const category = useSelector((state) => state.category);
   const { category: currentCategory, isLoading } = category;
 
-  const user = useSelector((state) => state.user.currentUser);
-
-  const token = user?.token;
   const product = useSelector((state) => state.product);
   const { products, isLoadingProducts } = product;
 

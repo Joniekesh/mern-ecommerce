@@ -5,7 +5,6 @@ import {
   Switch,
   Route,
   Redirect,
-  useHistory,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";

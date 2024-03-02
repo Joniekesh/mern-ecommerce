@@ -274,9 +274,6 @@ const Product = () => {
   const product = useSelector((state) => state.product);
   const { product: singleProduct, isLoading } = product;
 
-  const myOrder = useSelector((state) => state.myOrder);
-  const { orders } = myOrder;
-
   useEffect(() => {
     id && dispatch(getProductById(id));
   }, [dispatch, id]);
