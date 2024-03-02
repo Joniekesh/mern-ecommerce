@@ -13,7 +13,10 @@ connectDB();
 
 const app = express();
 
-app.use(cors({ origin: "https://jonieshop.netlify.app" }));
+app.use(
+  cors()
+  // { origin: "https://jonieshop.netlify.app" }
+);
 
 app.use(express.json());
 app.use("/api/users", userRoutes);
@@ -25,7 +28,7 @@ app.get("/api/config/paypal", (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID);
 });
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`SERVER runnning in ${process.env.NODE_ENV} MODE on PORT ${PORT}`)
 );

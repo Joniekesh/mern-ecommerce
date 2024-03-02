@@ -18,7 +18,7 @@ const Container = styled.div`
   max-width: 1200px;
   overflow: hidden;
   margin: auto;
-  margin-top: 7rem;
+  margin-top: 8rem;
   padding: 0 2rem;
   ${mobile({
     padding: "2px",
@@ -31,7 +31,7 @@ const Home = () => {
   const category = useSelector((state) => state.category);
   const { category: currentCategory, isLoading } = category;
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.currentUser);
 
   const token = user?.token;
   const product = useSelector((state) => state.product);

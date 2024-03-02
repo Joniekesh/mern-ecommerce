@@ -12,25 +12,11 @@ import Loader from "../../components/Loader";
 import { Table } from "antd";
 
 const Container = styled.div`
-  max-width: 1200px;
+  width: 100%;
   overflow: hidden;
   margin: auto;
-  margin-top: 7rem;
-  padding: 0 2rem;
-`;
-
-const LeftContainer = styled.div`
-  flex: 1.5;
-  -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-  box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-  background-color: white;
-  padding: 10px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  z-index: 10;
-  overflow: hidden;
+  margin-top: 8rem;
+  display: flex;
 `;
 
 const Error = styled.p`
@@ -38,15 +24,10 @@ const Error = styled.p`
 `;
 
 const RightContainer = styled.div`
-  flex: 10;
-  flex: 1.5;
-  width: 80%;
-  -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-  box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-  background-color: white;
   padding: 10px;
-  margin-left: 170px;
+  flex: 5;
   overflow-x: auto;
+  height: fit-content;
 `;
 
 const Top = styled.div`
@@ -180,9 +161,7 @@ const Users = () => {
 
   return (
     <Container>
-      <LeftContainer>
-        <SideBar />
-      </LeftContainer>
+      <SideBar />
       <RightContainer>
         {error && <Error>{error}</Error>}
         <Top>

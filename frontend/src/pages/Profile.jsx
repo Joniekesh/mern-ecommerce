@@ -292,7 +292,7 @@ const Profile = () => {
       render: (record) => <span>{new Date(record).toDateString()}</span>,
     },
     {
-      title: "TOTAL",
+      title: "TOTAL($)",
       dataIndex: "total",
       key: "total",
     },
@@ -304,10 +304,7 @@ const Profile = () => {
         record.isPaid ? (
           <span
             style={{
-              backgroundColor: "green",
-              color: "white",
-              padding: "6px",
-              borderRadius: "4px",
+              color: "green",
             }}
           >
             PAID
@@ -315,10 +312,7 @@ const Profile = () => {
         ) : (
           <span
             style={{
-              backgroundColor: "crimson",
-              color: "white",
-              padding: "6px",
-              borderRadius: "4px",
+              color: "crimson",
             }}
           >
             NOT PAID
@@ -333,10 +327,7 @@ const Profile = () => {
         record.isDelivered ? (
           <span
             style={{
-              backgroundColor: "green",
-              color: "white",
-              padding: "6px",
-              borderRadius: "4px",
+              color: "green",
             }}
           >
             DELIVERED
@@ -344,10 +335,7 @@ const Profile = () => {
         ) : (
           <span
             style={{
-              backgroundColor: "crimson",
-              color: "white",
-              padding: "6px",
-              borderRadius: "4px",
+              color: "crimson",
             }}
           >
             NOT DELIVERED

@@ -1,10 +1,11 @@
 import "./index.css";
 import { useState } from "react";
 import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Redirect,
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  useHistory,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";
@@ -32,80 +33,80 @@ import SingleProduct from "./pages/admin/SingleProduct";
 import Overlay from "./components/Overlay";
 
 const App = () => {
-	const user = useSelector((state) => state.user.currentUser);
-	const [open, setOpen] = useState(false);
-	const [overlay, setOverlay] = useState(false);
+  const user = useSelector((state) => state.user.currentUser);
+  const [open, setOpen] = useState(false);
+  const [overlay, setOverlay] = useState(false);
 
-	return (
-		<Router>
-			<ToastContainer />
-			<Navbar
-				user={user}
-				open={open}
-				setOpen={setOpen}
-				setOverlay={setOverlay}
-				overlay={overlay}
-			/>
-			<Overlay overlay={overlay} setOverlay={setOverlay} />
-			<Switch>
-				<Route exact path="/">
-					<Home />
-				</Route>
-				<Route path="/register">
-					{user ? <Redirect to="/" /> : <Register />}
-				</Route>
-				<Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
-				<Route path="/cart">
-					<Cart />
-				</Route>
-				<Route path="/category/:id">
-					<Category />
-				</Route>
-				<Route path="/products/:id">
-					<Product />
-				</Route>
-				<Route path="/profile">
-					<Profile />
-				</Route>
-				<Route path="/shipping">
-					<Shipping />
-				</Route>
-				<Route path="/payment">
-					<Payment />
-				</Route>
-				<Route path="/placeorder">
-					<PlaceOrder />
-				</Route>
-				<Route path="/order">
-					<Order />
-				</Route>
-				<Route path="/admin/dashboard">
-					<AdminDashboard />
-				</Route>
-				<Route path="/admin/users/:id">
-					<SingleUser />
-				</Route>
-				<Route path="/admin/users">
-					<Users />
-				</Route>
-				<Route path="/admin/createUser">
-					<CreateUser />
-				</Route>
-				<Route path="/admin/products/:id">
-					<SingleProduct />
-				</Route>
-				<Route path="/admin/products">
-					<Products />
-				</Route>
-				<Route path="/admin/createProduct">
-					<CreateProduct />
-				</Route>
-				<Route path="/admin/orders">
-					<Orders />
-				</Route>
-			</Switch>
-		</Router>
-	);
+  return (
+    <Router>
+      <ToastContainer />
+      <Navbar
+        user={user}
+        open={open}
+        setOpen={setOpen}
+        setOverlay={setOverlay}
+        overlay={overlay}
+      />
+      <Overlay overlay={overlay} setOverlay={setOverlay} />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/register">
+          {user ? <Redirect to="/" /> : <Register />}
+        </Route>
+        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+        <Route path="/cart">
+          <Cart />
+        </Route>
+        <Route path="/category/:id">
+          <Category />
+        </Route>
+        <Route path="/products/:id">
+          <Product />
+        </Route>
+        <Route path="/profile">
+          <Profile />
+        </Route>
+        <Route path="/shipping">
+          <Shipping />
+        </Route>
+        <Route path="/payment">
+          <Payment />
+        </Route>
+        <Route path="/placeorder">
+          <PlaceOrder />
+        </Route>
+        <Route path="/order">
+          <Order />
+        </Route>
+        <Route path="/admin/dashboard">
+          <AdminDashboard />
+        </Route>
+        <Route path="/admin/users/:id">
+          <SingleUser />
+        </Route>
+        <Route path="/admin/users">
+          <Users />
+        </Route>
+        <Route path="/admin/createUser">
+          <CreateUser />
+        </Route>
+        <Route path="/admin/products/:id">
+          <SingleProduct />
+        </Route>
+        <Route path="/admin/products">
+          <Products />
+        </Route>
+        <Route path="/admin/createProduct">
+          <CreateProduct />
+        </Route>
+        <Route path="/admin/orders">
+          <Orders />
+        </Route>
+      </Switch>
+    </Router>
+  );
 };
 
 export default App;

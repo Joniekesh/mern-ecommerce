@@ -5,7 +5,9 @@ import { useDispatch } from "react-redux";
 import { surfaceProResponsive } from "../../responsive";
 
 const Container = styled.div`
-  width: 175px;
+  padding: 10px;
+  background-color: #08173b;
+  color: white;
   ${surfaceProResponsive({
     width: "max-content",
   })}
@@ -13,10 +15,10 @@ const Container = styled.div`
 
 const Title = styled.h3`
   text-align: center;
-  color: #08173b;
+  color: white;
   padding: 8px;
   letter-spacing: 2px;
-  background-color: #e2e5e9;
+  /* background-color: #e2e5e9; */
   cursor: pointer;
   border-radius: 5px;
   ${surfaceProResponsive({
@@ -51,12 +53,13 @@ const SectionList = styled.div`
 
   &:hover {
     background-color: #e2e5e9;
+    color: #08173b;
     border-radius: 5px;
   }
 `;
 const Icon = styled.span`
   margin-right: 8px;
-  color: #08173b;
+  color: teal;
   font-size: 13px;
 `;
 const Text = styled.p`

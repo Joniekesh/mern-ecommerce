@@ -15,32 +15,17 @@ import axios from "axios";
 import { Table } from "antd";
 
 const Container = styled.div`
-  max-width: 1200px;
+  width: 100%;
   overflow: hidden;
   margin: auto;
-  margin-top: 7rem;
+  margin-top: 8rem;
   display: flex;
-  padding: 0 1rem 0 0;
 `;
 
-const LeftContainer = styled.div`
-  flex: 1.5;
-  -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-  box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-  background-color: white;
-  padding: 10px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  z-index: 10;
-  overflow: hidden;
-`;
 const RightContainer = styled.div`
-  flex: 10;
+  padding: 10px;
+  flex: 5;
   overflow: hidden;
-
-  // margin-left: 205px;//
 `;
 
 const DashboarCenter = styled.div`
@@ -56,8 +41,6 @@ const Left = styled.div`
   flex-direction: column;
   -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
   box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-  background-color: white;
-  padding: 20px;
   border-radius: 8px;
 `;
 
@@ -259,7 +242,7 @@ const AdminDashboard = () => {
       render: (text) => <span>{new Date(text).toDateString()}</span>,
     },
     {
-      title: "TOTAL",
+      title: "TOTAL($)",
       dataIndex: "totalPrice",
       key: "totalPrice",
     },
@@ -271,10 +254,7 @@ const AdminDashboard = () => {
         record.isPaid ? (
           <span
             style={{
-              backgroundColor: "green",
-              color: "white",
-              padding: "6px",
-              borderRadius: "4px",
+              color: "green",
             }}
           >
             PAID
@@ -282,10 +262,7 @@ const AdminDashboard = () => {
         ) : (
           <span
             style={{
-              backgroundColor: "crimson",
-              color: "white",
-              padding: "6px",
-              borderRadius: "4px",
+              color: "crimson",
             }}
           >
             NOT PAID
@@ -300,10 +277,7 @@ const AdminDashboard = () => {
         record.isDelivered ? (
           <span
             style={{
-              backgroundColor: "green",
-              color: "white",
-              padding: "6px",
-              borderRadius: "4px",
+              color: "green",
             }}
           >
             DELIVERED
@@ -311,10 +285,7 @@ const AdminDashboard = () => {
         ) : (
           <span
             style={{
-              backgroundColor: "crimson",
-              color: "white",
-              padding: "6px",
-              borderRadius: "4px",
+              color: "crimson",
             }}
           >
             NOT DELIVERED
@@ -330,93 +301,84 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <>
-      <Container>
-        <LeftContainer>
-          <SideBar />
-        </LeftContainer>
-        <RightContainer>
-          <DashboardTop />
-          <DashboarCenter>
-            <Left>
-              <Desc>
-                <DescTitle>Total Revenue</DescTitle>
-                <DescIcon>
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </DescIcon>
-              </Desc>
-              <BottomDiv>
-                <ProgressBar>
-                  <CircularProgressbar
-                    value={70}
-                    text={"70%"}
-                    strokeWidth={5}
-                  />
-                </ProgressBar>
-                <BottomTitle>Total sales made today</BottomTitle>
-                <Amount>$10.6k</Amount>
-                <SalesDesc>
-                  Previous transaction processing.Last payment may not be
-                  included
-                </SalesDesc>
-                <TargetContainer>
-                  <Target>
-                    <TargetTitle>Target</TargetTitle>
-                    <TargetDescDiv style={{ color: "red" }}>
-                      <TargetIcon>
-                        <i className="fa-solid fa-angle-down"></i>
-                      </TargetIcon>
-                      <TargetAmount>$9.4k</TargetAmount>
-                    </TargetDescDiv>
-                  </Target>
-                  <Target>
-                    <TargetTitle>Last Week</TargetTitle>
-                    <TargetDescDiv style={{ color: "green" }}>
-                      <TargetIcon>
-                        <i className="fa-solid fa-angle-up"></i>
-                      </TargetIcon>
-                      <TargetAmount>$10.8k</TargetAmount>
-                    </TargetDescDiv>
-                  </Target>
-                  <Target>
-                    <TargetTitle>Last Month</TargetTitle>
-                    <TargetDescDiv style={{ color: "green" }}>
-                      <TargetIcon>
-                        <i className="fa-solid fa-angle-up"></i>
-                      </TargetIcon>
-                      <TargetAmount>$10.8k</TargetAmount>
-                    </TargetDescDiv>
-                  </Target>
-                </TargetContainer>
-              </BottomDiv>
-            </Left>
-            <Right>
-              <Chart
-                data={stats}
-                title="User Analytics"
-                grid
-                dataKey="Active Users"
-              />
-            </Right>
-          </DashboarCenter>
-          <DashboardBottom>
-            <OrderTitle>Latest Orders</OrderTitle>
-            {error && <span>{error}</span>}
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <>
-                {orders.length === 0 ? (
-                  <h4>No orders to show</h4>
-                ) : (
-                  <Table dataSource={filteredOrders} columns={columns} />
-                )}
-              </>
-            )}
-          </DashboardBottom>
-        </RightContainer>
-      </Container>
-    </>
+    <Container>
+      <SideBar />
+      <RightContainer>
+        <DashboardTop />
+        <DashboarCenter>
+          <Left>
+            <Desc>
+              <DescTitle>Total Revenue</DescTitle>
+              <DescIcon>
+                <i className="fa-solid fa-ellipsis-vertical"></i>
+              </DescIcon>
+            </Desc>
+            <BottomDiv>
+              <ProgressBar>
+                <CircularProgressbar value={70} text={"70%"} strokeWidth={5} />
+              </ProgressBar>
+              <BottomTitle>Total sales made today</BottomTitle>
+              <Amount>$10.6k</Amount>
+              <SalesDesc>
+                Previous transaction processing.Last payment may not be included
+              </SalesDesc>
+              <TargetContainer>
+                <Target>
+                  <TargetTitle>Target</TargetTitle>
+                  <TargetDescDiv style={{ color: "red" }}>
+                    <TargetIcon>
+                      <i className="fa-solid fa-angle-down"></i>
+                    </TargetIcon>
+                    <TargetAmount>$9.4k</TargetAmount>
+                  </TargetDescDiv>
+                </Target>
+                <Target>
+                  <TargetTitle>Last Week</TargetTitle>
+                  <TargetDescDiv style={{ color: "green" }}>
+                    <TargetIcon>
+                      <i className="fa-solid fa-angle-up"></i>
+                    </TargetIcon>
+                    <TargetAmount>$10.8k</TargetAmount>
+                  </TargetDescDiv>
+                </Target>
+                <Target>
+                  <TargetTitle>Last Month</TargetTitle>
+                  <TargetDescDiv style={{ color: "green" }}>
+                    <TargetIcon>
+                      <i className="fa-solid fa-angle-up"></i>
+                    </TargetIcon>
+                    <TargetAmount>$10.8k</TargetAmount>
+                  </TargetDescDiv>
+                </Target>
+              </TargetContainer>
+            </BottomDiv>
+          </Left>
+          <Right>
+            <Chart
+              data={stats}
+              title="User Analytics"
+              grid
+              dataKey="Active Users"
+            />
+          </Right>
+        </DashboarCenter>
+        <DashboardBottom>
+          <OrderTitle>Latest Orders</OrderTitle>
+          {error && <span>{error}</span>}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              {orders.length === 0 ? (
+                <h4>No orders to show</h4>
+              ) : (
+                <Table dataSource={filteredOrders} columns={columns} />
+              )}
+            </>
+          )}
+        </DashboardBottom>
+      </RightContainer>
+    </Container>
   );
 };
 

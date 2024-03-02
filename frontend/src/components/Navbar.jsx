@@ -30,7 +30,7 @@ const NavContainer = styled.div`
   background-color: #08173b;
   position: fixed;
   top: 30px;
-  z-index: 3;
+  z-index: 999;
   ${mobile({
     padding: "10px 0px",
   })}
