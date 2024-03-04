@@ -13,6 +13,7 @@ import Loader from "../../components/Loader";
 import { adminGetAllOrders } from "../../redux/adminRedux/adminApiCalls";
 import axios from "axios";
 import { Table } from "antd";
+import { ipadMiniResponsive } from "../../responsive";
 
 const Container = styled.div`
   width: 100%;
@@ -33,6 +34,9 @@ const DashboarCenter = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   margin: 16px 0;
+  ${ipadMiniResponsive({
+    flexDirection: "column",
+  })}
 `;
 
 const Left = styled.div`
@@ -42,6 +46,7 @@ const Left = styled.div`
   -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
   box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
   border-radius: 8px;
+  padding: 10px;
 `;
 
 const Desc = styled.div`

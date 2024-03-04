@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { ipadMiniResponsive, responsive948 } from "../../responsive";
 
 const Container = styled.div`
   text-align: center;
@@ -15,6 +16,9 @@ const DashboardTopContainer = styled.div`
   align-items: center;
   gap: 10px;
   width: 100%;
+  ${ipadMiniResponsive({
+    flexDirection: "column",
+  })}
 `;
 
 const Users = styled.div`
@@ -24,10 +28,16 @@ const Users = styled.div`
   padding: 10px;
   height: 150px;
   width: 30%;
-  /* flex: 1; */
   display: flex;
   flex-direction: column;
   border-radius: 8px;
+  ${responsive948({
+    width: "45%",
+  })}
+
+  ${ipadMiniResponsive({
+    width: "98%",
+  })}
 `;
 
 const InfoContainer = styled.div`
@@ -94,8 +104,13 @@ const Orders = styled.div`
   padding: 10px;
   height: 150px;
   width: 30%;
-  /* flex: 1; */
   border-radius: 8px;
+  ${responsive948({
+    width: "45%",
+  })}
+  ${ipadMiniResponsive({
+    width: "98%",
+  })}
 `;
 
 const Earnings = styled.div`
@@ -105,8 +120,13 @@ const Earnings = styled.div`
   padding: 10px;
   height: 150px;
   width: 30%;
-  /* flex: 1; */
+  ${responsive948({
+    width: "45%",
+  })}
   border-radius: 8px;
+  ${ipadMiniResponsive({
+    width: "98%",
+  })}
 `;
 
 const DashboardTop = () => {
