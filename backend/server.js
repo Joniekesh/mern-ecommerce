@@ -15,8 +15,8 @@ const app = express();
 
 app.use(
   cors({
-    // origin: "https://shoparena.netlify.app",
-    origin: "http://localhost:3000",
+    origin: "https://shoparena.netlify.app",
+    // origin: "http://localhost:3000",
   })
 );
 
