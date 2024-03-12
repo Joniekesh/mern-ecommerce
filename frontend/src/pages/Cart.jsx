@@ -8,8 +8,8 @@ import { deleteCart } from "../redux/apiCalls/cartApiCalls";
 import { ipadMiniResponsive, mobile } from "../responsive";
 import { resetOrder } from "../redux/reducers/orderRedux";
 
-import { usePaystackPayment } from "react-paystack";
-import { PaystackButton } from "react-paystack";
+// import { usePaystackPayment } from "react-paystack";
+// import { PaystackButton } from "react-paystack";
 import { PaystackConsumer } from "react-paystack";
 
 const Container = styled.div`
