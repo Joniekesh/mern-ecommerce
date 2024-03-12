@@ -47,6 +47,7 @@ const NavLogo = styled.h2`
     display: "flex",
     left: "33%",
     fontSize: "18px",
+    margin: "8px 0",
   })}
 `;
 
@@ -93,7 +94,7 @@ const NavCenter = styled.h2`
 `;
 
 const Lang = styled.p`
-  margin-left: 8px;
+  margin-right: 6px;
   ${mobile({
     display: "none",
   })}

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux/apiCalls/categoryApiCalls";
 import { getProducts } from "../redux/apiCalls/productApiCalls";
 import { mobile } from "../responsive";
-// import TopRatedProducts from "../components/TopRatedProducts";
+import TopRatedProducts from "../components/TopRatedProducts";
 
 const HomeDiv = styled.div`
   overflow-x: hidden;
@@ -67,7 +67,7 @@ const Home = () => {
   return (
     <HomeDiv>
       <Container>
-        {/* <TopRatedProducts /> */}
+        <TopRatedProducts />
         <CategoryList categories={currentCategory} isLoading={isLoading} />
         <ProductList home products={products} isLoading={isLoadingProducts} />
       </Container>

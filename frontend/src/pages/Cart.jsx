@@ -12,6 +12,12 @@ import { resetOrder } from "../redux/reducers/orderRedux";
 // import { PaystackButton } from "react-paystack";
 import { PaystackConsumer } from "react-paystack";
 
+const Wrapper = styled.div`
+  overflow: hidden;
+  ${mobile({
+    width: "100%",
+  })}
+`;
 const Container = styled.div`
   max-width: 1200px;
   background-color: white;
@@ -20,6 +26,10 @@ const Container = styled.div`
   margin: auto;
   margin-top: 7rem;
   padding: 2rem;
+
+  ${mobile({
+    padding: "1rem",
+  })}
 `;
 
 const CartContainer = styled.div``;
@@ -107,7 +117,7 @@ const CartSummary = styled.div`
     margin: "auto",
   })}
   ${mobile({
-    width: "90%",
+    width: "100%",
   })}
 `;
 
@@ -266,7 +276,7 @@ const Cart = () => {
   };
 
   return (
-    <div>
+    <Wrapper>
       <Container>
         <CartContainer>
           <Title>YOUR BAG</Title>
@@ -346,7 +356,7 @@ const Cart = () => {
       </Container>
       <NewsLetter />
       <Footer />
-    </div>
+    </Wrapper>
   );
 };
 
