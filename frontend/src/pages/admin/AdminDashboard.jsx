@@ -377,7 +377,13 @@ const AdminDashboard = () => {
               {orders.length === 0 ? (
                 <h4>No orders to show</h4>
               ) : (
-                <Table dataSource={filteredOrders} columns={columns} />
+                <div style={{ width: "100%", overflowX: "auto" }}>
+                  <Table
+                    dataSource={filteredOrders}
+                    columns={columns}
+                    scroll={{ x: true }}
+                  />
+                </div>
               )}
             </>
           )}
