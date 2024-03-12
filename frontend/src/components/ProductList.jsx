@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import ProductListItem from "./ProductListItem";
 import { axiosInstance } from "../utils/config";
+import { Pagination } from "antd";
 
 const Container = styled.div`
   margin: 20px 0px;
@@ -39,6 +40,17 @@ const List = styled.ul`
 const ProductList = ({ home, cat, filters, sorting }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+
+  const getCurrentItems = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return cat
+      ? filteredProducts.slice(startIndex, endIndex)
+      : products.slice(startIndex, endIndex);
+  };
 
   useEffect(() => {
     const getProducts = async () => {
@@ -91,13 +103,15 @@ const ProductList = ({ home, cat, filters, sorting }) => {
         )}
         <Bottom>
           <List>
-            {cat
-              ? filteredProducts.map((item) => (
-                  <ProductListItem item={item} key={item._id} />
-                ))
-              : products.map((item) => (
-                  <ProductListItem item={item} key={item._id} />
-                ))}
+            {getCurrentItems().map((item) => (
+              <ProductListItem item={item} key={item._id} />
+            ))}
+            <Pagination
+              current={currentPage}
+              pageSize={itemsPerPage}
+              total={products.length}
+              onChange={(page) => setCurrentPage(page)}
+            />
           </List>
         </Bottom>
       </>

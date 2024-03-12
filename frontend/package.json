@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000/api",
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.0.0",
     "@emailjs/browser": "^3.6.2",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.14.1",
@@ -11,10 +12,12 @@
     "@testing-library/user-event": "^12.8.3",
     "antd": "^5.14.2",
     "axios": "^1.6.7",
+    "paystack": "^2.0.1",
     "react": "^17.0.2",
     "react-circular-progressbar": "^2.0.4",
     "react-dom": "^17.0.2",
     "react-paypal-button-v2": "^2.6.3",
+    "react-paystack": "^5.0.0",
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.1",
@@ -27,8 +30,7 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.3.5",
     "timeago.js": "^4.0.2",
-    "web-vitals": "^1.1.2",
-    "@babel/plugin-proposal-private-property-in-object": "^7.0.0"
+    "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
