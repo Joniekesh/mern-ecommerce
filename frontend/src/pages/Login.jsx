@@ -93,7 +93,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const verified = password != "" || email !== "";
+  const verified = password !== "" || email !== "";
 
   const dispatch = useDispatch();
 
