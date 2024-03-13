@@ -93,8 +93,6 @@ const Icon = styled.label`
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
-
-  /* width: 100%; */
 `;
 const Button = styled.button`
   width: 100%;
@@ -174,12 +172,7 @@ const AdminCategory = () => {
   const [file, setFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
-  const { categories, isLoading, error } = useSelector(
-    (state) => state.category
-  );
-
-  console.log(categories);
-  console.log(uploadedImageUrl);
+  const { categories, isLoading } = useSelector((state) => state.category);
 
   const dispatch = useDispatch();
 
@@ -222,7 +215,6 @@ const AdminCategory = () => {
       title: "ID",
       dataIndex: "_id",
       key: "_id",
-      //   render: (text) => <span>{text.slice(0, 10)}...</span>,
     },
     {
       title: "Photo",
@@ -250,48 +242,48 @@ const AdminCategory = () => {
     },
   ];
 
-  const data = [
-    {
-      _id: "1",
-      photo: "/assets/bag1.jpeg",
-      name: "bags",
-    },
-    {
-      _id: "2",
-      photo: "/assets/bv10.jpeg",
-      name: "beverages",
-    },
-    {
-      _id: "3",
-      photo: "/assets/cloth2.jpeg",
-      name: "clothes",
-    },
-    {
-      _id: "4",
-      photo: "/assets/computer4.jpeg",
-      name: "computers",
-    },
-    {
-      _id: "5",
-      photo: "/assets/electronics7.jpeg",
-      name: "electronics",
-    },
-    {
-      _id: "6",
-      photo: "/assets/phone2.jpeg",
-      name: "phones",
-    },
-    {
-      _id: "7",
-      photo: "/assets/shoe6.jpeg",
-      name: "shoes",
-    },
-    {
-      _id: "8",
-      photo: "/assets/watch1.jpeg",
-      name: "watches",
-    },
-  ];
+  //   const data = [
+  //     {
+  //       _id: "1",
+  //       photo: "/assets/bag1.jpeg",
+  //       name: "bags",
+  //     },
+  //     {
+  //       _id: "2",
+  //       photo: "/assets/bv10.jpeg",
+  //       name: "beverages",
+  //     },
+  //     {
+  //       _id: "3",
+  //       photo: "/assets/cloth2.jpeg",
+  //       name: "clothes",
+  //     },
+  //     {
+  //       _id: "4",
+  //       photo: "/assets/computer4.jpeg",
+  //       name: "computers",
+  //     },
+  //     {
+  //       _id: "5",
+  //       photo: "/assets/electronics7.jpeg",
+  //       name: "electronics",
+  //     },
+  //     {
+  //       _id: "6",
+  //       photo: "/assets/phone2.jpeg",
+  //       name: "phones",
+  //     },
+  //     {
+  //       _id: "7",
+  //       photo: "/assets/shoe6.jpeg",
+  //       name: "shoes",
+  //     },
+  //     {
+  //       _id: "8",
+  //       photo: "/assets/watch1.jpeg",
+  //       name: "watches",
+  //     },
+  //   ];
 
   return (
     <Container>
