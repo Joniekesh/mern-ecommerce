@@ -19,6 +19,28 @@ export const categorySlice = createSlice({
       state.error = action.payload;
       state.isLoading = false;
     },
+    updateCategoryRequest: (state) => {
+      state.isLoading = true;
+    },
+    updateCategorySuccess: (state, action) => {
+      const { id, updatedCategory } = action.payload;
+
+      const index = state.categories.findIndex(
+        (category) => category._id === id
+      );
+      if (index !== -1) {
+        state.categories[index] = {
+          ...state.categories[index],
+          ...updatedCategory,
+        };
+      }
+
+      state.isLoading = false;
+    },
+    updateCategoryFail: (state, action) => {
+      state.error = action.payload;
+      state.isLoading = false;
+    },
     getCategoriesRequest: (state) => {
       state.isLoading = true;
     },
@@ -42,6 +64,9 @@ export const {
   addCategoryRequest,
   addCategorySuccess,
   addCategoryFail,
+  updateCategoryRequest,
+  updateCategorySuccess,
+  updateCategoryFail,
   getCategoriesRequest,
   getCategoriesSuccess,
   getCategoriesFail,

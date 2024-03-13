@@ -29,12 +29,12 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const category = useSelector((state) => state.category);
-  const { category: currentCategory, isLoading } = category;
+  const { categories, isLoading } = category;
 
   const product = useSelector((state) => state.product);
   const { products, isLoadingProducts } = product;
 
-  // console.log(products);
+  console.log(categories);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -48,7 +48,7 @@ const Home = () => {
     <HomeDiv>
       <Container>
         <TopRatedProducts />
-        <CategoryList categories={currentCategory} isLoading={isLoading} />
+        <CategoryList categories={categories} isLoading={isLoading} />
         <ProductList home products={products} isLoading={isLoadingProducts} />
       </Container>
       <NewsLetter />

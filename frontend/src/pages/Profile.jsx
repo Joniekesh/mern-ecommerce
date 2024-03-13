@@ -245,15 +245,17 @@ const Profile = () => {
 
   const lastOrder = orders[orders.length - 1];
 
-  const filteredOrders = orders.map((order) => {
-    return {
-      _id: order._id,
-      date: order.createdAt,
-      total: order.totalPrice,
-      isPaid: order.isPaid,
-      isDelivered: order.isDelivered,
-    };
-  });
+  const filteredOrders = orders
+    .map((order) => {
+      return {
+        _id: order._id,
+        date: order.createdAt,
+        total: order.totalPrice,
+        isPaid: order.isPaid,
+        isDelivered: order.isDelivered,
+      };
+    })
+    .reverse();
 
   useEffect(() => {
     dispatch(getCurrentUser());

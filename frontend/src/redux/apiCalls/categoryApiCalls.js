@@ -7,6 +7,9 @@ import {
   addCategorySuccess,
   addCategoryFail,
   removeCategory,
+  updateCategoryRequest,
+  updateCategorySuccess,
+  updateCategoryFail,
 } from "../reducers/categoryRedux";
 import { toast } from "react-toastify";
 
@@ -32,6 +35,37 @@ export const createCategory = (data) => async (dispatch, getState) => {
     dispatch(addCategorySuccess(res.data));
   } catch (err) {
     dispatch(addCategoryFail());
+    toast.error(err.response.data);
+  }
+};
+
+export const updateCategory = (data) => async (dispatch, getState) => {
+  const { user } = getState();
+
+  const token = user?.token;
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  dispatch(updateCategoryRequest());
+
+  try {
+    const res = await axiosInstance.put(
+      `/categories/${data._id}`,
+      data,
+      config
+    );
+    if (res.status === 200) {
+      toast.success("Category updated!", { theme: "colored" });
+      dispatch(updateCategorySuccess(res.data));
+      dispatch(getCategories());
+    }
+  } catch (err) {
+    dispatch(updateCategoryFail());
     toast.error(err.response.data);
   }
 };

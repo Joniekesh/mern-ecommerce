@@ -274,6 +274,16 @@ const Product = () => {
   const product = useSelector((state) => state.product);
   const { product: singleProduct, isLoading } = product;
 
+  const myOrder = useSelector((state) => state.myOrder);
+
+  const { order } = myOrder;
+
+  const isPurchased =
+    order?.isPaid && order?.orderItems.some((item) => item.product === id);
+
+  console.log(order);
+  console.log(isPurchased);
+
   useEffect(() => {
     id && dispatch(getProductById(id));
   }, [dispatch, id]);
@@ -372,7 +382,7 @@ const Product = () => {
                   </RatingContainer>
                 </ReviewAverageContainer>
               </ReviewTop>
-              <ReviewForm product={singleProduct} />
+              {isPurchased && <ReviewForm product={singleProduct} />}
               {singleProduct?.reviews?.map((review) => (
                 <ReviewsListItem review={review} key={review._id} />
               ))}

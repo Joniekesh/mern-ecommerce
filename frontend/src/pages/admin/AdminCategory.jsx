@@ -8,6 +8,7 @@ import {
   createCategory,
   deleteCategory,
   getCategories,
+  updateCategory,
 } from "../../redux/apiCalls/categoryApiCalls";
 import { mobile } from "../../responsive";
 
@@ -37,15 +38,17 @@ const FormContainer = styled.span`
   background-color: white;
   border-radius: 10px;
   display: flex;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
   max-width: 800px;
   width: 50%;
-  padding: 20px;
-  margin-top: 2rem;
+  padding: 10px;
+  margin-top: 6rem;
   ${mobile({
-    width: "90%",
-    height: "90vh",
+    width: "100%",
+    height: "100vh",
+    marginTop: "3rem",
   })}
 `;
 
@@ -53,18 +56,22 @@ const TopContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const CancelButton = styled.span`
   color: crimson;
   font-size: 24px;
   cursor: pointer;
+  ${mobile({
+    marginRight: "20px",
+  })}
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   width: 90%;
   margin-top: 50px;
 `;
@@ -81,6 +88,12 @@ const Label = styled.label``;
 const Input = styled.input`
   padding: 10px;
   font-size: 16px;
+`;
+const TempImage = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  object-fit: cover;
 `;
 
 const Icon = styled.label`
@@ -104,6 +117,10 @@ const Button = styled.button`
   transition: all 0.3s ease;
   &:hover {
     transform: scale(1.03);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 `;
 
@@ -170,44 +187,95 @@ const AdminCategory = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [file, setFile] = useState(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isCreate, setIsCreate] = useState(true);
+  const [item, setItem] = useState(null);
+  const [updatedName, setUpdatedName] = useState(item?.name);
+  const [updatedFile, setUpdatedFile] = useState(item?.photo);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [updateFile, setUpdateFile] = useState(null);
 
   const { categories, isLoading } = useSelector((state) => state.category);
 
   const dispatch = useDispatch();
 
+  const isVerified = file !== null && name !== "";
+
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
+  const upload = async (fileData) => {
+    const formData = new FormData();
+    formData.append("file", fileData);
+    formData.append("upload_preset", "upload");
+
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/joniekesh/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      const url = data.secure_url;
+
+      setLoading(false);
+      return url;
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "upload");
+    const url = await upload(file);
 
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/joniekesh/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-    setUploadedImageUrl(data.secure_url);
-
-    const newCategory = {
-      name,
-      photo: uploadedImageUrl,
-    };
-
-    await dispatch(createCategory(newCategory));
+    url && (await dispatch(createCategory({ name, photo: url })));
 
     setName("");
-    setFile("");
+    setFile(null);
     setOpen(false);
+  };
+
+  const handleEdit = (record) => {
+    setOpen(true);
+    setIsCreate(false);
+    setItem(record);
+  };
+
+  useEffect(() => {
+    if (item) {
+      setUpdatedName(item.name);
+      setUpdatedFile(item.photo);
+    }
+  }, [item]);
+
+  const handleFileChange = (e) => {
+    setUpdateFile(e.target.files[0]);
+    setIsUpdate(true);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const url = await upload(updateFile);
+
+    const updatedData = {
+      _id: item._id,
+      name: updatedName,
+      photo: url,
+    };
+
+    await dispatch(updateCategory(updatedData));
+
+    setOpen(false);
+    setIsUpdate(false);
   };
 
   const columns = [
@@ -220,7 +288,7 @@ const AdminCategory = () => {
       title: "Photo",
       dataIndex: "photo",
       key: "photo",
-      render: (_, record) => <Image src={record.photo} alt="" />,
+      render: (text) => <Image src={text} alt="" />,
     },
     {
       title: "NAME",
@@ -233,7 +301,7 @@ const AdminCategory = () => {
       key: "action",
       render: (_, record) => (
         <Action>
-          <View>View</View>
+          <View onClick={() => handleEdit(record)}>View</View>
           <Delete onClick={() => dispatch(deleteCategory(record._id))}>
             Delete
           </Delete>
@@ -242,90 +310,118 @@ const AdminCategory = () => {
     },
   ];
 
-  //   const data = [
-  //     {
-  //       _id: "1",
-  //       photo: "/assets/bag1.jpeg",
-  //       name: "bags",
-  //     },
-  //     {
-  //       _id: "2",
-  //       photo: "/assets/bv10.jpeg",
-  //       name: "beverages",
-  //     },
-  //     {
-  //       _id: "3",
-  //       photo: "/assets/cloth2.jpeg",
-  //       name: "clothes",
-  //     },
-  //     {
-  //       _id: "4",
-  //       photo: "/assets/computer4.jpeg",
-  //       name: "computers",
-  //     },
-  //     {
-  //       _id: "5",
-  //       photo: "/assets/electronics7.jpeg",
-  //       name: "electronics",
-  //     },
-  //     {
-  //       _id: "6",
-  //       photo: "/assets/phone2.jpeg",
-  //       name: "phones",
-  //     },
-  //     {
-  //       _id: "7",
-  //       photo: "/assets/shoe6.jpeg",
-  //       name: "shoes",
-  //     },
-  //     {
-  //       _id: "8",
-  //       photo: "/assets/watch1.jpeg",
-  //       name: "watches",
-  //     },
-  //   ];
-
   return (
     <Container>
       {open && (
         <CreateForm>
           <FormContainer>
             <TopContainer>
-              <Title>Create Category</Title>
-              <CancelButton onClick={() => setOpen(false)}>X</CancelButton>
+              <Title>{isCreate ? "Create" : "Edit"} Category</Title>
+              <CancelButton
+                onClick={() => {
+                  setOpen(false);
+                  setName("");
+                  setFile(null);
+                  setItem(null);
+                  setIsUpdate(false);
+                }}
+              >
+                X
+              </CancelButton>
             </TopContainer>
-            <Form onSubmit={handleSubmit}>
-              <InputContainer>
-                <Label>Category Name</Label>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter category name"
-                />
-              </InputContainer>
+            {isCreate ? (
+              <Form onSubmit={handleSubmit}>
+                <InputContainer>
+                  <Label>Category Name</Label>
+                  <Input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter category name"
+                  />
+                </InputContainer>
 
-              <InputContainer>
-                <Input
-                  type="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  id="fileInput"
-                  style={{ display: "none" }}
-                />
-              </InputContainer>
-              <Icon htmlFor="fileInput">
-                Upload
-                <MdAddAPhoto />
-              </Icon>
+                <InputContainer>
+                  <Input
+                    type="file"
+                    onChange={(e) => setFile(e.target.files[0])}
+                    id="fileInput"
+                    style={{ display: "none" }}
+                  />
+                </InputContainer>
+                {file && <TempImage src={URL.createObjectURL(file)} alt="" />}
+                <Icon htmlFor="fileInput">
+                  {loading ? (
+                    "Uploading Image..."
+                  ) : (
+                    <>
+                      Select
+                      <MdAddAPhoto />
+                    </>
+                  )}
+                </Icon>
 
-              <Button type="submi">{isLoading ? "Loading" : "Create"}</Button>
-            </Form>
+                <Button disabled={!isVerified} type="submit">
+                  {isLoading ? "Loading" : "CREATE"}
+                </Button>
+              </Form>
+            ) : (
+              <Form onSubmit={handleUpdate}>
+                <InputContainer>
+                  <Label>Category Name</Label>
+                  <Input
+                    type="text"
+                    value={updatedName}
+                    onChange={(e) => setUpdatedName(e.target.value)}
+                    placeholder="Enter category name"
+                  />
+                </InputContainer>
+
+                <InputContainer>
+                  <Input
+                    type="file"
+                    onChange={handleFileChange}
+                    id="updateFile"
+                    style={{ display: "none" }}
+                  />
+                </InputContainer>
+                {isUpdate ? (
+                  updateFile && (
+                    <TempImage src={URL.createObjectURL(updateFile)} alt="" />
+                  )
+                ) : (
+                  <TempImage src={updatedFile} alt="" />
+                )}
+
+                <Icon htmlFor="updateFile">
+                  {loading ? (
+                    "Uploading Image..."
+                  ) : (
+                    <>
+                      Change
+                      <MdAddAPhoto />
+                    </>
+                  )}
+                </Icon>
+
+                <Button type="submit">
+                  {isLoading ? "Loading" : "UPDATE"}
+                </Button>
+              </Form>
+            )}
           </FormContainer>
         </CreateForm>
       )}
       <Top>
         <Title>Categories</Title>
-        <Create onClick={() => setOpen(true)}>+ CREATE</Create>
+        <Create
+          onClick={() => {
+            setOpen(true);
+            setIsCreate(true);
+          }}
+        >
+          + CREATE
+        </Create>
       </Top>
       <Table columns={columns} dataSource={categories} scroll={{ x: true }} />
     </Container>

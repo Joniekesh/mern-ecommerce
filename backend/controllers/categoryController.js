@@ -55,7 +55,7 @@ const updateCategory = asyncHandler(async (req, res) => {
   }
 
   await category.save();
-  res.json(category);
+  res.status(200).json(category);
 });
 
 // @desc   Delete Category (Admin Only)
