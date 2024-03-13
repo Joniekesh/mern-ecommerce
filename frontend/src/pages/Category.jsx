@@ -62,7 +62,7 @@ const Select = styled.select`
   margin-right: 20px;
   padding: 10px;
   ${mobile({
-    padding: "8px",
+    padding: "7px",
   })}
 `;
 
