@@ -4,7 +4,7 @@ import express from "express";
 import connectDB from "./config/db.js";
 import userRoutes from "./route/userRoutes.js";
 import productRoutes from "./route/productRoutes.js";
-import categoryRoutes from "./route/cateGoryRoutes.js";
+import categoryRoutes from "./route/categoryRoutes.js";
 import orderRoutes from "./route/orderRoutes.js";
 import cors from "cors";
 

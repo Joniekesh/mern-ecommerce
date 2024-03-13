@@ -30,6 +30,7 @@ import CreateProduct from "./pages/admin/CreateProduct";
 import SingleUser from "./pages/admin/SingleUser";
 import SingleProduct from "./pages/admin/SingleProduct";
 import Overlay from "./components/Overlay";
+import AdminCategory from "./pages/admin/AdminCategory";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -102,6 +103,9 @@ const App = () => {
         </Route>
         <Route path="/admin/orders">
           <Orders />
+        </Route>
+        <Route path="/admin/categories">
+          <AdminCategory />
         </Route>
       </Switch>
     </Router>

@@ -121,6 +121,14 @@ const SideBar = () => {
               <Text>Orders</Text>
             </SectionList>
           </Link>
+          <Link to="/admin/categories">
+            <SectionList>
+              <Icon>
+                <i className="fa-solid fa-briefcase"></i>
+              </Icon>
+              <Text>Categories</Text>
+            </SectionList>
+          </Link>
           <SectionList>
             <Icon>
               <i className="fa-solid fa-truck"></i>

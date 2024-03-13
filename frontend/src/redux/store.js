@@ -18,54 +18,54 @@ import adminUpdateProductReducer from "./adminRedux/adminUpdateProductRedux";
 import adminUpdateUserReducer from "./adminRedux/adminUpdateUserRedux";
 import updateMyProfileReducer from "./reducers/updateMyProfileRedux";
 import {
-	persistStore,
-	persistReducer,
-	FLUSH,
-	REHYDRATE,
-	PAUSE,
-	PERSIST,
-	PURGE,
-	REGISTER,
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
-	key: "root",
-	version: 1,
-	storage,
+  key: "root",
+  version: 1,
+  storage,
 };
 
 const rootReducer = combineReducers({
-	user: userReducer,
-	category: categoryReducer,
-	product: productReducer,
-	cart: cartReducer,
-	shipping: shippingAddressReducer,
-	payment: paymentReducer,
-	order: orderReducer,
-	orderPay: orderPayReducer,
-	orderDeliver: orderDeliverReducer,
-	profile: profileReducer,
-	updateMyProfile: updateMyProfileReducer,
-	myOrder: myOrderReducer,
-	adminOrder: adminOrderReducer,
-	adminUser: adminUserReducer,
-	adminUserStats: adminUserStatsReducer,
-	adminUpdateUser: adminUpdateUserReducer,
-	adminProduct: adminProductReducer,
-	adminUpdateProduct: adminUpdateProductReducer,
+  user: userReducer,
+  category: categoryReducer,
+  product: productReducer,
+  cart: cartReducer,
+  shipping: shippingAddressReducer,
+  payment: paymentReducer,
+  order: orderReducer,
+  orderPay: orderPayReducer,
+  orderDeliver: orderDeliverReducer,
+  profile: profileReducer,
+  updateMyProfile: updateMyProfileReducer,
+  myOrder: myOrderReducer,
+  adminOrder: adminOrderReducer,
+  adminUser: adminUserReducer,
+  adminUserStats: adminUserStatsReducer,
+  adminUpdateUser: adminUpdateUserReducer,
+  adminProduct: adminProductReducer,
+  adminUpdateProduct: adminUpdateProductReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-	reducer: persistedReducer,
-	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware({
-			serializableCheck: {
-				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-			},
-		}),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 export let persistor = persistStore(store);

@@ -36,26 +36,6 @@ const Home = () => {
 
   // console.log(products);
 
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //     "Content-Type": "application/json",
-  //   },
-  // };
-  // useEffect(() => {
-  //   const fetchCat = async () => {
-  //     const res = await axiosInstance.get("/categories", config);
-  //     // const profile = await axios.get(
-  //     //   "http://localhost:5000/api/users/profile"
-  //     // );
-
-  //     console.log(res.data);
-  //     // console.log(profile.data);
-  //   };
-
-  //   fetchCat();
-  // }, []);
-
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
